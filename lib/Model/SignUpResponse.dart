@@ -1,6 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
-
 class SignUpResponse {
   // final String token;
   final String firstname;

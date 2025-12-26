@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/View/Screens/WelcomeScreen.dart';
 import 'package:uni_project/main.dart';
-
 import '../../Controller/LoginController.dart';
 import '../../Controller/SignUpController.dart';
 
 class CustomDrawer extends StatelessWidget {
 
   final controller = Get.find<LoginController>();
-
-
-
   CustomDrawer({super.key});
 
   @override

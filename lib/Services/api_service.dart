@@ -5,7 +5,8 @@ import 'package:dio/dio.dart';
 class ApiService {
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: "http://10.0.2.2:8000/api",
+      baseUrl: "http://127.0.0.1:8000/api", //chrome
+      // baseUrl: "http://10.0.2.2:8000/api",  //emulator
       headers: {
         "Accept": "application/json",
       },
@@ -46,11 +47,6 @@ class ApiService {
     return dio.post(
       "/register",
       data: formData,
-      options: Options(
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      ),
     );
   }
 }
