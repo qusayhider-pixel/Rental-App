@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -29,14 +30,27 @@ class LoginController extends GetxController {
         passwordController.text,
       );
 
-      final loginData = LoginResponse.fromJson(response.data);
+      print("Raw Data from Server: ${response.data}");
+      final loginData = LoginResponse.fromJson(response.data as Map<String, dynamic>);
       currentUser.value = loginData;
 
       Get.offAll(() => RealEstateApp());
-      Get.snackbar("LUXESTAY", "Login Success");
-    } catch (e) {
-      print(e);
-      Get.snackbar("LUXESTAY", "Login Failed");
+      Get.snackbar("LUXESTAY", "Login Success" ,  backgroundColor: const Color.fromARGB(
+          132, 9, 245, 1),
+        borderRadius: 30,
+        maxWidth: 250,
+        margin: const EdgeInsets.all(10),
+        icon:  Icon(Icons.done_outline_sharp, size: 30,),
+      );
+    }
+
+    catch (e) {
+      if (e is DioException) {
+        if (e.response?.data != null && e.response?.data['message'] != null) {
+        } else {
+        }
+        Get.snackbar("Message", '${e.response?.data}');print("❌ Server Response: ${e.response?.data}");
+      }
     } finally {
       isLoading.value = false;
     }

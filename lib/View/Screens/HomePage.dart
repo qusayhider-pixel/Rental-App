@@ -257,7 +257,7 @@ class _MainScreenState extends State<MainScreen> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(156, 133, 2, 255),
+            color: Color(0xff846be7),
             spreadRadius: 0.5,
             blurRadius: 15,
             offset: const Offset(0, 4),

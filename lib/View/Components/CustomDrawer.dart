@@ -28,7 +28,7 @@ class CustomDrawer extends StatelessWidget {
                   : //light  mode
                     LinearGradient(
                       colors: [
-                        Color(0xFF6F35A5),
+                        Color(0xff846be7),
                         const Color.fromARGB(171, 155, 101, 213),
                       ],
                       begin: Alignment.topLeft,
@@ -46,9 +46,9 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundImage: user?.avatar != null
-                        ? NetworkImage(user!.avatar!)
-                        : AssetImage('assets/Green.jpg')
+                    // backgroundImage: user?.avatar != null
+                    //     ? NetworkImage(user!.avatar!)
+                    //     : AssetImage('assets/Green.jpg')
                   ),
                 ),
                 const SizedBox(height: 15),

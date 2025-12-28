@@ -8,7 +8,8 @@ class SignUpResponse {
   SignUpResponse({
     this.avatar,
     required this.firstname,
-    required this.lastname, required this.phone,
+    required this.lastname,
+    required this.phone,
     required this.birth
   });
 

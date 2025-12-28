@@ -44,13 +44,19 @@ class SignUpController extends GetxController {
       Get.snackbar("LUXESTAY", "Account created successfully");
       Get.offAll(() => LoginScreen());
     } catch (e) {
+      String errorMessage = "Sign up failed";
+
       if (e is DioException) {
-        print("❌ STATUS: ${e.response?.statusCode}");
-        print("❌ DATA: ${e.response?.data}");
-      } else {
-        print("❌ ERROR: $e");
+        // هنا السيرفر يخبرك بالضبط ما هي المشكلة (مثلاً: الهاتف مستخدم مسبقاً)
+        if (e.response?.data != null && e.response?.data['message'] != null) {
+          errorMessage = e.response?.data['message'];
+        } else {
+          errorMessage = "Server Error: ${e.response?.statusCode}";
+        }
+        print("❌ Server Response: ${e.response?.data}");
       }
-      Get.snackbar("Error", "Sign up failed");
+
+      Get.snackbar("Error", errorMessage, snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }

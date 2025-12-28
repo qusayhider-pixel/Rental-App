@@ -26,15 +26,15 @@ class ApartmentCard extends StatelessWidget {
               LinearGradient(
                 colors: [
                   Color.fromARGB(245, 255, 255, 255),
-                  const Color.fromARGB(218, 209, 192, 231),
+                  const Color(0xffc2b6f6),
                 ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
               ),
         borderRadius: BorderRadius.circular(40),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(156, 133, 2, 255),
+            color: Color(0x867255e5),
             spreadRadius: 0.5,
             blurRadius: 15,
             offset: const Offset(0, 6),
