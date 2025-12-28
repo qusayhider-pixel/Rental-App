@@ -108,13 +108,10 @@ flutter:
        fonts:
          - asset: assets/Louis George Cafe Bold.ttf
 
-     - family: Louis
-       fonts:
-         - asset: assets/Louis George Cafe Bold.ttf
-
      - family: Multicolore
        fonts:
          - asset: assets/Multicolore Pro.otf
+
            #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

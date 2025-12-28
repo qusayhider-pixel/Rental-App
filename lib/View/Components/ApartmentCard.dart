@@ -52,14 +52,14 @@ class ApartmentCard extends StatelessWidget {
                 ),
                 child: SizedBox(
                   height: 200,
-                  child: Obx(()=>Image.network(
+                  child: Image.network(
                     apartment.imageUrls.isNotEmpty
                         ? apartment.imageUrls[0]
                         : '' ,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                  ), )
+                   )
                 ),
               ),
               Positioned(

@@ -3,6 +3,7 @@
 import 'package:get/get.dart';
 
 class Apartmentcardcontroller  extends GetxController{
+
   final isLoading = false.obs ;
 
   Future<void> login() async {

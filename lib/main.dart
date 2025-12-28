@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uni_project/View/Screens/HomePage.dart';
+import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 import 'Bindings.dart';
 import 'View/Screens/SplashScreenWidget.dart';
 
@@ -23,7 +25,8 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       initialBinding: MyBinding(),
-      home: SplashScreenWidget(),
+      home:
+      RealEstateApp(),
     );
 
   }

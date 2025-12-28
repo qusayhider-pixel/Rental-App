@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,23 +11,12 @@ import '../Components/CustomTextFeild.dart';
 import '../Components/ProfileImagePicker.dart';
 import 'WelcomeScreen.dart';
 
+
 class SignUpScreen extends StatelessWidget {
    SignUpScreen({super.key});
 
   final GlobalKey<FormState> formState = GlobalKey<FormState>();
-
-  final GlobalKey<ProfileImagePickerState> _imagePickerKey = GlobalKey<ProfileImagePickerState>();
-
-  final SignUpController controller = Get.put(SignUpController());
-
-  final picker = ImagePicker();
-
-  Future<void> pickAvatar() async {
-    final picked = await picker.pickImage(source: ImageSource.gallery);
-    if (picked != null) {
-      controller.avatarImage = File(picked.path);
-    }
-  }
+  final SignUpController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +69,7 @@ class SignUpScreen extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
-                            child: ProfileImagePicker(key: _imagePickerKey),
+                            child:  ProfileImagePicker(),
                           ),
 
                           Column(

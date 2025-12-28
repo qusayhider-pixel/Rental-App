@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uni_project/View/Screens/WelcomeScreen.dart';
-import 'package:uni_project/main.dart';
+import 'package:uni_project/View/Screens/MyReservation.dart';
+import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 import '../../Controller/LoginController.dart';
-import '../../Controller/SignUpController.dart';
 
 class CustomDrawer extends StatelessWidget {
 
@@ -115,6 +114,16 @@ class CustomDrawer extends StatelessWidget {
         ),
       ),
       onTap: () {
+        if(title == 'My Reservations')
+          {
+            Get.to(()=> MyReservationsScreen());
+          }
+
+        if(title == 'Reservation Management')
+          {
+            Get.to(()=> ReservationManagementScreen());
+          }
+
         if (title == 'Logout') {
           controller.logout();
 

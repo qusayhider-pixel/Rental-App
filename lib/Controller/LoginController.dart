@@ -5,6 +5,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/View/Screens/WelcomeScreen.dart';
+import 'package:uni_project/main.dart';
 import '../Model/LoginResponse.dart';
 import '../Services/api_service.dart';
 import '../View/Screens/HomePage.dart';
@@ -44,9 +45,8 @@ class LoginController extends GetxController {
 
   void logout() {
     currentUser.value = null;
-
+    sharedPreference?.clear();
     GetStorage().erase();
-
     Get.offAll(() => WelcomeScreen());
   }
 }

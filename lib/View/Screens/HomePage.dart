@@ -181,7 +181,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.dark_mode_sharp),
+            icon: Get.isDarkMode ?  Icon(Icons.wb_sunny_sharp):Icon(Icons.dark_mode_sharp),
             onPressed: () {
               if (Get.isDarkMode) {
                 Get.changeTheme(ThemeData.light());

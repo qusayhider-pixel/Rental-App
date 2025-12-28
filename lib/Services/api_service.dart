@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 class ApiService {
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: "http://127.0.0.1:8000/api", //chrome
-      // baseUrl: "http://10.0.2.2:8000/api",  //emulator
+      // baseUrl: "http://127.0.0.1:8000/api", //chrome
+      baseUrl: "http://10.0.2.2:8000/api",  //emulator
       headers: {
         "Accept": "application/json",
       },
