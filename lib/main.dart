@@ -25,8 +25,7 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       initialBinding: MyBinding(),
-      home:
-      SplashScreenWidget(),
+      home: RentalApp(),
     );
 
   }

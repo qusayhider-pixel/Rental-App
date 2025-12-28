@@ -34,7 +34,7 @@ class LoginController extends GetxController {
       final loginData = LoginResponse.fromJson(response.data as Map<String, dynamic>);
       currentUser.value = loginData;
 
-      Get.offAll(() => RealEstateApp());
+      Get.offAll(() => RentalApp());
       Get.snackbar("LUXESTAY", "Login Success" ,  backgroundColor: const Color.fromARGB(
           132, 9, 245, 1),
         borderRadius: 30,

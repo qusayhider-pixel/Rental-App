@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../Controller/FilterController.dart';
+import '../../Model/city_model.dart';
+import '../../Model/province_model.dart';
 import '../Components/ApartmentCard.dart';
 import '../Components/CustomDrawer.dart';
 
 // ---------------------------------------------------------------------------
 // 1. Theme & App Configuration
 // ---------------------------------------------------------------------------
-class RealEstateApp extends StatelessWidget {
-   RealEstateApp({super.key});
+class RentalApp extends StatelessWidget {
+   const RentalApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,120 +48,25 @@ class RealEstateApp extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// 2. Data Model
-// ---------------------------------------------------------------------------
-class Apartment {
-  final String id;
-  final String title;
-  final String description;
-  final List<String> imageUrls; // Changed from single URL to a List of URLs
-  final double price;
-  final String location;
-  final int beds;
-  final int baths;
-  final int area;
-  final String ownerName;
-  final String ownerPhone;
-  final String ownerImageUrl;
-
-  Apartment({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.imageUrls,
-    required this.price,
-    required this.location,
-    required this.beds,
-    required this.baths,
-    required this.area,
-    required this.ownerName, // New
-    required this.ownerPhone, // New
-    required this.ownerImageUrl, // New
-  });
-}
-
-final List<Apartment> sampleApartments = [
-  Apartment(
-    id: '1',
-    title: 'Luxury Nile View Apartment',
-    description:
-        'A stunning modern apartment with a direct view of the Nile. Fully furnished with high-end amenities. Located in the heart of Zamalek, close to top restaurants and cafes.',
-    imageUrls: [
-      'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=800',
-    ],
-    price: 1200.0,
-    location: 'Zamalek, Cairo',
-    beds: 3,
-    baths: 2,
-    area: 180,
-    ownerName: 'Karim Essam',
-    ownerPhone: '+20 100 234 5678',
-    ownerImageUrl:
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200',
-  ),
-  Apartment(
-    id: '2',
-    title: 'Modern Studio in Downtown',
-    description:
-        'Perfect for professionals. Close to all business hubs and metro stations. Minimalist design with smart home features.',
-    imageUrls: [
-      'https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg?auto=compress&cs=tinysrgb&w=800',
-    ],
-    price: 450.0,
-    location: 'Downtown, Alexandria',
-    beds: 1,
-    baths: 1,
-    area: 75,
-    ownerName: 'Mona Ahmed',
-    ownerPhone: '+20 122 987 6543',
-    ownerImageUrl:
-        'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200',
-  ),
-  Apartment(
-    id: '3',
-    title: 'Cozy Family House',
-    description:
-        'Spacious garden, quiet neighborhood, and close to international schools. Ideal for families looking for tranquility.',
-    imageUrls: [
-      'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1643389/pexels-photo-1643389.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800',
-    ],
-    price: 850.0,
-    location: 'New Cairo, Cairo',
-    beds: 4,
-    baths: 3,
-    area: 250,
-    ownerName: 'Mosab Abu Draaaa',
-    ownerPhone: '0938362405',
-    ownerImageUrl:
-        'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=200',
-  ),
-];
-
-// ---------------------------------------------------------------------------
 // 3. Main Screen
 // ---------------------------------------------------------------------------
 class MainScreen extends StatefulWidget {
-
   const MainScreen({super.key});
+
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
+  FilterController filterController = Get.put(FilterController());
   RangeValues _currentPriceRange = const RangeValues(200, 2000);
   int _selectedRooms = 2;
   bool _isFilterExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBodyBehindAppBar: false,
       appBar: AppBar(
@@ -236,6 +145,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildFilterSection() {
+    FilterController filterController = Get.put(FilterController());
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
@@ -299,15 +210,57 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               const Divider(height: 1),
               const SizedBox(height: 20),
+
+
+
+
               Row(
-                spacing: 10,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(child: _buildMockDropdown("Governorate", Icons.map)),
-                  Expanded(
-                    child: _buildMockDropdown("City", Icons.location_city),
+
+                  SizedBox(
+                    width: 140,
+                    child: Obx(() => DropdownButton<Province>(
+                      icon: Icon(Icons.gps_fixed_outlined , color: Colors.teal),
+                      value: filterController.selectedProvince.value,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      hint: Text("  Province \t"),
+                      items: filterController.provinces.map((province) {
+                        return DropdownMenuItem(
+                          value: province,
+                          child: Text(province.name),
+                        );
+                      }).toList(),
+                      onChanged: (val) => filterController.updateProvince(val),
+                    )),
                   ),
-                ],
-              ),
+
+
+                  SizedBox(
+                    width: 140,
+                    child: Obx(() => DropdownButton<City>(
+                      iconDisabledColor: Colors.grey,
+                      iconEnabledColor: Colors.teal,
+                      icon: Icon(Icons.location_city_sharp ),
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      value: filterController.selectedCity.value,
+                      hint: Text("  City \t"),
+                      items: filterController.selectedProvince.value?.cities.map((city) {
+                        return DropdownMenuItem(
+                          value: city,
+                          child: Text(city.name),
+                        );
+                      }).toList() ?? [],
+                      onChanged: (val) => filterController.updateCity(val),
+                    )),
+                  ),
+                ]),
+
+
+
+
+
+
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -414,7 +367,10 @@ class _MainScreenState extends State<MainScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+
+                  },
                   style: ElevatedButton.styleFrom(
                     // backgroundColor: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
@@ -435,39 +391,6 @@ class _MainScreenState extends State<MainScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildMockDropdown(String hint, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        // color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 18,
-            // color: const Color.fromARGB(255, 168, 167, 167)
-          ),
-          const SizedBox(width: 8),
-          Text(
-            hint,
-            style: TextStyle(
-              // color: const Color.fromARGB(255, 186, 186, 186),
-              fontSize: 13,
-            ),
-          ),
-          const Spacer(),
-          Icon(
-            Icons.keyboard_arrow_down,
-            size: 18,
-            //  color: Colors.grey[600]
-          ),
-        ],
       ),
     );
   }

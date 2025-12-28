@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../Controller/ApartmentDetailsController.dart';
-import 'HomePage.dart';
+import '../../Model/apartment_model.dart';
 
 class ApartmentDetailsScreen extends StatelessWidget {
   final Apartment apartment;
@@ -243,7 +243,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   backgroundImage: NetworkImage(
                                     apartment.ownerImageUrl,
                                   ),
-                                  onBackgroundImageError: (_, __) =>
+                                  onBackgroundImageError: (_, _) =>
                                   const Icon(Icons.person),
                                 ),
                                 Padding(
