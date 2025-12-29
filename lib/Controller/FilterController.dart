@@ -24,10 +24,8 @@ class FilterController extends GetxController {
   // UI State (was inside StatefulWidget)
   // ---------------------------------------------------------------------------
 
-  /// ⚠️ لازم تتطابق مع min / max تبع RangeSlider
   var priceRange = const RangeValues(100, 5000).obs;
 
-  /// 0 = All rooms
   var selectedRooms = 2.obs;
 
   var isFilterExpanded = false.obs;
@@ -76,8 +74,6 @@ class FilterController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    /// تحميل البيانات التجريبية
     allApartments.assignAll(sampleApartments);
     filteredApartments.assignAll(sampleApartments);
   }
