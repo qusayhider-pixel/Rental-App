@@ -113,8 +113,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterSection(
-      FilterController filterController, BuildContext context) {
+  Widget _buildFilterSection(FilterController filterController, BuildContext context) {
     return Obx(() => Container(
       margin:
       const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -195,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                           DropdownButton<Province>(
                             icon: Icon(
                                 Icons.gps_fixed_outlined,
-                                color: Colors.teal),
+                                color: Color(0xffcebbfd)),
                             value: filterController
                                 .selectedProvince.value,
                             borderRadius:
@@ -216,6 +215,12 @@ class HomeScreen extends StatelessWidget {
                           )),
                     ),
 
+                    IconButton(
+                      icon: Icon(Icons.repeat),
+                      onPressed:
+                      filterController.resetFilters,
+                    ),
+
                     SizedBox(
                       width: 140,
                       child:
@@ -223,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                         iconDisabledColor:
                         Colors.grey,
                         iconEnabledColor:
-                        Colors.teal,
+                        Color(0xffcebbfd),
                         icon: Icon(Icons
                             .location_city_sharp),
                         borderRadius:
@@ -252,11 +257,7 @@ class HomeScreen extends StatelessWidget {
                       )),
                     ),
 
-                    IconButton(
-                      icon: Icon(Icons.repeat),
-                      onPressed:
-                      filterController.resetFilters,
-                    )
+
                   ]),
 
               const SizedBox(height: 15),

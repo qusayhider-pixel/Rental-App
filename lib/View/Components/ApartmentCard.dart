@@ -32,10 +32,10 @@ class ApartmentCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(40),
         boxShadow: [
           BoxShadow(
-            color: Color(0x867255e5),
+            color: Color(0xbe7255e5),
             spreadRadius: 0.5,
-            blurRadius: 15,
-            offset: const Offset(0, 6),
+            blurRadius: 20,
+            offset: const Offset(0,7),
           ),
         ],
       ),
@@ -60,29 +60,29 @@ class ApartmentCard extends StatelessWidget {
                    )
                 ),
               ),
+              // Positioned(
+              //   top: 60,
+              //   right: 15,
+              //   child: Container(
+              //     padding: const EdgeInsets.symmetric(vertical: 2),
+              //     decoration: BoxDecoration(
+              //       color: Get.isDarkMode
+              //           ? const Color.fromARGB(226, 54, 53, 53)
+              //           : Colors.white,
+              //       shape: BoxShape.circle,
+              //     ),
+              //     child: IconButton(
+              //       icon: Icon(Icons.favorite_outline_sharp),
+              //       color: Get.isDarkMode
+              //           ? Color.fromARGB(255, 165, 148, 250)
+              //           : Colors.red,
+              //       iconSize: 20,
+              //       onPressed: () {},
+              //     ),
+              //   ),
+              // ),
               Positioned(
-                top: 15,
-                right: 15,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Get.isDarkMode
-                        ? const Color.fromARGB(226, 54, 53, 53)
-                        : Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.favorite_outline_sharp),
-                    color: Get.isDarkMode
-                        ? Color.fromARGB(255, 165, 148, 250)
-                        : Colors.red,
-                    iconSize: 20,
-                    onPressed: () {},
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 60,
+                top: 5,
                 right: 15,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),

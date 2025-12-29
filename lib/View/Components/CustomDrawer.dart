@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 import '../../Controller/LoginController.dart';
+import '../Screens/AddApartment.dart';
 
 class CustomDrawer extends StatelessWidget {
 
@@ -121,6 +122,10 @@ class CustomDrawer extends StatelessWidget {
         ),
       ),
       onTap: () {
+        if(title == 'Add Apartment')
+          {
+            Get.to(()=> AddApartmentScreen());
+          }
         if(title == 'My Reservations')
           {
             Get.to(()=> MyReservationsScreen());

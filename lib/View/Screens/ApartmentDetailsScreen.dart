@@ -453,6 +453,34 @@ class ApartmentDetailsScreen extends StatelessWidget {
             ),
           ),
 
+          Positioned(
+            top: 50,
+            right: 20,
+            child: GestureDetector(
+              onTap: (){
+
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Get.isDarkMode
+                      ? const Color.fromARGB(226, 54, 53, 53)
+                      : Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xff846be7),
+                      spreadRadius: 0.5,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child:Icon(Icons.favorite_outline_sharp, size: 20),
+                ),
+              ),
+            ),
+
+
           // --- Bottom Booking Bar ---
           Positioned(
             bottom: 0,

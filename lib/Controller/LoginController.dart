@@ -5,11 +5,11 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:uni_project/View/Screens/HomeScreen.dart';
 import 'package:uni_project/View/Screens/WelcomeScreen.dart';
 import 'package:uni_project/main.dart';
 import '../Model/LoginResponse.dart';
 import '../Services/api_service.dart';
-import '../View/Screens/HomePage.dart';
 
 class LoginController extends GetxController {
   final ApiService apiService = ApiService();
@@ -34,7 +34,7 @@ class LoginController extends GetxController {
       final loginData = LoginResponse.fromJson(response.data as Map<String, dynamic>);
       currentUser.value = loginData;
 
-      Get.offAll(() => RentalApp());
+      Get.offAll(() => HomeScreen());
       Get.snackbar("LUXESTAY", "Login Success" ,  backgroundColor: const Color.fromARGB(
           132, 9, 245, 1),
         borderRadius: 30,
