@@ -141,7 +141,7 @@ class ApartmentCard extends StatelessWidget {
                     const Icon(Icons.location_on, size: 16, color: Colors.grey),
                     const SizedBox(width: 4),
                     Text(
-                      apartment.location,
+                      "${apartment.province}, ${apartment.city}",
                       style: const TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                   ],

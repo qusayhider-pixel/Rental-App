@@ -4,7 +4,8 @@ class Apartment {
   final String description;
   final List<String> imageUrls; // Changed from single URL to a List of URLs
   final double price;
-  final String location;
+  final String province;
+  final String city;
   final int beds;
   final int baths;
   final int area;
@@ -18,7 +19,8 @@ class Apartment {
     required this.description,
     required this.imageUrls,
     required this.price,
-    required this.location,
+    required this.province,
+    required this.city,
     required this.beds,
     required this.baths,
     required this.area,

@@ -12,7 +12,6 @@ class ApartmentDetailsScreen extends StatelessWidget {
   final ApartmentDetailsController controller =
   Get.put(ApartmentDetailsController());
 
-  // Helper method exposed for reuse in ApartmentCard
   static Widget _buildFeatureIcon(IconData icon, String label) {
     return Row(
       children: [
@@ -110,7 +109,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            apartment.location,
+                            "${apartment.province}, ${apartment.city}",
                             style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 15,

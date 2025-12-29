@@ -59,7 +59,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  FilterController filterController = Get.put(FilterController());
+  final FilterController filterController = Get.put(FilterController());
   RangeValues _currentPriceRange = const RangeValues(200, 2000);
   int _selectedRooms = 2;
   bool _isFilterExpanded = false;
@@ -126,16 +126,32 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
+                //
+                //     Obx(() {
+                //   return ListView.builder(
+                //     shrinkWrap: true,
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                //     itemCount: filterController.filteredApartments.length,
+                //     itemBuilder: (context, index) {
+                //       return ApartmentCard(
+                //         apartment: filterController.filteredApartments[index],
+                //       );
+                //     },
+                //   );
+                // }),
 
             // List
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              itemCount: sampleApartments.length,
-              itemBuilder: (context, index) {
-                return ApartmentCard(apartment: sampleApartments[index]);
-              },
+            GetBuilder<FilterController>(
+                 builder: (controller)=> ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                itemCount: filterController.filteredApartments.length,
+                itemBuilder: (context, index) {
+                  return ApartmentCard(apartment: filterController.filteredApartments[index]);
+                },
+              ),
             ),
             const SizedBox(height: 30),
           ],
@@ -145,8 +161,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildFilterSection() {
-    FilterController filterController = Get.put(FilterController());
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
@@ -165,9 +179,10 @@ class _MainScreenState extends State<MainScreen> {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
+            blurStyle: BlurStyle.normal,
             color: Color(0xff846be7),
             spreadRadius: 0.5,
             blurRadius: 15,
@@ -254,6 +269,11 @@ class _MainScreenState extends State<MainScreen> {
                       onChanged: (val) => filterController.updateCity(val),
                     )),
                   ),
+
+                  IconButton(
+                      icon:Icon(Icons.repeat),
+                    onPressed: filterController.resetFilters,
+                  )
                 ]),
 
 
@@ -368,8 +388,7 @@ class _MainScreenState extends State<MainScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-
-
+                    filterController.applyFilters();
                   },
                   style: ElevatedButton.styleFrom(
                     // backgroundColor: Theme.of(context).primaryColor,

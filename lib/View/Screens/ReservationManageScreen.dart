@@ -55,10 +55,9 @@ class ReservationManagementScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          backgroundImage:
-                          NetworkImage(req.renterImage),
+                          backgroundImage: NetworkImage(req.renterImage),
                           backgroundColor: Colors.grey[200],
-                          onBackgroundImageError: (_, _) {},
+                          onBackgroundImageError: (_,_) {},
                           child: const Icon(Icons.person,
                               color: Colors.grey),
                         ),

@@ -1,15 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Model/apartment_model.dart';
 import '../Model/city_model.dart';
 import '../Model/province_model.dart';
-import '../Services/api_service.dart';
 
 class FilterController extends GetxController {
-
-
+  // var allApartments = <Apartment>[].obs;
+  // var filteredApartments = <Apartment>[].obs;
+  var allApartments = sampleApartments;
+  var filteredApartments = sampleApartments;
 
   var selectedProvince = Rxn<Province>();
   var selectedCity = Rxn<City>();
+
+  RxInt selectedRooms = 0.obs;
+  Rx<RangeValues> priceRange = const RangeValues(0, 5000).obs;
 
   // Your data list
   final List<Province> provinces = [
@@ -54,8 +59,62 @@ class FilterController extends GetxController {
   }
 
 
+  void applyFilters() {
+    // if (selectedProvince.value == null) {
+    //   Get.snackbar(
+    //     'Error',
+    //     'يرجى اختيار المحافظة أولاً',
+    //     snackPosition: SnackPosition.TOP,
+    //   );
+    //   return;
+    // }
 
-  // final ApiService apiService = ApiService();
+    final result = sampleApartments.where((apartment) {
+      final matchesProvince = apartment.province == selectedProvince.value!.name;
+
+      final matchesCity = selectedCity.value == null
+          ? true
+          : apartment.city == selectedCity.value!.name;
+
+      final matchesRooms = selectedRooms.value == 0
+          ? true
+          : apartment.beds == selectedRooms.value;
+
+      final matchesPrice =
+          apartment.price >= priceRange.value.start &&
+          apartment.price <= priceRange.value.end;
+
+      return
+        matchesProvince &&
+          matchesCity &&
+          matchesRooms &&
+          matchesPrice;
+    }).toList();
+
+    filteredApartments.assignAll(result);
+    update();
+  }
+
+
+  void resetFilters() {
+    print('🔄 Reset filters');
+
+    // Location
+    selectedProvince.value = null;
+    selectedCity.value = null;
+    // cities.clear();
+    // isCityEnabled.value = false;
+    // Filters
+    priceRange.value = const RangeValues(200, 2000);
+    selectedRooms.value = 2;
+
+    // Apartments
+    filteredApartments.assignAll(allApartments);
+    update();
+  }
+
+
+// final ApiService apiService = ApiService();
   //
   // /// Data from backend
   // var provinces = <Province>[].obs;
@@ -122,7 +181,8 @@ final List<Apartment> sampleApartments = [
       'https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=800',
     ],
     price: 1200.0,
-    location: 'Zamalek, Cairo',
+    province: 'Damascus',
+    city: 'Mazzeh',
     beds: 3,
     baths: 2,
     area: 180,
@@ -142,7 +202,8 @@ final List<Apartment> sampleApartments = [
       'https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg?auto=compress&cs=tinysrgb&w=800',
     ],
     price: 450.0,
-    location: 'Downtown, Alexandria',
+    province: 'Aleppo',
+    city: 'Azaz',
     beds: 1,
     baths: 1,
     area: 75,
@@ -162,7 +223,8 @@ final List<Apartment> sampleApartments = [
       'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800',
     ],
     price: 850.0,
-    location: 'New Cairo, Cairo',
+    province: 'Homs',
+    city: 'Talbiseh',
     beds: 4,
     baths: 3,
     area: 250,
