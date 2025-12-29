@@ -5,18 +5,37 @@ import '../Model/city_model.dart';
 import '../Model/province_model.dart';
 
 class FilterController extends GetxController {
-  // var allApartments = <Apartment>[].obs;
-  // var filteredApartments = <Apartment>[].obs;
-  var allApartments = sampleApartments;
-  var filteredApartments = sampleApartments;
+
+  // ---------------------------------------------------------------------------
+  // Apartments Data
+  // ---------------------------------------------------------------------------
+
+  var allApartments = <Apartment>[].obs;
+  var filteredApartments = <Apartment>[].obs;
+
+  // ---------------------------------------------------------------------------
+  // Location Filters
+  // ---------------------------------------------------------------------------
 
   var selectedProvince = Rxn<Province>();
   var selectedCity = Rxn<City>();
 
-  RxInt selectedRooms = 0.obs;
-  Rx<RangeValues> priceRange = const RangeValues(0, 5000).obs;
+  // ---------------------------------------------------------------------------
+  // UI State (was inside StatefulWidget)
+  // ---------------------------------------------------------------------------
 
-  // Your data list
+  /// ⚠️ لازم تتطابق مع min / max تبع RangeSlider
+  var priceRange = const RangeValues(100, 5000).obs;
+
+  /// 0 = All rooms
+  var selectedRooms = 2.obs;
+
+  var isFilterExpanded = false.obs;
+
+  // ---------------------------------------------------------------------------
+  // Static Provinces Data
+  // ---------------------------------------------------------------------------
+
   final List<Province> provinces = [
     Province(
       id: 1,
@@ -25,29 +44,69 @@ class FilterController extends GetxController {
         City(id: 101, name: 'Dummar'),
         City(id: 102, name: 'Al-Shagour'),
         City(id: 103, name: 'Mazzeh'),
-        City(id: 104, name: 'Qanawat')
-      ],
-    ),Province(
-      id: 2,
-      name: 'Aleppo',
-      cities: [
-        City(id: 101, name: 'Azaz'),
-        City(id: 102, name: 'Al-Bab'),
-        City(id: 103, name: 'Manbij'),
-        City(id: 104, name: 'Jarabulus'),
+        City(id: 104, name: 'Qanawat'),
       ],
     ),
     Province(
       id: 2,
+      name: 'Aleppo',
+      cities: [
+        City(id: 201, name: 'Azaz'),
+        City(id: 202, name: 'Al-Bab'),
+        City(id: 203, name: 'Manbij'),
+        City(id: 204, name: 'Jarabulus'),
+      ],
+    ),
+    Province(
+      id: 3,
       name: 'Homs',
       cities: [
-        City(id: 201, name: 'Tadmur'),
-        City(id: 202, name: 'Al-Qusayr'),
-        City(id: 202, name: 'Al-Rastan'),
-        City(id: 202, name: 'Talbiseh'),
+        City(id: 301, name: 'Tadmur'),
+        City(id: 302, name: 'Al-Qusayr'),
+        City(id: 303, name: 'Al-Rastan'),
+        City(id: 304, name: 'Talbiseh'),
       ],
     ),
   ];
+
+  // ---------------------------------------------------------------------------
+  // Lifecycle
+  // ---------------------------------------------------------------------------
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    /// تحميل البيانات التجريبية
+    allApartments.assignAll(sampleApartments);
+    filteredApartments.assignAll(sampleApartments);
+  }
+
+  // ---------------------------------------------------------------------------
+  // UI Updates
+  // ---------------------------------------------------------------------------
+
+  void updatePriceRange(RangeValues values) {
+    /// حماية من assertion
+    final double start = values.start.clamp(100, 5000);
+    final double end   = values.end.clamp(100, 5000);
+
+    if (start <= end) {
+      priceRange.value = RangeValues(start, end);
+    }
+  }
+
+  void updateSelectedRooms(int rooms) {
+    selectedRooms.value = rooms;
+  }
+
+  void updateFilterExpanded(bool expanded) {
+    isFilterExpanded.value = expanded;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Location Selection
+  // ---------------------------------------------------------------------------
 
   void updateProvince(Province? province) {
     selectedProvince.value = province;
@@ -58,43 +117,46 @@ class FilterController extends GetxController {
     selectedCity.value = city;
   }
 
+  // ---------------------------------------------------------------------------
+  // Apply Filters
+  // ---------------------------------------------------------------------------
 
   void applyFilters() {
-    // if (selectedProvince.value == null) {
-    //   Get.snackbar(
-    //     'Error',
-    //     'يرجى اختيار المحافظة أولاً',
-    //     snackPosition: SnackPosition.TOP,
-    //   );
-    //   return;
-    // }
+    final result = allApartments.where((apartment) {
 
-    final result = sampleApartments.where((apartment) {
-      final matchesProvince = apartment.province == selectedProvince.value!.name;
+      /// Province
+      final matchesProvince = selectedProvince.value == null
+          ? true
+          : apartment.province == selectedProvince.value!.name;
 
+      /// City
       final matchesCity = selectedCity.value == null
           ? true
           : apartment.city == selectedCity.value!.name;
 
+      /// Rooms
       final matchesRooms = selectedRooms.value == 0
           ? true
           : apartment.beds == selectedRooms.value;
 
+      /// Price
       final matchesPrice =
           apartment.price >= priceRange.value.start &&
-          apartment.price <= priceRange.value.end;
+              apartment.price <= priceRange.value.end;
 
-      return
-        matchesProvince &&
+      return matchesProvince &&
           matchesCity &&
           matchesRooms &&
           matchesPrice;
     }).toList();
 
     filteredApartments.assignAll(result);
-    update();
+    update(); // for GetBuilder
   }
 
+  // ---------------------------------------------------------------------------
+  // Reset Filters
+  // ---------------------------------------------------------------------------
 
   void resetFilters() {
     print('🔄 Reset filters');
@@ -102,73 +164,18 @@ class FilterController extends GetxController {
     // Location
     selectedProvince.value = null;
     selectedCity.value = null;
-    // cities.clear();
-    // isCityEnabled.value = false;
+
     // Filters
-    priceRange.value = const RangeValues(200, 2000);
+    priceRange.value = const RangeValues(100, 5000);
     selectedRooms.value = 2;
+    isFilterExpanded.value = false;
 
     // Apartments
     filteredApartments.assignAll(allApartments);
     update();
   }
-
-
-// final ApiService apiService = ApiService();
-  //
-  // /// Data from backend
-  // var provinces = <Province>[].obs;
-  // var cities = <City>[].obs;
-  //
-  // /// Selected values
-  // var selectedProvince = Rxn<Province>();
-  // var selectedCity = Rxn<City>();
-  //
-  // /// UI State
-  // var isCityEnabled = false.obs;
-  //
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   fetchProvinces();
-  // }
-  //
-  // Future<void> fetchProvinces() async {
-  //   provinces.value = await apiService.getProvinces();
-  // }
-  //
-  // /// 🔹 المستخدم يختار محافظة
-  // void onProvinceSelected(Province? province) {
-  //   selectedProvince.value = province;
-  //
-  //   if (province != null) {
-  //     cities.value = province.cities; // تحميل المدن التابعة
-  //     selectedCity.value = null;       // إعادة تعيين المدينة
-  //     isCityEnabled.value = true;      // تفعيل Dropdown المدينة
-  //   } else {
-  //     resetCity();
-  //   }
-  // }
-  //
-  // /// 🔹 المستخدم يختار مدينة (فقط بعد المحافظة)
-  // void onCitySelected(City? city) {
-  //   if (!isCityEnabled.value) return;
-  //   selectedCity.value = city;
-  // }
-  //
-  // /// 🔹 إعادة ضبط المدينة
-  // void resetCity() {
-  //   cities.clear();
-  //   selectedCity.value = null;
-  //   isCityEnabled.value = false;
-  // }
 }
 
-
-
-// ---------------------------------------------------------------------------
-// 2. Data Model
-// ---------------------------------------------------------------------------
 final List<Apartment> sampleApartments = [
   Apartment(
     id: '1',

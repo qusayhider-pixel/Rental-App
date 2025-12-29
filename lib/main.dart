@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_project/View/Screens/HomePage.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 import 'Bindings.dart';
+import 'View/Screens/HomeScreen.dart';
 import 'View/Screens/SplashScreenWidget.dart';
 
 SharedPreferences ? sharedPreference ;
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       initialBinding: MyBinding(),
-      home: RentalApp(),
+      home: HomeScreen(),
     );
 
   }

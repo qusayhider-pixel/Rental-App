@@ -127,32 +127,29 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
                 //
-                //     Obx(() {
-                //   return ListView.builder(
-                //     shrinkWrap: true,
-                //     physics: const NeverScrollableScrollPhysics(),
-                //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                //     itemCount: filterController.filteredApartments.length,
-                //     itemBuilder: (context, index) {
-                //       return ApartmentCard(
-                //         apartment: filterController.filteredApartments[index],
-                //       );
-                //     },
-                //   );
-                // }),
+                    Obx(() {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: filterController.filteredApartments.length,
+                    itemBuilder: (context, index) {
+                      return ApartmentCard(
+                        apartment: filterController.filteredApartments[index],
+                      );
+                    },
+                  );
+                }),
 
             // List
-            GetBuilder<FilterController>(
-                 builder: (controller)=> ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                itemCount: filterController.filteredApartments.length,
-                itemBuilder: (context, index) {
-                  return ApartmentCard(apartment: filterController.filteredApartments[index]);
-                },
-              ),
-            ),
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            //   itemCount: sampleApartments.length,
+            //   itemBuilder: (context, index) {
+            //     return ApartmentCard(apartment: sampleApartments[index]);
+            //   },
+            // ),
             const SizedBox(height: 30),
           ],
         ),
