@@ -1,7 +1,11 @@
 
+
+
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
 
+import '../Model/apartment_model.dart';
 import '../Model/province_model.dart';
 
 class ApiService {
@@ -15,7 +19,11 @@ class ApiService {
     ),
   );
 
-  Future<Response> login(String phone, String password) async {
+  //---------------------------------------------------------------------------
+  Future<Response> login(
+      String phone,
+      String password
+      ) async {
    return await dio.post(
       "/login",
       data: {
@@ -27,7 +35,7 @@ class ApiService {
   }
 
 
-
+//-----------------------------------------------------------------------------
   Future<Response> signUp({
     required String firstName,
     required String lastName,
@@ -43,21 +51,17 @@ class ApiService {
       "phone": phone,
       "password": password,
       if (avatar != null)
-        "avatar": await MultipartFile.fromFile(
-          avatar.path,
+        "avatar": await MultipartFile.fromFile(avatar.path,
           filename: avatar.path.split('/').last,
         ),
     });
-
     return dio.post(
       "/register",
       data: formData,
-        options: Options(contentType: 'multipart/form-data')
     );
   }
 
-
-
+//-----------------------------------------------------------------------
 
   Future<List<Province>> getProvinces() async {
     try {
@@ -75,4 +79,31 @@ class ApiService {
       return [];
     }
   }
+
+//----------------------------------------------------------------------------------
+  Future<List<Apartment>> getApartments()async{
+    try
+    {
+      final box = GetStorage();
+      final token = box.read('token');
+      // print('The token is : $token');
+       final response = await dio.get('/properties/showAll',
+          options: Options(
+           headers: {
+             'Authorization': 'Bearer $token',
+           }
+          )
+       );
+
+       final List apartmentsJson = response.data['properties'];
+
+       return apartmentsJson.map((json) => Apartment.fromJson(json)).toList();
+    }
+     catch(e)
+    {
+      print('❌ Error fetching Apartments: $e');
+      return [];
+    }
+  }
+  
 }

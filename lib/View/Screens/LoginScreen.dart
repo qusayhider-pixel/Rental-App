@@ -153,7 +153,6 @@ class LoginScreen extends StatelessWidget {
                           height: 50,
                           child: ElevatedButton(
                               onPressed: () {
-                                sharedPreference!.setString("state", "login");
                                 controller.login();
                               },
                               child:Obx(() {
@@ -225,27 +224,6 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> loginUser(String email, String password) async {
-    final url = Uri.parse("http://رقم_الأي_بي_الخاص_بك:8000/api/login");
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"email": email, "password": password}),
-      );
-
-      if (response.statusCode == 200) {
-        print("تم تسجيل الدخول بنجاح: ${response.body}");
-        // هنا يمكنك الانتقال للصفحة التالية
-      } else {
-        print("خطأ في البيانات: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("فشل الاتصال بالخادم: $e");
-    }
   }
 }
 

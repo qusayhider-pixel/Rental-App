@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 import '../../Controller/LoginController.dart';
@@ -14,7 +15,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final user = controller.currentUser.value;
+  final user = controller.authController.user.value;
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 6 , sigmaY: 6),
       child:
@@ -51,12 +52,15 @@ class CustomDrawer extends StatelessWidget {
                       shape: BoxShape.rectangle,
                     ),
                     child: CircleAvatar(
-                      radius: 60,
-                      // backgroundImage: user?.avatar != null
-                      //     ? NetworkImage(user!.avatar!)
-                      //     : AssetImage('assets/Green.jpg')
+                        radius: 60,
+                        backgroundImage: user?.avatar != null ? NetworkImage("http://10.0.2.2:8000/storage/${user!.avatar}",
+                        )
+                            : null,
+                        child: user?.avatar == null ? const Icon(Icons.person)
+                            : null,
+                      ),
                     ),
-                  ),
+
                   const SizedBox(height: 15),
                   Text(
                     "${user?.firstname } ${user?.lastname} ",
@@ -125,6 +129,10 @@ class CustomDrawer extends StatelessWidget {
         if(title == 'Add Apartment')
           {
             Get.to(()=> AddApartmentScreen());
+          }
+        if(title == 'My Favorites')
+          {
+            Get.to(()=> Favouritescreen());
           }
         if(title == 'My Reservations')
           {

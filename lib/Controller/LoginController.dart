@@ -1,22 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/View/Screens/HomeScreen.dart';
-import 'package:uni_project/View/Screens/WelcomeScreen.dart';
-import 'package:uni_project/main.dart';
 import '../Model/LoginResponse.dart';
 import '../Services/api_service.dart';
+import 'AuthController.dart';
 
 class LoginController extends GetxController {
   final ApiService apiService = ApiService();
 
 
   var isLoading = false.obs;
-  var currentUser = Rxn<LoginResponse>();
+  final AuthController authController = Get.put(AuthController());
 
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
@@ -30,9 +30,15 @@ class LoginController extends GetxController {
         passwordController.text,
       );
 
+      // ignore: avoid_print
       print("Raw Data from Server: ${response.data}");
-      final loginData = LoginResponse.fromJson(response.data as Map<String, dynamic>);
-      currentUser.value = loginData;
+
+      final loginData = LoginResponse.fromJson(response.data );
+      ///saving the token
+      authController.setUser(loginData) ;
+      final box = GetStorage();
+      box.write('token', loginData.token);
+
 
       Get.offAll(() => HomeScreen());
       Get.snackbar("LUXESTAY", "Login Success" ,  backgroundColor: const Color.fromARGB(
@@ -49,6 +55,7 @@ class LoginController extends GetxController {
         if (e.response?.data != null && e.response?.data['message'] != null) {
         } else {
         }
+        // ignore: avoid_print
         Get.snackbar("Message", '${e.response?.data}');print("❌ Server Response: ${e.response?.data}");
       }
     } finally {
@@ -58,10 +65,7 @@ class LoginController extends GetxController {
 
 
   void logout() {
-    currentUser.value = null;
-    sharedPreference?.clear();
-    GetStorage().erase();
-    Get.offAll(() => WelcomeScreen());
+    authController.logout();
   }
 }
 

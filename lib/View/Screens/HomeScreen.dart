@@ -92,17 +92,14 @@ class HomeScreen extends StatelessWidget {
             // }),
 
             // List
-            GetBuilder<FilterController>(
-              builder: (controller) => ListView.builder(
+            Obx(()=> filterController.isLoading.value ? const CircularProgressIndicator(strokeWidth: 3,) : ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 itemCount: filterController.filteredApartments.length,
                 itemBuilder: (context, index) {
-                  return ApartmentCard(
-                      apartment:
-                      filterController.filteredApartments[index]);
+                  return ApartmentCard(apartment: filterController.filteredApartments[index]);
                 },
               ),
             ),
@@ -171,13 +168,10 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            subtitle: !filterController.isFilterExpanded.value
-                ? const Text(
-              "Tap to expand filters",
-              style: TextStyle(
-                  fontSize: 12, color: Colors.grey),
-            )
-                : null,
+            subtitle: !filterController.isFilterExpanded.value ?
+            Text("Tap to expand filters", style: TextStyle(fontSize: 12, color: Colors.grey),)
+                :  null
+            ,
             children: [
               const Divider(height: 1),
               const SizedBox(height: 20),
@@ -190,36 +184,22 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 140,
-                      child: Obx(() =>
-                          DropdownButton<Province>(
-                            icon: Icon(
-                                Icons.gps_fixed_outlined,
-                                color: Color(0xffcebbfd)),
-                            value: filterController
-                                .selectedProvince.value,
-                            borderRadius:
-                            BorderRadius.all(
-                                Radius.circular(30)),
+                      child: Obx(() => DropdownButton<Province>(
+                        icon: Icon(Icons.gps_fixed_outlined, color: Color(0xffcebbfd)),
+                            value: filterController.selectedProvince.value,
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
                             hint: Text("  Province \t"),
-                            items: filterController.provinces
-                                .map((province) {
+                            items: provinces.map((province) {
                               return DropdownMenuItem(
                                 value: province,
                                 child:
                                 Text(province.name),
                               );
-                            }).toList(),
-                            onChanged: (val) =>
-                                filterController
-                                    .updateProvince(val),
+                            }).toList(), onChanged: (val) => filterController.updateProvince(val),
                           )),
                     ),
 
-                    IconButton(
-                      icon: Icon(Icons.repeat),
-                      onPressed:
-                      filterController.resetFilters,
-                    ),
+                    IconButton(icon: Icon(Icons.repeat), onPressed: filterController.resetFilters,),
 
                     SizedBox(
                       width: 140,
@@ -229,31 +209,13 @@ class HomeScreen extends StatelessWidget {
                         Colors.grey,
                         iconEnabledColor:
                         Color(0xffcebbfd),
-                        icon: Icon(Icons
-                            .location_city_sharp),
-                        borderRadius:
-                        BorderRadius.all(
-                            Radius.circular(
-                                30)),
-                        value: filterController
-                            .selectedCity.value,
-                        hint:
-                        Text("  City \t"),
-                        items: filterController
-                            .selectedProvince
-                            .value
-                            ?.cities
-                            .map((city) {
-                          return DropdownMenuItem(
-                            value: city,
-                            child: Text(
-                                city.name),
-                          );
-                        }).toList() ??
-                            [],
-                        onChanged: (val) =>
-                            filterController
-                                .updateCity(val),
+                        icon: Icon(Icons.location_city_sharp),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        value: filterController.selectedCity.value,
+                        hint: Text("  City \t"),
+                        items: filterController.selectedProvince.value?.cities.map((city) {
+                          return DropdownMenuItem(value: city, child: Text(city.name),);}).toList() ?? [],
+                        onChanged: (val) => filterController.updateCity(val),
                       )),
                     ),
 

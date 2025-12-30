@@ -15,13 +15,10 @@ class SignUpController extends GetxController {
   final dobController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-
   Rx<File?> avatarImage = Rx<File?>(null);
 
-  final ImagePicker _picker = ImagePicker();
-
   Future<void> pickAvatarImage() async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await  ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       avatarImage.value = File(pickedFile.path);

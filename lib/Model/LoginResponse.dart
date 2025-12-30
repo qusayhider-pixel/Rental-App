@@ -5,7 +5,7 @@ class LoginResponse {
   final String firstname;
   final String lastname;
   final String phone;
-  final String? avatar ;
+  final String avatar ;
 
 
   LoginResponse({
@@ -13,16 +13,16 @@ class LoginResponse {
     required this.firstname,
     required this.lastname,
     required this.phone,
-     this.avatar
+    required this.avatar
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      token: json['access_token'],
-      firstname: json['user']['first_name'],
-      lastname: json['user']['last_name'],
-      phone: json['user']['phone'],
-      avatar: json['user']['avatar'],
+      token: json['data']['token'],
+      firstname: json['data']['first name'],
+      lastname: json['data']['last name'],
+      phone: json['data']['phone'],
+      avatar: json['data']['avatar'],
     );
   }
 }

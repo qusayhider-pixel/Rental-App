@@ -9,8 +9,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
 
   ApartmentDetailsScreen({super.key, required this.apartment});
 
-  final ApartmentDetailsController controller =
-  Get.put(ApartmentDetailsController());
+  final ApartmentDetailsController controller = Get.find();
 
   static Widget _buildFeatureIcon(IconData icon, String label) {
     return Row(
@@ -456,28 +455,30 @@ class ApartmentDetailsScreen extends StatelessWidget {
           Positioned(
             top: 50,
             right: 20,
-            child: GestureDetector(
-              onTap: (){
-
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Get.isDarkMode
-                      ? const Color.fromARGB(226, 54, 53, 53)
-                      : Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xff846be7),
-                      spreadRadius: 0.5,
-                      blurRadius: 10,
-                    ),
-                  ],
+            child: Obx(()=>
+               GestureDetector(
+                onTap: (){
+                  controller.addToFav(apartment);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Get.isDarkMode
+                        ? const Color.fromARGB(226, 54, 53, 53)
+                        : Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xff846be7),
+                        spreadRadius: 0.5,
+                        blurRadius: 10,
+                      ),
+                    ],
+                  ),
+                  child: Icon(apartment.isFav.value ?Icons.favorite :  Icons.favorite_outline_sharp  , size: 20 , color: apartment.isFav.value ? Colors.red : Color(0xff846be7) ,),
+                  ),
                 ),
-                child:Icon(Icons.favorite_outline_sharp, size: 20),
-                ),
-              ),
+            ),
             ),
 
 

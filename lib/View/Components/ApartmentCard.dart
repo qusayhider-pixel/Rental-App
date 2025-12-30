@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../Controller/FilterController.dart';
 import '../../Model/apartment_model.dart';
 import '../Screens/ApartmentDetailsScreen.dart';
 
@@ -10,6 +11,7 @@ class ApartmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FilterController filterController = Get.find();
     return Container(
       margin: const EdgeInsets.only(bottom: 30),
       decoration: BoxDecoration(
@@ -50,7 +52,8 @@ class ApartmentCard extends StatelessWidget {
                 ),
                 child: SizedBox(
                   height: 200,
-                  child: Image.network(
+                  child:Obx(()=> filterController.isLoading.value ? CircularProgressIndicator(strokeWidth: 3 , color: Colors.deepPurpleAccent,) :
+                    Image.network(
                     apartment.imageUrls.isNotEmpty
                         ? apartment.imageUrls[0]
                         : '' ,
@@ -58,6 +61,7 @@ class ApartmentCard extends StatelessWidget {
                     width: double.infinity,
                     fit: BoxFit.cover,
                    )
+                  )
                 ),
               ),
               // Positioned(
@@ -99,7 +103,7 @@ class ApartmentCard extends StatelessWidget {
                         : Colors.red,
                     iconSize: 20,
                     onPressed: () {
-                      Get.to(ApartmentDetailsScreen(apartment: apartment));
+                      Get.to(()=>ApartmentDetailsScreen(apartment: apartment));
                     },
                   ),
                 ),

@@ -7,11 +7,9 @@ import 'Bindings.dart';
 import 'View/Screens/HomeScreen.dart';
 import 'View/Screens/SplashScreenWidget.dart';
 
-SharedPreferences ? sharedPreference ;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  sharedPreference = await SharedPreferences.getInstance() ;
   runApp(MyApp());
 }
 
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       initialBinding: MyBinding(),
-      home: HomeScreen(),
+      home: SplashScreenWidget(),
     );
 
   }
