@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+const String baseImageUrl = 'http://10.0.2.2:8000/';
 
 class Apartment {
   final int id;
@@ -16,6 +17,8 @@ class Apartment {
   final String ownerPhone;
   final String ownerImageUrl;
   RxBool isFav = false.obs;
+
+
 
 
   Apartment({
@@ -44,7 +47,7 @@ class Apartment {
         id: json['id'],
         title: json['title'],
         description: json['description'],
-        imageUrls: List<String>.from(json['images']),
+      imageUrls: (json['images'] as List).map((img) => '$baseImageUrl$img').toList(),
         price: _toDouble(json['price per night']),
         province: json['governorate'],
         city: json['city'],

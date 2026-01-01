@@ -17,7 +17,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
   final user = controller.authController.user.value;
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 6 , sigmaY: 6),
+      filter: ImageFilter.blur(sigmaX:3 , sigmaY: 3),
       child:
         Drawer(
         child: Column(
@@ -53,11 +53,8 @@ class CustomDrawer extends StatelessWidget {
                     ),
                     child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: user?.avatar != null ? NetworkImage("http://10.0.2.2:8000/storage/${user!.avatar}",
-                        )
-                            : null,
-                        child: user?.avatar == null ? const Icon(Icons.person)
-                            : null,
+                        backgroundImage: user?.avatar != null ? NetworkImage("http://10.0.2.2:8000/storage/${user!.avatar}",) : null,
+                        child: user?.avatar == null ? const Icon(Icons.person) : null,
                       ),
                     ),
 

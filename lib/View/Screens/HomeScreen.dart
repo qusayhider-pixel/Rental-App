@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
             // }),
 
             // List
-            Obx(()=> filterController.isLoading.value ? const CircularProgressIndicator(strokeWidth: 3,) : ListView.builder(
+            Obx(()=> filterController.isLoading.value ? Center(child: const CircularProgressIndicator(strokeWidth: 3,)) : ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding:
@@ -185,10 +185,11 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       width: 140,
                       child: Obx(() => DropdownButton<Province>(
+                        isExpanded: true,
                         icon: Icon(Icons.gps_fixed_outlined, color: Color(0xffcebbfd)),
                             value: filterController.selectedProvince.value,
                             borderRadius: BorderRadius.all(Radius.circular(30)),
-                            hint: Text("  Province \t"),
+                            hint: Text("Province"),
                             items: provinces.map((province) {
                               return DropdownMenuItem(
                                 value: province,
@@ -205,6 +206,7 @@ class HomeScreen extends StatelessWidget {
                       width: 140,
                       child:
                       Obx(() => DropdownButton<City>(
+                        isExpanded: true,
                         iconDisabledColor:
                         Colors.grey,
                         iconEnabledColor:
@@ -212,12 +214,13 @@ class HomeScreen extends StatelessWidget {
                         icon: Icon(Icons.location_city_sharp),
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         value: filterController.selectedCity.value,
-                        hint: Text("  City \t"),
+                        hint: Text("City"),
                         items: filterController.selectedProvince.value?.cities.map((city) {
                           return DropdownMenuItem(value: city, child: Text(city.name),);}).toList() ?? [],
                         onChanged: (val) => filterController.updateCity(val),
                       )),
                     ),
+
 
 
                   ]),
@@ -274,7 +277,7 @@ class HomeScreen extends StatelessWidget {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(5, (index) {
+                  children: List.generate(6, (index) {
                     int rooms = index + 1;
                     bool isSelected =
                         filterController.selectedRooms.value ==

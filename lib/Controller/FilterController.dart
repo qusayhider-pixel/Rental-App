@@ -86,6 +86,10 @@ class FilterController extends GetxController {
       // allApartments.assignAll(sampleApartments);
       // filteredApartments.assignAll(sampleApartments);
 
+      for (var a in allApartments) {
+        print(a.imageUrls);
+      }
+
     } catch (e) {
       Get.snackbar('Error', 'Failed to load');
     } finally {

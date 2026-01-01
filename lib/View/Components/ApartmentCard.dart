@@ -53,10 +53,7 @@ class ApartmentCard extends StatelessWidget {
                 child: SizedBox(
                   height: 200,
                   child:Obx(()=> filterController.isLoading.value ? CircularProgressIndicator(strokeWidth: 3 , color: Colors.deepPurpleAccent,) :
-                    Image.network(
-                    apartment.imageUrls.isNotEmpty
-                        ? apartment.imageUrls[0]
-                        : '' ,
+                    Image.network( "http://10.0.2.2:8000/${apartment.imageUrls[0]}"  ,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -64,27 +61,7 @@ class ApartmentCard extends StatelessWidget {
                   )
                 ),
               ),
-              // Positioned(
-              //   top: 60,
-              //   right: 15,
-              //   child: Container(
-              //     padding: const EdgeInsets.symmetric(vertical: 2),
-              //     decoration: BoxDecoration(
-              //       color: Get.isDarkMode
-              //           ? const Color.fromARGB(226, 54, 53, 53)
-              //           : Colors.white,
-              //       shape: BoxShape.circle,
-              //     ),
-              //     child: IconButton(
-              //       icon: Icon(Icons.favorite_outline_sharp),
-              //       color: Get.isDarkMode
-              //           ? Color.fromARGB(255, 165, 148, 250)
-              //           : Colors.red,
-              //       iconSize: 20,
-              //       onPressed: () {},
-              //     ),
-              //   ),
-              // ),
+
               Positioned(
                 top: 5,
                 right: 15,
@@ -123,7 +100,7 @@ class ApartmentCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    "\$${apartment.price.toInt()}/mo",
+                    "\$${apartment.price.toInt()}/day",
                     style: TextStyle(
                       color: Get.isDarkMode
                           ? const Color.fromARGB(255, 165, 148, 250)
