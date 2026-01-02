@@ -5,21 +5,21 @@ import 'package:get/get.dart';
 import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
+
 import '../../Controller/LoginController.dart';
 import '../Screens/AddApartment.dart';
 
 class CustomDrawer extends StatelessWidget {
-
   final controller = Get.find<LoginController>();
+
   CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-  final user = controller.authController.user.value;
+    final user = controller.authController.user.value;
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX:3 , sigmaY: 3),
-      child:
-        Drawer(
+      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+      child: Drawer(
         child: Column(
           children: [
             Container(
@@ -52,15 +52,21 @@ class CustomDrawer extends StatelessWidget {
                       shape: BoxShape.rectangle,
                     ),
                     child: CircleAvatar(
-                        radius: 60,
-                        backgroundImage: user?.avatar != null ? NetworkImage("http://10.0.2.2:8000/storage/${user!.avatar}",) : null,
-                        child: user?.avatar == null ? const Icon(Icons.person) : null,
-                      ),
+                      radius: 60,
+                      backgroundImage: user?.avatar != null
+                          ? NetworkImage(
+                              "http://10.0.2.2:8000/storage/${user!.avatar}",
+                            )
+                          : null,
+                      child: user?.avatar == null
+                          ? const Icon(Icons.person)
+                          : null,
                     ),
+                  ),
 
                   const SizedBox(height: 15),
                   Text(
-                    "${user?.firstname } ${user?.lastname} ",
+                    "${user?.firstname} ${user?.lastname} ",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 30,
@@ -68,7 +74,7 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Phone: ${user?.phone }",
+                    "Phone: ${user?.phone}",
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 15,
@@ -93,7 +99,6 @@ class CustomDrawer extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 
@@ -123,23 +128,19 @@ class CustomDrawer extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if(title == 'Add Apartment')
-          {
-            Get.to(()=> AddApartmentScreen());
-          }
-        if(title == 'My Favorites')
-          {
-            Get.to(()=> Favouritescreen());
-          }
-        if(title == 'My Reservations')
-          {
-            Get.to(()=> MyReservationsScreen());
-          }
+        if (title == 'Add Apartment') {
+          Get.to(() => AddApartmentScreen());
+        }
+        if (title == 'My Favorites') {
+          Get.to(() => Favouritescreen());
+        }
+        if (title == 'My Reservations') {
+          Get.to(() => MyReservationsScreen());
+        }
 
-        if(title == 'Reservation Management')
-          {
-            Get.to(()=> ReservationManagementScreen());
-          }
+        if (title == 'Reservation Management') {
+          Get.to(() => ReservationManagementScreen());
+        }
 
         if (title == 'Logout') {
           controller.logout();

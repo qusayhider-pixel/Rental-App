@@ -56,10 +56,8 @@ class ApiService {
     try {
       final response = await dio.get('/provinces');
 
-      // الوصول للـ data
       final List provincesJson = response.data['data'];
 
-      // تحويل JSON → List<Province>
       return provincesJson.map((json) => Province.fromJson(json)).toList();
     } catch (e) {
       print('❌ Error fetching provinces: $e');
@@ -120,5 +118,48 @@ class ApiService {
       print('❌ Error fetching Apartments Bookings : $e');
       return [];
     }
+  }
+
+  //----------------------------------------------------------------------------
+
+  Future<int?> uploadApartment({required Map<String, dynamic> data, required List<File?> images,}) async {
+    try {
+      FormData formData = FormData.fromMap(data);
+
+      for (var file in images) {
+        if (file != null) {
+          formData.files.add(
+            MapEntry(
+              'images[]',
+              await MultipartFile.fromFile(
+                file.path,
+                filename: file.path.split('/').last,
+              ),
+            ),
+          );
+        }
+      }
+
+      final response = await dio.post(
+        '/properties/add',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+
+      print("Response : ${response.data}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data['id'] ?? response.data['property']['id'];
+      }
+    } catch (e) {
+      print('❌ Error Uploading: $e');
+      return null;
+    }
+    return null;
   }
 }

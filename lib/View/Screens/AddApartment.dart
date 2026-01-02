@@ -1,12 +1,16 @@
-import 'package:flutter/material.dart';
 import 'dart:ui';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:uni_project/Controller/FilterController.dart';
+import 'package:uni_project/Controller/ApartmentDetailsController.dart';
+
 import '../../Model/city_model.dart';
 import '../../Model/province_model.dart';
 
 class LuxeBackground extends StatelessWidget {
   final Widget child;
+
   const LuxeBackground({super.key, required this.child});
 
   @override
@@ -25,18 +29,15 @@ class LuxeBackground extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors:
-                Get.isDarkMode ?
-                [
-                  Color(0xff41394f).withOpacity(0.6),
-                  Color(0xff261f32).withOpacity(0.6)
-                ]
-                    :
-                [
-                   Color(0xffffffff).withOpacity(0.7),
-                  Color.fromARGB(255, 124, 75, 253).withOpacity(0.5),
-                ]
-                ,
+                colors: Get.isDarkMode
+                    ? [
+                        Color(0xff41394f).withOpacity(0.6),
+                        Color(0xff261f32).withOpacity(0.6),
+                      ]
+                    : [
+                        Color(0xffffffff).withOpacity(0.7),
+                        Color.fromARGB(255, 124, 75, 253).withOpacity(0.5),
+                      ],
               ),
             ),
           ),
@@ -46,7 +47,6 @@ class LuxeBackground extends StatelessWidget {
     );
   }
 }
-
 
 class AddApartmentScreen extends StatefulWidget {
   const AddApartmentScreen({super.key});
@@ -58,20 +58,28 @@ class AddApartmentScreen extends StatefulWidget {
 class _AddApartmentScreenState extends State<AddApartmentScreen> {
   Color DarkModeColor = Color(0xff846be7);
   Color LightModeColor = Color(0xFF2A2A2A);
-  FilterController filterController = Get.find();
-
+  ApartmentDetailsController apartmentController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("List Your Property", style: TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black, fontWeight: FontWeight.bold)),
+        title: Text(
+          "List Your Property",
+          style: TextStyle(
+            color: Get.isDarkMode ? Colors.white : Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, color: Get.isDarkMode ? Colors.white : Colors.black),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Get.isDarkMode ? Colors.white : Colors.black,
+          ),
           onPressed: () {
             Get.back();
           },
@@ -90,47 +98,72 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
               _buildGlassCard(
                 child: Column(
                   children: [
-                    SizedBox(width: 400, child: Obx(() => DropdownButton<Province>(
-                        isExpanded: true,
-                        icon: Icon(Icons.gps_fixed_outlined, color: Color(0xffcebbfd)),
-                        value: filterController.selectedProvince.value,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        hint: Text("  Province \t"),
-                        items: provinces.map((province) {
-                          return DropdownMenuItem(
-                            value: province,
-                            child:
-                            Text(province.name),
-                          );
-                        }).toList(), onChanged: (val) => filterController.updateProvince(val),
-                      )),
+                    //------------------drop downs--------------------------
+                    SizedBox(
+                      width: 400,
+                      child: Obx(
+                        () => DropdownButton<Province>(
+                          isExpanded: true,
+                          icon: Icon(
+                            Icons.gps_fixed_outlined,
+                            color: Color(0xffcebbfd),
+                          ),
+                          value: apartmentController.selectedProvince.value,
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          hint: Text("  Province \t"),
+                          items: provinces.map((province) {
+                            return DropdownMenuItem(
+                              value: province,
+                              child: Text(province.name),
+                            );
+                          }).toList(),
+                          onChanged: (val) =>
+                              apartmentController.updateProvince(val),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(width: 400, child: Obx(() => DropdownButton<City>(
-                        isExpanded: true,
-                        iconDisabledColor: Colors.grey,
-                        iconEnabledColor:
-                        Color(0xffcebbfd),
-                        icon: Icon(Icons.location_city_sharp),
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        value: filterController.selectedCity.value,
-                        hint: Text("  City \t"),
-                        items: filterController.selectedProvince.value?.cities.map((city) {
-                          return DropdownMenuItem(value: city, child: Text(city.name),);}).toList() ?? [],
-                        onChanged: (val) => filterController.updateCity(val),
-                      )),
+                    SizedBox(
+                      width: 400,
+                      child: Obx(
+                        () => DropdownButton<City>(
+                          isExpanded: true,
+                          iconDisabledColor: Colors.grey,
+                          iconEnabledColor: Color(0xffcebbfd),
+                          icon: Icon(Icons.location_city_sharp),
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          value: apartmentController.selectedCity.value,
+                          hint: Text("  City \t"),
+                          items:
+                              apartmentController.selectedProvince.value?.cities
+                                  .map((city) {
+                                    return DropdownMenuItem(
+                                      value: city,
+                                      child: Text(city.name),
+                                    );
+                                  })
+                                  .toList() ??
+                              [],
+                          onChanged: (val) =>
+                              apartmentController.updateCity(val),
+                        ),
+                      ),
                     ),
-
                   ],
                 ),
               ),
 
+              //----------------------apartment images section-------------------
               const SizedBox(height: 20),
               _buildSectionHeader("Property Gallery"),
               const SizedBox(height: 5),
               const Text(
                 "Upload at least 3 photos to showcase your luxury stay.",
-                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Sans-serif'),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: 'Sans-serif',
+                ),
               ),
               const SizedBox(height: 15),
 
@@ -138,14 +171,17 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
+                  spacing: 10,
                   children: [
-                    _buildImageUploadBox(label: "Main Photo", isMain: true),
-                    const SizedBox(width: 10),
-                    _buildImageUploadBox(label: "Living Room"),
-                    const SizedBox(width: 10),
-                    _buildImageUploadBox(label: "Bedroom"),
-                    const SizedBox(width: 10),
-                    _buildImageUploadBox(label: "Add More +"),
+                    _buildImageUploadBox(
+                      label: "Main Photo",
+                      isMain: true,
+                      i: 0,
+                    ),
+                    _buildImageUploadBox(label: "Living Room", i: 1),
+                    _buildImageUploadBox(label: "Bedroom", i: 2),
+                    _buildImageUploadBox(label: "Bathroom", i: 3),
+                    _buildImageUploadBox(label: "Add More +", i: 4),
                   ],
                 ),
               ),
@@ -160,30 +196,67 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                   children: [
                     Row(
                       children: [
-                        Expanded(child: _buildTextField(label: "Price / Night", icon: Icons.attach_money, suffix: "\$", inputType: TextInputType.number)),
+                        Expanded(
+                          child: _buildTextField(
+                            label: "Price / Night",
+                            icon: Icons.attach_money,
+                            suffix: "\$",
+                            c: apartmentController.price,
+                          ),
+                        ),
                         const SizedBox(width: 15),
-                        Expanded(child: _buildTextField(label: "Area Size", icon: Icons.square_foot, suffix: "m²", inputType: TextInputType.number)),
+                        Expanded(
+                          child: _buildTextField(
+                            label: "Area Size",
+                            icon: Icons.square_foot,
+                            suffix: "m²",
+                            c: apartmentController.area,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        Expanded(child: _buildCounterField(label: "Rooms", icon: Icons.bed_outlined)),
+                        Expanded(
+                          child: _buildTextField(
+                            label: "Rooms",
+                            icon: Icons.bed_outlined,
+                            c: apartmentController.rooms,
+                          ),
+                        ),
                         const SizedBox(width: 15),
-                        Expanded(child: _buildCounterField(label: "Bathrooms", icon: Icons.bathtub_outlined)),
+                        Expanded(
+                          child: _buildTextField(
+                            label: "Bathrooms",
+                            icon: Icons.bathtub_outlined,
+                            c: apartmentController.bathrooms,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
                     TextField(
+                      controller: apartmentController.description,
                       maxLines: 4,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: "Description",
-                        labelStyle: TextStyle(color: Get.isDarkMode ? DarkModeColor : LightModeColor),
+                        labelStyle: TextStyle(
+                          color: Get.isDarkMode
+                              ? DarkModeColor
+                              : LightModeColor,
+                        ),
                         alignLabelWithHint: true,
                         prefixIcon: Padding(
-                          padding: const EdgeInsets.only(bottom: 60), // لرفع الأيقونة للأعلى
-                          child: Icon(Icons.description_outlined, color:Get.isDarkMode ? DarkModeColor : LightModeColor),
+                          padding: const EdgeInsets.only(bottom: 60),
+                          // لرفع الأيقونة للأعلى
+                          child: Icon(
+                            Icons.description_outlined,
+                            color: Get.isDarkMode
+                                ? DarkModeColor
+                                : LightModeColor,
+                          ),
                         ),
                       ),
                     ),
@@ -193,7 +266,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
 
               const SizedBox(height: 40),
 
-              _buildGoldButton(label: "Publish Listing", onTap: () {}),
+              _buildGoldButton(label: "Publish Listing"),
 
               const SizedBox(height: 30),
             ],
@@ -203,15 +276,14 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
     );
   }
 
-  // ======================
-  // Helper Widgets
-  // ======================
+  //--------------------------- Helper Widgets-------------------------------
+
 
   Widget _buildSectionHeader(String title) {
     return Text(
       title.toUpperCase(),
       style: TextStyle(
-        color:Get.isDarkMode ? DarkModeColor : LightModeColor,
+        color: Get.isDarkMode ? DarkModeColor : LightModeColor,
         fontSize: 14,
         fontWeight: FontWeight.bold,
         letterSpacing: 1.2,
@@ -228,7 +300,9 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Get.isDarkMode ? Color(0xff261f32).withOpacity(0.8) :Colors.white.withOpacity(0.6),
+            color: Get.isDarkMode
+                ? Color(0xff261f32).withOpacity(0.8)
+                : Colors.white.withOpacity(0.6),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.white.withOpacity(0.1)),
           ),
@@ -238,67 +312,113 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
     );
   }
 
-  Widget _buildImageUploadBox({required String label, bool isMain = false}) {
+  Widget _buildImageUploadBox({required String label, bool isMain = false, required int i,}) {
     return Column(
       children: [
         Container(
           width: isMain ? 120 : 90,
           height: isMain ? 120 : 90,
           decoration: BoxDecoration(
-            color: Get.isDarkMode ? Color(0xff261f32).withOpacity(0.2) : Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(24),
+            color: Get.isDarkMode
+                ? Color(0xff261f32).withOpacity(0.2)
+                : Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(100),
             border: Border.all(
-                color: isMain ?  DarkModeColor : Colors.white.withOpacity(0.2),
-                style: BorderStyle.solid, // استخدمنا solid بدلاً من dashed
-                width: isMain ? 1.5 : 1
+              color: isMain ? DarkModeColor : Colors.white.withOpacity(0.2),
+              style: BorderStyle.solid, // استخدمنا solid بدلاً من dashed
+              width: isMain ? 1.5 : 1,
             ),
           ),
           child: Center(
-            child: Icon(
-              Icons.add_a_photo,
-              color: isMain ?  DarkModeColor : Colors.white.withOpacity(0.5),
-              size: isMain ? 30 : 20,
+            child: GestureDetector(
+              onTap: () => apartmentController.pickImage(i),
+              child: Obx(() {
+                return Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage:
+                          apartmentController.selectedImages[i] != null
+                          ? FileImage(apartmentController.selectedImages[i]!)
+                          : null,
+                      child: apartmentController.selectedImages[i] == null
+                          ? const Icon(
+                              Icons.camera_alt,
+                              size: 30,
+                              color: Colors.white,
+                            )
+                          : null,
+                    ),
+                    if (apartmentController.selectedImages[i] != null)
+                      GestureDetector(
+                        onTap: () => apartmentController.removeImage(i),
+                        child: const CircleAvatar(
+                          radius: 12,
+                          backgroundColor: Colors.red,
+                          child: Icon(
+                            Icons.close,
+                            size: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    else
+                      const CircleAvatar(
+                        radius: 12,
+                        backgroundColor: Color(0xff846be7),
+                        child: Icon(Icons.add, size: 15, color: Colors.white),
+                      ),
+                  ],
+                );
+              }),
             ),
           ),
         ),
+
         const SizedBox(height: 8),
-        Text(label, style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 15)),
+        Text(
+          label,
+          style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 15),
+        ),
       ],
     );
   }
 
-  Widget _buildTextField({
-    required String label,
-    required IconData icon,
-    String suffix = "",
-    TextInputType inputType = TextInputType.text,
-  }) {
-    return TextField(
-      keyboardType: inputType,
-      style:  TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(color:  Get.isDarkMode ? DarkModeColor : LightModeColor),
-        prefixIcon: Icon(icon, color:  Get.isDarkMode ? DarkModeColor : LightModeColor, size: 20),
-        suffixText: suffix,
-        suffixStyle: TextStyle(color:Get.isDarkMode ? DarkModeColor : LightModeColor, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  Widget _buildCounterField({required String label, required IconData icon}) {
-    return TextField(
+  Widget _buildTextField({String suffix = "", required String label, required IconData icon, required TextEditingController c,}) {
+    return TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Empty !";
+        }
+        return null;
+      },
+      controller: c,
       keyboardType: TextInputType.number,
-      style: const TextStyle(color: Colors.white),
+      textInputAction: TextInputAction.next,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Get.isDarkMode ? DarkModeColor : LightModeColor),
-        prefixIcon: Icon(icon, color:  Get.isDarkMode ? DarkModeColor : LightModeColor, size: 20),
+        labelStyle: TextStyle(
+          color: Get.isDarkMode ? DarkModeColor : LightModeColor,
+        ),
+        prefixIcon: Icon(
+          icon,
+          color: Get.isDarkMode ? DarkModeColor : LightModeColor,
+          size: 20,
+        ),
+        suffixText: suffix,
+        suffixStyle: TextStyle(
+          color: Get.isDarkMode ? DarkModeColor : LightModeColor,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
 
-  Widget _buildGoldButton({required String label, required VoidCallback onTap}) {
+  Widget _buildGoldButton({required String label}) {
     return Container(
       width: double.infinity,
       height: 55,
@@ -309,18 +429,20 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color:  DarkModeColor.withOpacity(0.3),
+            color: DarkModeColor.withOpacity(0.9),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
         ],
       ),
       child: ElevatedButton(
-        onPressed: onTap,
+        onPressed:apartmentController.uploadApartment,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
         child: Text(
           label,

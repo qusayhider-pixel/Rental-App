@@ -58,7 +58,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                               color: Colors.deepPurpleAccent,
                             )
                           : Image.network(
-                              "http://10.0.2.2:8000/${apartment.imageUrls[index]}",
+                              apartment.imageUrls[index],
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                                   Container(
@@ -224,7 +224,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                               CircleAvatar(
                                 radius: 35,
                                 backgroundImage: NetworkImage(
-                                  "http://10.0.2.2:8000/${apartment.ownerImageUrl}",
+                                  "http://10.0.2.2:8000/storage/${apartment.ownerImageUrl}",
                                 ),
                                 onBackgroundImageError: (_, _) =>
                                     const Icon(Icons.person),
@@ -694,30 +694,4 @@ class ApartmentDetailsScreen extends StatelessWidget {
     );
   }
 
-  // Date picker function
-  // Future<void> _selectDates(BuildContext context) async {
-  //   final DateTime now = DateTime.now();
-  //   final DateTimeRange? picked = await showDateRangePicker(
-  //     context: context,
-  //     firstDate: now,
-  //     lastDate: DateTime(2030),
-  //     initialDateRange: apartmentController.selectedDateRange.value,
-  //     builder: (context, child) {
-  //       return Theme(
-  //         data: Theme.of(context).copyWith(
-  //           textButtonTheme: TextButtonThemeData(
-  //             style: TextButton.styleFrom(
-  //               foregroundColor: Theme.of(context).primaryColor,
-  //             ),
-  //           ),
-  //         ),
-  //         child: child!,
-  //       );
-  //     },
-  //   );
-  //
-  //   if (picked != null) {
-  //     apartmentController.updateDateRange(picked);
-  //   }
-  // }
 }

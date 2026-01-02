@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../Model/apartment_model.dart';
 import '../Model/city_model.dart';
 import '../Model/province_model.dart';
 import '../Services/api_service.dart';
 
 class FilterController extends GetxController {
-
   final service = ApiService();
 
   // ---------------------------------------------------------------------------
@@ -37,9 +37,6 @@ class FilterController extends GetxController {
 
   var isLoading = false.obs;
 
-
-
-
   // ---------------------------------------------------------------------------
   // Lifecycle
   // ---------------------------------------------------------------------------
@@ -57,7 +54,7 @@ class FilterController extends GetxController {
   void updatePriceRange(RangeValues values) {
     /// حماية من assertion
     final double start = values.start.clamp(100, 5000);
-    final double end   = values.end.clamp(100, 5000);
+    final double end = values.end.clamp(100, 5000);
 
     if (start <= end) {
       priceRange.value = RangeValues(start, end);
@@ -71,7 +68,6 @@ class FilterController extends GetxController {
   void updateFilterExpanded(bool expanded) {
     isFilterExpanded.value = expanded;
   }
-
 
   // ---------------------------------------------------------------------------
   // Fetching Apartments
@@ -89,7 +85,6 @@ class FilterController extends GetxController {
       for (var a in allApartments) {
         print(a.imageUrls);
       }
-
     } catch (e) {
       Get.snackbar('Error', 'Failed to load');
     } finally {
@@ -116,7 +111,6 @@ class FilterController extends GetxController {
 
   void applyFilters() {
     final result = allApartments.where((apartment) {
-
       /// Province
       final matchesProvince = selectedProvince.value == null
           ? true
@@ -135,12 +129,9 @@ class FilterController extends GetxController {
       /// Price
       final matchesPrice =
           apartment.price >= priceRange.value.start &&
-              apartment.price <= priceRange.value.end;
+          apartment.price <= priceRange.value.end;
 
-      return matchesProvince &&
-          matchesCity &&
-          matchesRooms &&
-          matchesPrice;
+      return matchesProvince && matchesCity && matchesRooms && matchesPrice;
     }).toList();
 
     filteredApartments.assignAll(result);

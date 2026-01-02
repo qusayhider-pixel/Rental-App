@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 const String baseImageUrl = 'http://10.0.2.2:8000/';
 
 class Apartment {
@@ -18,9 +19,6 @@ class Apartment {
   final String ownerImageUrl;
   RxBool isFav = false.obs;
 
-
-
-
   Apartment({
     required this.id,
     required this.title,
@@ -38,26 +36,31 @@ class Apartment {
     required this.ownerImageUrl, // New
   });
 
-  static List<Apartment> listFromJson(Map<String, dynamic> json) {
-    return (json['properties'] as List).map((item) => Apartment.fromJson(item)).toList();
-  }
+  // static List<Apartment> listFromJson(Map<String, dynamic> json) {
+  //   return (json['properties'] as List).map((item) => Apartment.fromJson(item)).toList();
+  // }
 
+  //adding apartment
+
+  // getting the apartmetns
   factory Apartment.fromJson(Map<String, dynamic> json) {
     return Apartment(
-        id: json['id'],
-        title: json['title'],
-        description: json['description'],
-      imageUrls: (json['images'] as List).map((img) => '$baseImageUrl$img').toList(),
-        price: _toDouble(json['price per night']),
-        province: json['governorate'],
-        city: json['city'],
-        beds: json['rooms'],
-        baths: json['bath rooms'],
-        area: _toDouble(json['area']),
-        rate: _toDouble(json['rating']),
-        ownerName: json['owner information']['name'],
-        ownerPhone: json['owner information']['phone number'],
-        ownerImageUrl: json['owner information']['avatar'],
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      imageUrls: (json['images'] as List)
+          .map((img) => '$baseImageUrl$img')
+          .toList(),
+      price: _toDouble(json['price per night']),
+      province: json['governorate'],
+      city: json['city'],
+      beds: json['rooms'],
+      baths: json['bath rooms'],
+      area: _toDouble(json['area']),
+      rate: _toDouble(json['rating']),
+      ownerName: json['owner information']['name'],
+      ownerPhone: json['owner information']['phone number'],
+      ownerImageUrl: json['owner information']['avatar'],
     );
   }
 
@@ -67,9 +70,34 @@ class Apartment {
     if (value is String) return double.tryParse(value) ?? 0.0;
     return 0.0;
   }
-
-
 }
 
+class AddNewApartment {
+  final int id;
 
+  AddNewApartment({required this.id});
 
+  factory AddNewApartment.fromJson(Map<String, dynamic> json) {
+    return AddNewApartment(id: json['id']);
+  }
+}
+
+//the response of adding a new apartment
+// {
+// "property": {
+// "price_per_night": "1000",
+// "description": "it has a view on the sea and it's convenient",
+// "area": "100",
+// "rooms": "2",
+// "bath_rooms": "1",
+// "governorate_id": 3,
+// "city_id": 15,
+// "owner_id": 3,
+// "updated_at": "2026-01-02T19:22:02.000000Z",
+// "created_at": "2026-01-02T19:22:02.000000Z",
+// "id": 5
+// },
+// "images": [
+//   "storage/property_images/UpNQN3oXk5OThkkWNEHVkKGRVNfvk9LSj7W2euuZ.jpg"
+// ]
+// }

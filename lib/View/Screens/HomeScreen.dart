@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                     style:
                     TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  TextButton(onPressed: () {}, child: Text("See All")),
+                  TextButton(onPressed: () {filterController.fetchApartments(); filterController.resetFilters();}, child: Text("See All")),
                 ],
               ),
             ),

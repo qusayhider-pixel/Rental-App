@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../Controller/FilterController.dart';
 import '../../Model/apartment_model.dart';
 import '../Screens/ApartmentDetailsScreen.dart';
@@ -37,7 +38,7 @@ class ApartmentCard extends StatelessWidget {
             color: Color(0xbe7255e5),
             spreadRadius: 0.5,
             blurRadius: 20,
-            offset: const Offset(0,7),
+            offset: const Offset(0, 7),
           ),
         ],
       ),
@@ -52,13 +53,19 @@ class ApartmentCard extends StatelessWidget {
                 ),
                 child: SizedBox(
                   height: 200,
-                  child:Obx(()=> filterController.isLoading.value ? CircularProgressIndicator(strokeWidth: 3 , color: Colors.deepPurpleAccent,) :
-                    Image.network( "http://10.0.2.2:8000/${apartment.imageUrls[0]}"  ,
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                   )
-                  )
+                  child: Obx(
+                    () => filterController.isLoading.value
+                        ? CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.deepPurpleAccent,
+                          )
+                        : apartment.imageUrls.isEmpty ? Image.asset('assets/house icon.png'): Image.network(
+                            apartment.imageUrls[0],
+                            height: 200,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
                 ),
               ),
 
@@ -80,7 +87,9 @@ class ApartmentCard extends StatelessWidget {
                         : Colors.red,
                     iconSize: 20,
                     onPressed: () {
-                      Get.to(()=>ApartmentDetailsScreen(apartment: apartment));
+                      Get.to(
+                        () => ApartmentDetailsScreen(apartment: apartment),
+                      );
                     },
                   ),
                 ),
@@ -159,7 +168,7 @@ class ApartmentCard extends StatelessWidget {
                     children: [
                       _buildFeature(
                         Icons.bed_outlined,
-                        "${apartment.beds} Beds",
+                        "${apartment.beds} Rooms",
                       ),
                       _buildFeature(
                         Icons.bathtub_outlined,

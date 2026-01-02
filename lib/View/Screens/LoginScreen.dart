@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:uni_project/main.dart';
+
 import '../../Controller/LoginController.dart';
 import '../Components/CustomTextFeild.dart';
 import 'SignIUpScreen.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'WelcomeScreen.dart';
 
 class LoginScreen extends StatelessWidget {
-   LoginScreen({super.key});
+  LoginScreen({super.key});
 
-
-   final controller = Get.find<LoginController>();
+  final controller = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -70,127 +67,48 @@ class LoginScreen extends StatelessWidget {
 
                       //number
                       CreateTextField(
-                    
                         "Your Phone Number",
                         Icons.phone,
                         Color(0x3ae8b6ff),
-                        controller.phoneController
+                        controller.phoneController,
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 30),
-                      //   child: TextFormField(
-                      //     validator: (value) {
-                      //       if(value!.isEmpty)
-                      //         {
-                      //           return "Empty!";
-                      //         }
-                      //       return null;
-                      //     },
-                      //
-                      //     keyboardType: TextInputType.number,
-                      //     textInputAction: TextInputAction.next,
-                      //     cursorColor: kPrimaryColor,
-                      //     decoration: const InputDecoration(
-                      //       filled: true,
-                      //       fillColor: Color(0x3ae8b6ff),
-                      //       enabledBorder: OutlineInputBorder(
-                      //         borderSide: BorderSide(color: kPrimaryLightColor),
-                      //         borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //       ),
-                      //       focusedBorder: OutlineInputBorder(
-                      //         borderSide: BorderSide(color: kPrimaryColor),
-                      //         borderRadius: BorderRadius.all(Radius.circular(40))
-                      //       ),
-                      //
-                      //       hintText: "Your Phone Number",
-                      //       prefixIcon: Padding(
-                      //         padding: EdgeInsets.all(defaultPadding),
-                      //         child: Icon(Icons.person),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
 
                       //password
                       CreateTextField(
-                      
                         "Your password",
                         Icons.lock,
                         Color(0x3ae8b6ff),
-                        controller.passwordController
+                        controller.passwordController,
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      //   child: TextField(
-                      //     textInputAction: TextInputAction.done,
-                      //     obscureText: true,
-                      //     cursorColor: kPrimaryColor,
-                      //     decoration: const InputDecoration(
-                      //       filled: true,
-                      //       fillColor: Color(0x3ae8b6ff),
-                      //       enabledBorder: OutlineInputBorder(
-                      //         borderSide: BorderSide(color: kPrimaryLightColor),
-                      //         borderRadius: BorderRadius.all(Radius.circular(40)),
-                      //       ),
-                      //       focusedBorder: OutlineInputBorder(
-                      //           borderSide: BorderSide(color: kPrimaryColor),
-                      //           borderRadius: BorderRadius.all(Radius.circular(40))
-                      //       ),
-                      //       hintText: "Your password",
-                      //       prefixIcon: Padding(
-                      //         padding: EdgeInsets.all(defaultPadding),
-                      //         child: Icon(Icons.lock),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
 
                       // Login Button
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: SizedBox(
-                          width: 390,
+                          width: 350,
                           height: 50,
                           child: ElevatedButton(
-                              onPressed: () {
-                                controller.login();
-                              },
-                              child:Obx(() {
-                                return controller.isLoading.value
-                                    ? const CircularProgressIndicator(
-                                  strokeWidth: 3,) : Text("Login" ,
-                                style: TextStyle(
-                                   fontSize: 20,
-                                    fontFamily: 'Multicolore',
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2 ,
-                                ),);
-                              }
-                              )
-                            )
-
-
-
-                          // Obx(()=>ElevatedButton(
-                          //     onPressed: () {
-                          //       if (formState.currentState!.validate()) {
-                          //         print("login procceing");
-                          //         Get.off(() => MainScreen());
-                          //       }
-                          //     },
-                          //     child: Text(
-                          //       'LOGIN',
-                          //       style: TextStyle(
-                          //         fontSize: 20,
-                          //         fontFamily: 'Multicolore',
-                          //         fontWeight: FontWeight.w500,
-                          //         letterSpacing: 2,
-                          //       ),
-                          //     ),
-                            ),
+                            onPressed: () {
+                              controller.login();
+                            },
+                            child: Obx(() {
+                              return controller.isLoading.value
+                                  ? const CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                    )
+                                  : Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Multicolore',
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 2,
+                                      ),
+                                    );
+                            }),
                           ),
-
-
+                        ),
+                      ),
 
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -226,5 +144,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-
