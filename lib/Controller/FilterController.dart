@@ -1,8 +1,5 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../Model/apartment_model.dart';
 import '../Model/city_model.dart';
 import '../Model/province_model.dart';
@@ -40,7 +37,6 @@ class FilterController extends GetxController {
   // ---------------------------------------------------------------------------
   // Lifecycle
   // ---------------------------------------------------------------------------
-
   @override
   void onInit() {
     super.onInit();
@@ -50,7 +46,6 @@ class FilterController extends GetxController {
   // ---------------------------------------------------------------------------
   // UI Updates
   // ---------------------------------------------------------------------------
-
   void updatePriceRange(RangeValues values) {
     /// حماية من assertion
     final double start = values.start.clamp(100, 5000);
@@ -95,7 +90,6 @@ class FilterController extends GetxController {
   // ---------------------------------------------------------------------------
   // Location Selection
   // ---------------------------------------------------------------------------
-
   void updateProvince(Province? province) {
     selectedProvince.value = province;
     selectedCity.value = null; // Reset city selection
@@ -108,7 +102,6 @@ class FilterController extends GetxController {
   // ---------------------------------------------------------------------------
   // Apply Filters
   // ---------------------------------------------------------------------------
-
   void applyFilters() {
     final result = allApartments.where((apartment) {
       /// Province
@@ -141,7 +134,6 @@ class FilterController extends GetxController {
   // ---------------------------------------------------------------------------
   // Reset Filters
   // ---------------------------------------------------------------------------
-
   void resetFilters() {
     print('🔄 Reset filters');
     // Location

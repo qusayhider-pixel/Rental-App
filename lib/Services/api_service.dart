@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Model/booking_model.dart';
-
+import '../Model/Reservation_model.dart';
 import '../Model/apartment_model.dart';
 import '../Model/province_model.dart';
 
@@ -28,14 +27,7 @@ class ApiService {
   }
 
   //-----------------------------------------------------------------------------
-  Future<Response> signUp({
-    required String firstName,
-    required String lastName,
-    required String dateOfBirth,
-    required String phone,
-    required String password,
-    File? avatar,
-  }) async {
+  Future<Response> signUp({required String firstName, required String lastName, required String dateOfBirth, required String phone, required String password, File? avatar,}) async {
     FormData formData = FormData.fromMap({
       "first_name": firstName,
       "last_name": lastName,
@@ -121,7 +113,6 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-
   Future<int?> uploadApartment({required Map<String, dynamic> data, required List<File?> images,}) async {
     try {
       FormData formData = FormData.fromMap(data);
@@ -161,5 +152,42 @@ class ApiService {
       return null;
     }
     return null;
+  }
+
+  //----------------------------------------------------------------------------
+  Future<List<Reservation>> fetchReservationRequests() async {
+    try
+        {
+          final response = await dio.get('/owner/Dashboard' ,
+            options: Options(headers: {'Authorization': 'Bearer $token'}),
+          );
+          final List reservationJson = response.data['data'];
+
+          return reservationJson.map((json) => Reservation.fromJson(json)).toList();
+        }
+
+    catch(e)
+    {
+      print(e.toString());
+      return[];
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<void> updateReservatoinRequestStatus (String status , int requestID )async{
+    try{
+      final response = await dio.put('/owner/updateRequestStatus/$requestID',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        data: {'bookings_status_check': status},
+      );
+      // return ReservationStatus.fromJson(response.data) ;
+    }
+    catch(e)
+    {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl} + '/owner/updateRequestStatus/$requestID'");
+      print('❌ Error booking : $e');
+      rethrow;
+    }
   }
 }

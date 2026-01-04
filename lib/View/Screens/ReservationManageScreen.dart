@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uni_project/Controller/ReservationController.dart';
 
-import '../../Controller/ReservationManagementController.dart';
 
 class ReservationManagementScreen extends StatelessWidget {
   ReservationManagementScreen({super.key});
 
-  final ReservationManagementController controller =
-  Get.put(ReservationManagementController());
+  final ReservationController controller = Get.find();
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(title: const Text(" Reservation Management"),),
       body: Obx(() {
-        if (controller.requests.isEmpty) {
-          return const Center(child: Text("No pending requests"));
-        }
 
-        return ListView.builder(
+
+
+        return controller.isLoading.value ? Center(child: const CircularProgressIndicator(strokeWidth: 3,)) :
+        controller.reservationRequest.isEmpty ?
+        Center(child: Text("No pending Reservations Requests")) :
+        ListView.builder(
           padding: const EdgeInsets.all(16),
-          itemCount: controller.requests.length,
+          itemCount: controller.reservationRequest.length,
           itemBuilder: (context, index) {
-            final req = controller.requests[index];
+            final req = controller.reservationRequest[index];
+            Color shadowColor = req.bookingStatusCheck =='completed' ? Colors.green :
+                req.bookingStatusCheck=='canceled' ? Colors.red : 
+                    Colors.blueGrey ;
 
             return Container(
-              margin: const EdgeInsets.only(bottom: 20),
+              margin: const EdgeInsets.only(bottom: 40),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 gradient: Get.isDarkMode
@@ -34,14 +40,23 @@ class ReservationManagementScreen extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
-                    : const LinearGradient(
+                    : LinearGradient(
                   colors: [
-                    Color(0xff846be7),
-                    Color(0xbbd3d5e7)
+                    const Color(0xffffffff),
+                    const Color(0xffd3d5e7),
+                    const Color(0xffb2a2f1),
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    spreadRadius: 0.1,
+                    blurRadius: 18,
+                    offset: const Offset(0, 7),
+                  ),
+                ],
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -53,37 +68,42 @@ class ReservationManagementScreen extends StatelessWidget {
                     /////////////=>Top Sections
                     Row(
                       children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage(req.renterImage),
-                          backgroundColor: Colors.grey[200],
-                          onBackgroundImageError: (_,_) {},
-                          child: const Icon(Icons.person,
-                              color: Colors.grey),
+                        Container(
+                          decoration: BoxDecoration(
+
+                          ),
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage("http://10.0.2.2:8000/storage/${req.tenantAvatar}"),
+                            backgroundColor: Colors.grey[200],
+                            onBackgroundImageError: (_,_) {},
+                            child:  Icon(Icons.person,
+                                color: Colors.grey),
+                          ),
                         ),
                         const SizedBox(width: 15),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              req.renterName,
-                              style: const TextStyle(
+                              req.tenantName,
+                              style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Multicolore',
-                                color: Colors.white,
+                                color: Get.isDarkMode ?  Colors.white : Colors.black54,
                               ),
                             ),
                             Row(
                               children: [
-                                const Icon(Icons.phone,
-                                    size: 16, color: Colors.white),
+                                 Icon(Icons.phone,
+                                    size: 16, color : Get.isDarkMode ?  Colors.white : Colors.black54),
                                 const SizedBox(width: 5),
                                 Text(
-                                  req.phoneNumber,
-                                  style: const TextStyle(
+                                  "+${req.tenantPhone}",
+                                  style: TextStyle(
                                       fontSize: 14,
-                                      color: Colors.white70,
+                                      color: Get.isDarkMode ?  Colors.white : Colors.black54,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ],
@@ -91,31 +111,28 @@ class ReservationManagementScreen extends StatelessWidget {
                           ],
                         ),
                         const Spacer(),
-                        _buildStatusBadge(req.status),
+                        _buildStatusBadge(req.bookingStatusCheck),
                       ],
                     ),
 
                     const Divider(height: 30),
 
                     /////////////=> Body Section
-                    _buildInfoRow(Icons.home, "Apartment",
-                        req.apartmentName),
+                    _buildInfoRow( icon: Icons.home, label: "Apartment", value: req.propertyDescription),
                     const SizedBox(height: 8),
-                    _buildInfoRow(
-                        Icons.date_range, "Duration", req.duration),
+                    _buildInfoRow(icon: Icons.date_range, label: "Duration",value: "(${req.startDate} -> ${req.endDate}) ${req.numberOfDays+1} Days"),
                     const SizedBox(height: 8),
-                    _buildInfoRow(Icons.attach_money, "Total Price",
-                        "\$${req.totalPrice}"),
+                    _buildInfoRow(  icon: Icons.attach_money,label:  "Total Price", value:  "\$${req.bookingPrice}"),
 
                     const SizedBox(height: 20),
 
                     // Accept & Reject
-                    if (req.status == 'Pending')
+                    if (req.bookingStatusCheck == 'pending')
                       Row(
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                              onPressed: () => controller.updateStatus(req.id, 'Rejected'),
+                              onPressed: () => controller.updateStatus(req.id, 'canceled'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                                 foregroundColor: Colors.white,
@@ -128,8 +145,7 @@ class ReservationManagementScreen extends StatelessWidget {
                           const SizedBox(width: 15),
                           Expanded(
                             child: ElevatedButton(
-                              onPressed: () => controller.updateStatus(
-                                  req.id, 'Approved'),
+                              onPressed: () => controller.updateStatus(req.id, 'completed'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                                 foregroundColor: Colors.white,
@@ -148,18 +164,18 @@ class ReservationManagementScreen extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: req.status == 'Approved'
+                          color: req.bookingStatusCheck == 'completed'
                               ? Colors.green[50]
                               : Colors.red[50],
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: Text(
-                          req.status == 'Approved'
+                          req.bookingStatusCheck == 'completed'
                               ? "You approved this request."
                               : "You rejected this request.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: req.status == 'Approved'
+                            color: req.bookingStatusCheck == 'completed'
                                 ? Colors.green
                                 : Colors.red,
                             fontWeight: FontWeight.bold,
@@ -176,8 +192,7 @@ class ReservationManagementScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(
-      IconData icon, String label, String value) {
+  Widget _buildInfoRow({required IconData icon, required String label,required String value}) {
     return Row(
       children: [
         Icon(icon,
@@ -197,8 +212,10 @@ class ReservationManagementScreen extends StatelessWidget {
           child: Text(
             value,
             style: TextStyle(
+              fontSize:  label=="Total Price" ? 20 : 13 ,
               fontWeight: FontWeight.bold,
-              color: Get.isDarkMode
+              color: label=="Total Price" ? Color(0xFF4CAE50) :
+              Get.isDarkMode
                   ? Colors.white70
                   : Colors.black54,
             ),
@@ -211,10 +228,10 @@ class ReservationManagementScreen extends StatelessWidget {
   Widget _buildStatusBadge(String status) {
     Color color;
     switch (status) {
-      case 'Approved':
+      case 'completed':
         color = Colors.green;
         break;
-      case 'Rejected':
+      case 'canceled':
         color = Colors.red;
         break;
       default:
@@ -240,25 +257,4 @@ class ReservationManagementScreen extends StatelessWidget {
   }
 }
 
-class BookingRequest {
-  final String id;
-  final String renterName;
-  final String renterImage;
-  final String phoneNumber;
-  final String apartmentName;
-  final String duration;
-  final double totalPrice;
-  String status; // Pending, Approved, Rejected
-
-  BookingRequest({
-    required this.id,
-    required this.renterName,
-    required this.renterImage,
-    required this.phoneNumber,
-    required this.apartmentName,
-    required this.duration,
-    required this.totalPrice,
-    this.status = 'Pending',
-  });
-}
 

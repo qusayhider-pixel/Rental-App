@@ -33,7 +33,7 @@ class LoginController extends GetxController {
       // ignore: avoid_print
       print("Raw Data from Server: ${response.data}");
 
-      final loginData = LoginResponse.fromJson(response.data );
+      final loginData = LoginResponse.fromJson(response.data);
       ///saving the token
       authController.setUser(loginData) ;
       final box = GetStorage();
@@ -41,6 +41,7 @@ class LoginController extends GetxController {
 
 
       Get.offAll(() => HomeScreen());
+
       Get.snackbar("LUXESTAY", "Login Success" ,  backgroundColor: const Color.fromARGB(
           132, 9, 245, 1),
         borderRadius: 30,

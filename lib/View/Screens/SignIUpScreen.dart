@@ -76,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
                             spacing: 8,
                             children: [
                               SizedBox(
-                                width: 290,
+                                width: 270,
                                 child: CreateTextField(
                                   "First Name",
                                   Icons.person,
@@ -85,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                width: 290,
+                                width: 270,
                                 child: CreateTextField(
                                   "Last Name",
                                   Icons.person,

@@ -254,7 +254,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(width: 5),
                                         Text(
-                                          apartment.ownerPhone,
+                                          "+${apartment.ownerPhone}",
                                           // style: const TextStyle(color: Colors.grey),
                                         ),
                                       ],

@@ -14,12 +14,12 @@ class ApartmentDetailsController extends GetxController {
   final service = ApiService();
 
   int? requestId;
-  //----------- gettings apartments's variables-------------------------
+  //----------- getting apartments's variables-----------
   var favApartments = <Apartment>[].obs;
   var selectedDateRange = Rxn<DateTimeRange>();
   final bookings = <BookingRange>[].obs;
 
-  //--------------adding apartments's variables-----------
+  //--------------adding apartments's variables----------
   final price = TextEditingController();
   final area = TextEditingController();
   final rooms = TextEditingController();
@@ -29,6 +29,7 @@ class ApartmentDetailsController extends GetxController {
   var selectedCity = Rxn<City>();
   var selectedImages = RxList<File?>(List.generate(5, (_) => null));
 
+  //-----------------------functions---------------------
   int nights() {
     return selectedDateRange.value?.duration.inDays ?? 0;
   }
