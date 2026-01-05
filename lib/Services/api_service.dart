@@ -231,8 +231,7 @@ class ApiService {
   //----------------------------------------------------------------------------
   Future<void> cancelingABooking(int id) async {
     try {
-      final response = await dio.put(
-        '/cancelBooking/$id',
+      await dio.post('/cancelBooking/$id',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
     } catch (e) {

@@ -62,6 +62,7 @@ class MyReservations {
   String startDate;
   String endDate;
   String bookingStatusCheck;
+  RxBool isCanceled = false.obs;
 
   MyReservations({
     required this.id,

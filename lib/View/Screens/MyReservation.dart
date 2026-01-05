@@ -188,32 +188,85 @@ class MyReservationsScreen extends StatelessWidget {
                             const SizedBox(height: 20),
 
                             //////////////// => Edit & Delete
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton.icon(
-                                  onPressed: () =>
-                                      showBookingCalendar(
-                                          booking.id, controller, booking),
-                                  icon: const Icon(
-                                      Icons.edit_calendar, size: 18),
-                                  label: const Text("Edit Dates"),
-                                ),
+                            if(booking.bookingStatusCheck == 'pending')
+                              if (booking.isCanceled.value == false)
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton.icon(
+                                      onPressed: () =>
+                                          showBookingCalendar(
+                                              booking.id, controller, booking),
+                                      icon: const Icon(
+                                          Icons.edit_calendar, size: 18),
+                                      label: const Text("Edit Dates"),
+                                    ),
 
-                                OutlinedButton.icon(
-                                  onPressed: () =>
-                                      controller.deleteBooking(booking.id),
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: Colors.red,
-                                    side: const BorderSide(color: Colors.red),
-                                  ),
-                                  icon: const Icon(Icons.cancel_outlined,
-                                      size: 18),
-                                  label: const Text("Cancel Booking"),
+                                    OutlinedButton.icon(
+                                      onPressed: () =>
+                                          controller.updateStatus(booking),
+                                      style: OutlinedButton.styleFrom(
+                                        foregroundColor: Colors.red,
+                                        side: const BorderSide(
+                                            color: Colors.red),
+                                      ),
+                                      icon: const Icon(Icons.cancel_outlined,
+                                          size: 18),
+                                      label: const Text("Cancel Booking"),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                            // else                                               //Note: you need to store the [isCanceled] in api
+                            //   Container(
+                            //     width: double.infinity,
+                            //     padding: const EdgeInsets.all(10),
+                            //     decoration: BoxDecoration(
+                            //       color: Colors.red,
+                            //       borderRadius: BorderRadius.circular(24),
+                            //     ),
+                            //     child: Text("You Have Canceled this Booking!",
+                            //       textAlign: TextAlign.center,
+                            //       style: TextStyle(
+                            //         color: Colors.white,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // if(booking.bookingStatusCheck == 'canceled')
+                            //   if(booking.isCanceled.value == true)
+                            //     Container(
+                            //       width: double.infinity,
+                            //       padding: const EdgeInsets.all(10),
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.red,
+                            //         borderRadius: BorderRadius.circular(24),
+                            //       ),
+                            //       child: Text("You Have Canceled this Booking!",
+                            //         textAlign: TextAlign.center,
+                            //         style: TextStyle(
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //     )
+                            //   else
+                            //     Container(
+                            //       width: double.infinity,
+                            //       padding: const EdgeInsets.all(10),
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.red,
+                            //         borderRadius: BorderRadius.circular(24),
+                            //       ),
+                            //       child: Text(
+                            //         "The Owner Rejected this Booking!",
+                            //         textAlign: TextAlign.center,
+                            //         style: TextStyle(
+                            //           color: Colors.white,
+                            //           fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //     ),
                           ],
                         ),
                       ),

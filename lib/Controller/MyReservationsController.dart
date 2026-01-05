@@ -66,11 +66,12 @@ class MyReservationsController extends GetxController {
     }
   }
 
-  void deleteBooking(int id) {
-    myReservation.removeWhere((element) => element.id == id);
-    service.cancelingABooking(id);
-    Get.snackbar('Success', 'Reservation Cancelled Successfully');
-  }
+  // void deleteBooking(MyReservations booking) {
+  //   // myReservation.removeWhere((element) => element.id == id);
+  //   booking.isCanceled(true);
+  //   service.cancelingABooking(booking.id);
+  //   Get.snackbar('Success', 'Reservation Cancelled Successfully');
+  // }
 
   void editDates(int bookingId) async {
     isLoading(true);
@@ -134,6 +135,46 @@ class MyReservationsController extends GetxController {
   }
 
 //----------------------------------------------------------------------------
+
+  Future<void> updateStatus(MyReservations booking) async {
+    final index = myReservation.indexWhere((element) =>
+    element.id == booking.id);
+    if (index != -1) {
+      if (booking.isCanceled.value == false) {
+        await Get.defaultDialog(
+          title: "Warning!",
+
+          middleText: "You're Canceling this Booking !",
+          textConfirm: "CONFIRM",
+          textCancel: "Cancel",
+          backgroundColor: Color.fromARGB(132, 255, 0, 0),
+          confirmTextColor: Color.fromARGB(255, 124, 0, 0),
+          onConfirm: () {
+            booking.isCanceled.value = true;
+            Get.back();
+          },
+          radius: 24,
+        );
+      }
+      if (booking.isCanceled.value) {
+        myReservation[index].isCanceled(true);
+        await service.cancelingABooking(booking.id);
+        myReservation.refresh();
+
+        Get.snackbar(
+          ' Status : ',
+          ' Booking Canceled Successfully',
+          backgroundColor: Color.fromARGB(171, 76, 174, 80),
+          duration: const Duration(milliseconds: 1500),
+          borderRadius: 36,
+          maxWidth: 300,
+          margin: const EdgeInsets.all(10),
+          icon: Icon(Icons.cancel_schedule_send_outlined, size: 30,
+          ),
+        );
+      }
+    }
+  }
 
 
 }
