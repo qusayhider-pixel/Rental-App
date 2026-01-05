@@ -1,9 +1,7 @@
 
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:uni_project/View/Components/BirthdayPicker.dart';
 import 'package:uni_project/View/Screens/LoginScreen.dart';
 import '../../Controller/SignUpController.dart';

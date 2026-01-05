@@ -36,6 +36,8 @@ class Favouritescreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemCount: controller.favApartments.length,
               itemBuilder: (context, index) {
+                return null;
+              
 
               },
           ),

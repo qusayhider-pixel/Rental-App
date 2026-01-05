@@ -76,12 +76,12 @@ class ApiService {
   }
 
   //---------------------------------------------------------------------------
-  Future<Booking> booking(String start_date, String end_date, int id) async {
+  Future<Booking> booking(String startDate, String endDate, int id) async {
     try {
       final response = await dio.post(
         '/book/$id',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
-        data: {"start_date": start_date, "end_date": end_date},
+        data: {"start_date": startDate, "end_date": endDate},
       );
 
       return Booking.fromJson(response.data['booking']);
