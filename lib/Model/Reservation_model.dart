@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class Reservation {
   final int id ;
   String bookingStatusCheck;
@@ -38,7 +40,6 @@ class Reservation {
   }
 }
 
-
 class ReservationStatus{
   final String message ;
 
@@ -48,6 +49,51 @@ class ReservationStatus{
     return  json['message']  ;
   }
 }
+
+class MyReservations {
+  final int id;
+  final int numberOfDays;
+  final String ownerName;
+  final String ownerPhoto;
+  final String ownerPhone;
+  final String propertyTitle;
+  final String location;
+  final String bookingPrice;
+  String startDate;
+  String endDate;
+  String bookingStatusCheck;
+
+  MyReservations({
+    required this.id,
+    required this.ownerName,
+    required this.ownerPhoto,
+    required this.ownerPhone,
+    required this.propertyTitle,
+    required this.location,
+    required this.startDate,
+    required this.endDate,
+    required this.numberOfDays,
+    required this.bookingPrice,
+    required this.bookingStatusCheck
+  });
+
+  factory MyReservations.fromJson(Map<String, dynamic> json) {
+    return MyReservations(
+      id: json['Booking_ID'],
+      ownerName: json['Owner Name'],
+      ownerPhoto: json['Owner Photo'],
+      ownerPhone: json['Owner Phone'],
+      location: 'Location',
+      bookingPrice: json['booking_price'],
+      numberOfDays: json['number_of_days'],
+      startDate: json['start_date'],
+      endDate: json['end_date'],
+      propertyTitle: json['Property_Title'],
+      bookingStatusCheck: json['bookings_status_check'],
+    );
+  }
+}
+
 
 // {
   // "data": [
@@ -85,4 +131,24 @@ class ReservationStatus{
   // "bookings_status_check": "completed"
   // }
   // ]
+// }
+
+
+// {
+// "data": [
+// {
+// "Owner Name": "Ahmad",
+// "Owner Photo": "storage/avatars/Nz7PgGplDq3c1N1KtwzflYhkSTmqBnAHHceBDBf7.jpg",
+// "Owner Phone": "0950000181",
+// "Property_Description": "it has a beautiful view with big swimming pool",
+// "Property_Rooms": 4,
+// "Property_Area": "150.00",
+// "Location": "Rif Dimashq/Zabadani",
+// "start_date": "2026-01-04",
+// "end_date": "2026-01-10",
+// "number_of_days": 6,
+// "booking_price": "4900.00",
+// "bookings_status_check": "completed"
+// }
+// ]
 // }

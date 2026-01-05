@@ -16,9 +16,8 @@ class ReservationManagementScreen extends StatelessWidget {
       appBar: AppBar(title: const Text(" Reservation Management"),),
       body: Obx(() {
 
-
-
-        return controller.isLoading.value ? Center(child: const CircularProgressIndicator(strokeWidth: 3,)) :
+        return controller.isLoading.value ?
+        Center(child: const CircularProgressIndicator(strokeWidth: 3,)) :
         controller.reservationRequest.isEmpty ?
         Center(child: Text("No pending Reservations Requests")) :
         ListView.builder(
@@ -51,7 +50,7 @@ class ReservationManagementScreen extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: shadowColor,
+                    color: shadowColor.withOpacity(0.5),
                     spreadRadius: 0.1,
                     blurRadius: 18,
                     offset: const Offset(0, 7),
@@ -76,9 +75,8 @@ class ReservationManagementScreen extends StatelessWidget {
                             radius: 30,
                             backgroundImage: NetworkImage("http://10.0.2.2:8000/storage/${req.tenantAvatar}"),
                             backgroundColor: Colors.grey[200],
-                            onBackgroundImageError: (_,_) {},
-                            child:  Icon(Icons.person,
-                                color: Colors.grey),
+                            onBackgroundImageError: (_,_) =>
+                            Icon(Icons.person, color: Colors.grey),
                           ),
                         ),
                         const SizedBox(width: 15),
@@ -120,7 +118,7 @@ class ReservationManagementScreen extends StatelessWidget {
                     /////////////=> Body Section
                     _buildInfoRow( icon: Icons.home, label: "Apartment", value: req.propertyDescription),
                     const SizedBox(height: 8),
-                    _buildInfoRow(icon: Icons.date_range, label: "Duration",value: "(${req.startDate} -> ${req.endDate}) ${req.numberOfDays+1} Days"),
+                    _buildInfoRow(icon: Icons.date_range, label: "Duration",value: "( ${req.startDate} -> ${req.endDate} ) ${req.numberOfDays+1} Days"),
                     const SizedBox(height: 8),
                     _buildInfoRow(  icon: Icons.attach_money,label:  "Total Price", value:  "\$${req.bookingPrice}"),
 

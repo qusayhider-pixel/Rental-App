@@ -34,10 +34,6 @@ class ApartmentDetailsController extends GetxController {
     return selectedDateRange.value?.duration.inDays ?? 0;
   }
 
-  void updateDateRange(DateTimeRange range) {
-    selectedDateRange.value = range;
-  }
-
   void addToFav(Apartment apartment) async {
     if (apartment.isFav.value == true) {
       await Get.defaultDialog(
@@ -87,12 +83,11 @@ class ApartmentDetailsController extends GetxController {
 
       bookings.value = response;
 
-
       Get.find<BookingController>().setBookedRanges(bookings);
     } catch (e) {
       e.toString();
     }
-  }
+  } //the functions returns all the ranges that the apartment has been booked at
 
   void uploadApartment() async {
     print("desc: ${description.text}");

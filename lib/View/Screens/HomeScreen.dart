@@ -112,9 +112,9 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildFilterSection(FilterController filterController, BuildContext context) {
     return Obx(() => Container(
-      margin:
-      const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
         gradient: Get.isDarkMode
             ? LinearGradient(
           colors: [Color(0xff41394f), Color(0xff261f32)],
@@ -130,7 +130,6 @@ class HomeScreen extends StatelessWidget {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
-        borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
             blurStyle: BlurStyle.normal,
@@ -145,7 +144,7 @@ class HomeScreen extends StatelessWidget {
         data:
         Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
+          // borderRadius: BorderRadius.circular(24),
           child: ExpansionTile(
             initiallyExpanded:
             filterController.isFilterExpanded.value,

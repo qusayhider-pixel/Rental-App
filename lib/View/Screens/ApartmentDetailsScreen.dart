@@ -272,7 +272,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   ),
                                   child: const Icon(
                                     size: 30,
-                                    Icons.phone,
+                                    Icons.message_outlined,
                                     color: Colors.deepPurpleAccent,
                                   ),
                                 ),

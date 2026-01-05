@@ -103,9 +103,9 @@ class ApiService {
 
       final List ApartmentBookingsJson = response.data['data'];
 
-      return ApartmentBookingsJson.map(
-        (json) => BookingRange.fromJson(json),
-      ).toList();
+      return ApartmentBookingsJson
+          .map((json) => BookingRange.fromJson(json),)
+          .toList();
     } catch (e) {
       print('❌ Error fetching Apartments Bookings : $e');
       return [];
@@ -185,8 +185,60 @@ class ApiService {
     catch(e)
     {
       e.toString();
-      print("the bath is  ${dio.options.baseUrl} + '/owner/updateRequestStatus/$requestID'");
+      print("the bath is  ${dio.options
+          .baseUrl}'/owner/updateRequestStatus/$requestID'");
       print('❌ Error booking : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<List<MyReservations>> fetchingMyReservations() async {
+    try {
+      final response = await dio.get('/getTenantBookings',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      final List myReservations = response.data['data'];
+
+      return myReservations
+          .map((json) => MyReservations.fromJson(json))
+          .toList();
+    }
+    catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/getTenantBookings");
+      print('❌ Error booking : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<void> editngBookingDates(String start_date, String end_date,
+      int id) async {
+    try {
+      await dio.put('/editBooking/$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        data: {"start_date": start_date, "end_date": end_date},
+      );
+    } catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/editBooking/$id'");
+      print('❌ Error edit booking\'s Dates : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<void> cancelingABooking(int id) async {
+    try {
+      final response = await dio.put(
+        '/cancelBooking/$id',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+    } catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/cancelBooking/$id'");
+      print('❌ Error canceling booking : $e');
       rethrow;
     }
   }

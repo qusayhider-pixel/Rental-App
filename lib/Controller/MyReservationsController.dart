@@ -1,41 +1,139 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../View/Screens/MyReservation.dart';
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:uni_project/Model/Reservation_model.dart';
+import 'package:uni_project/Model/booking_model.dart';
+import 'package:uni_project/Services/api_service.dart';
+
+import 'BookingController.dart';
 
 class MyReservationsController extends GetxController {
-  // Observable list
-  var myBookings = <UserBooking>[
-    UserBooking(
-      id: '101',
-      aptName: 'Cozy Mountain Cabin',
-      ownerName: 'John Doe',
-      ownerPhone: '+1 555 0123',
-      startDate: '2023-11-01',
-      endDate: '2023-11-05',
-      totalPrice: 600.0,
-      rating: 4,
-    ),
-    UserBooking(
-      id: '102',
-      aptName: 'Seaside Villa',
-      ownerName: 'Maria Garcia',
-      ownerPhone: '+1 555 9876',
-      startDate: '2023-12-20',
-      endDate: '2023-12-25',
-      totalPrice: 1500.0,
-      rating: 0,
-    ),
-  ].obs;
+  ApiService service = ApiService();
+  var myReservation = <MyReservations>[].obs;
+  final otherBookings = <BookingRange>[].obs;
+  var selectedRange = Rxn<DateTimeRange>();
+  final disabledDays = <DateTime>{}.obs;
+  var isLoading = false.obs;
 
-  void deleteBooking(String id) {
-    myBookings.removeWhere((element) => element.id == id);
+
+  // var myBookings = <UserBooking>[
+  //   UserBooking(
+  //     id: '101',
+  //     aptName: 'Cozy Mountain Cabin',
+  //     ownerName: 'John Doe',
+  //     ownerPhone: '+1 555 0123',
+  //     startDate: '2023-11-01',
+  //     endDate: '2023-11-05',
+  //     totalPrice: 600.0,
+  //     rating: 4,
+  //   ),
+  //   UserBooking(
+  //     id: '102',
+  //     aptName: 'Seaside Villa',
+  //     ownerName: 'Maria Garcia',
+  //     ownerPhone: '+1 555 9876',
+  //     startDate: '2023-12-20',
+  //     endDate: '2023-12-25',
+  //     totalPrice: 1500.0,
+  //     rating: 0,
+  //   ),
+  // ].obs;
+  @override
+  void onInit() {
+    super.onInit();
+    fetchingMyReservations();
+  }
+
+  void fetchingMyReservations() async {
+    try {
+      isLoading(true);
+      myReservation.value = await service.fetchingMyReservations();
+      print(myReservation.isEmpty);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void rateBooking(int id, int stars) {
+    final index = myReservation.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      // myReservation[index].rating = stars;
+      myReservation.refresh(); // important for Obx
+    }
+  }
+
+  void deleteBooking(int id) {
+    myReservation.removeWhere((element) => element.id == id);
+    service.cancelingABooking(id);
     Get.snackbar('Success', 'Reservation Cancelled Successfully');
   }
 
-  void rateBooking(String id, int stars) {
-    final index = myBookings.indexWhere((element) => element.id == id);
-    if (index != -1) {
-      myBookings[index].rating = stars;
-      myBookings.refresh(); // important for Obx
+  void editDates(int bookingId) async {
+    isLoading(true);
+    try {
+      await service.editngBookingDates(
+        DateFormat('yyyy-MM-dd',).format(selectedRange.value!.start),
+        DateFormat('yyyy-MM-dd',).format(selectedRange.value!.end),
+        bookingId,
+      );
+
+      print("Editing the Ranges: ${selectedRange.value!
+          .start} => ${selectedRange.value!.end}");
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.data != null &&
+            e.response?.data['message'] != null) {} else {
+          Get.snackbar("Message", '${e.response?.data}');
+          print("❌ Server Response: ${e.response?.data}");
+        }
+      }
+      // Get.snackbar("Error", " booking is already bending ", backgroundColor: Colors.red,);
+    } finally {
+      isLoading.value = false;
     }
   }
+
+  //----------------------------------------------------------------------------
+
+  Future<void> fetchOtherBookings(int reservationId) async {
+    try {
+      final response = await service.fetchApartmentBookings(reservationId);
+      otherBookings.value = response;
+      Get.find<BookingController>().setBookedRanges(otherBookings);
+    } catch (e) {
+      e.toString();
+    }
+  } //for editing the dates + showing all the available ranges
+
+  void setBookedRanges(List<BookingRange> ranges) {
+    final Set<DateTime> days = {};
+
+    for (final range in ranges) {
+      for (int i = 0; i <= range.end
+          .difference(range.start)
+          .inDays; i++) {
+        days.add(
+          DateTime(range.start.year, range.start.month, range.start.day + i),
+        );
+      }
+    }
+    disabledDays.assignAll(days);
+    print(disabledDays);
+  }
+
+  bool isDisabled(DateTime day) {
+    return disabledDays.any((d) => isSameDay(d, day));
+  }
+
+  void updateRange(DateTimeRange range) {
+    selectedRange.value = range;
+  }
+
+//----------------------------------------------------------------------------
+
+
 }

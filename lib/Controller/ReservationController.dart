@@ -28,8 +28,6 @@ class ReservationController extends GetxController{
     }
   }
 
-
-
   Future<void> updateStatus(int id, String newStatus) async {
     final index = reservationRequest.indexWhere((element) => element.id == id);
     if (index != -1) {
