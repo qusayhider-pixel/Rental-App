@@ -29,8 +29,8 @@ class ApartmentCard extends StatelessWidget {
                   Color.fromARGB(245, 255, 255, 255),
                   const Color(0xffc2b6f6),
                 ],
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
               ),
         borderRadius: BorderRadius.circular(40),
         boxShadow: [
@@ -59,7 +59,9 @@ class ApartmentCard extends StatelessWidget {
                             strokeWidth: 3,
                             color: Colors.deepPurpleAccent,
                           )
-                        : apartment.imageUrls.isEmpty ? Image.asset('assets/house icon.png'): Image.network(
+                        : apartment.imageUrls.isEmpty
+                        ? Image.asset('assets/house icon.png')
+                        : Image.network(
                             apartment.imageUrls[0],
                             height: 200,
                             width: double.infinity,

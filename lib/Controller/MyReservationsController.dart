@@ -17,7 +17,6 @@ class MyReservationsController extends GetxController {
   final disabledDays = <DateTime>{}.obs;
   var isLoading = false.obs;
 
-
   // var myBookings = <UserBooking>[
   //   UserBooking(
   //     id: '101',
@@ -77,17 +76,18 @@ class MyReservationsController extends GetxController {
     isLoading(true);
     try {
       await service.editngBookingDates(
-        DateFormat('yyyy-MM-dd',).format(selectedRange.value!.start),
-        DateFormat('yyyy-MM-dd',).format(selectedRange.value!.end),
+        DateFormat('yyyy-MM-dd').format(selectedRange.value!.start),
+        DateFormat('yyyy-MM-dd').format(selectedRange.value!.end),
         bookingId,
       );
 
-      print("Editing the Ranges: ${selectedRange.value!
-          .start} => ${selectedRange.value!.end}");
+      print(
+        "Editing the Ranges: ${selectedRange.value!.start} => ${selectedRange.value!.end}",
+      );
     } catch (e) {
       if (e is DioException) {
-        if (e.response?.data != null &&
-            e.response?.data['message'] != null) {} else {
+        if (e.response?.data != null && e.response?.data['message'] != null) {
+        } else {
           Get.snackbar("Message", '${e.response?.data}');
           print("❌ Server Response: ${e.response?.data}");
         }
@@ -100,11 +100,20 @@ class MyReservationsController extends GetxController {
 
   //----------------------------------------------------------------------------
 
-  Future<void> fetchOtherBookings(int reservationId) async {
+  Future<void> fetchOtherBookings(int apartmentId) async {
     try {
-      final response = await service.fetchApartmentBookings(reservationId);
+      final response = await service.fetchApartmentBookings(apartmentId);
       otherBookings.value = response;
-      Get.find<BookingController>().setBookedRanges(otherBookings);
+      final Set<DateTime> days = {};
+      for (final range in otherBookings) {
+        for (int i = 0; i <= range.end.difference(range.start).inDays; i++) {
+          days.add(
+            DateTime(range.start.year, range.start.month, range.start.day + i),
+          );
+        }
+      }
+      disabledDays.assignAll(days);
+      print(disabledDays);
     } catch (e) {
       e.toString();
     }
@@ -114,9 +123,7 @@ class MyReservationsController extends GetxController {
     final Set<DateTime> days = {};
 
     for (final range in ranges) {
-      for (int i = 0; i <= range.end
-          .difference(range.start)
-          .inDays; i++) {
+      for (int i = 0; i <= range.end.difference(range.start).inDays; i++) {
         days.add(
           DateTime(range.start.year, range.start.month, range.start.day + i),
         );
@@ -134,19 +141,24 @@ class MyReservationsController extends GetxController {
     selectedRange.value = range;
   }
 
-//----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
 
   Future<void> updateStatus(MyReservations booking) async {
-    final index = myReservation.indexWhere((element) =>
-    element.id == booking.id);
+    final index = myReservation.indexWhere(
+      (element) => element.id == booking.id,
+    );
     if (index != -1) {
       if (booking.isCanceled.value == false) {
         await Get.defaultDialog(
           title: "Warning!",
-
           middleText: "You're Canceling this Booking !",
           textConfirm: "CONFIRM",
+          titleStyle: TextStyle(color: Colors.white, fontFamily: 'Multicolore'),
+          titlePadding: EdgeInsets.symmetric(vertical: 20),
+          cancelTextColor: Colors.white,
+          buttonColor: Colors.white,
           textCancel: "Cancel",
+          middleTextStyle: TextStyle(color: Colors.white, fontSize: 17),
           backgroundColor: Color.fromARGB(132, 255, 0, 0),
           confirmTextColor: Color.fromARGB(255, 124, 0, 0),
           onConfirm: () {
@@ -169,12 +181,9 @@ class MyReservationsController extends GetxController {
           borderRadius: 36,
           maxWidth: 300,
           margin: const EdgeInsets.all(10),
-          icon: Icon(Icons.cancel_schedule_send_outlined, size: 30,
-          ),
+          icon: Icon(Icons.cancel_schedule_send_outlined, size: 30),
         );
       }
     }
   }
-
-
 }

@@ -13,8 +13,8 @@ class MyReservationCalender extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => TableCalendar(
+    return Obx(() {
+      return TableCalendar(
         firstDay: DateTime.now(),
         lastDay: DateTime(2030),
         focusedDay: DateTime.now(),
@@ -54,9 +54,10 @@ class MyReservationCalender extends StatelessWidget {
         onRangeSelected: (start, end, focusedDay) {
           if (start != null && end != null) {
             c.updateRange(DateTimeRange(start: start, end: end));
+            c.editDates(booking!.id);
           }
         },
-      ),
-    );
+      );
+    });
   }
 }

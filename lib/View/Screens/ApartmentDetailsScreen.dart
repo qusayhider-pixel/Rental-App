@@ -300,7 +300,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       InkWell(
                         // onTap: () => _selectDates(context),
-                        onTap: () => showBookingCalendar(),
+                        onTap: () => showBookingCalendar(apartment.id),
 
                         //<==use the new calender here
                         borderRadius: BorderRadius.circular(12),
@@ -682,10 +682,9 @@ class ApartmentDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
   // Date picker function
-  void showBookingCalendar() async {
-    await apartmentController.fetchBookings(apartment.id);
+  void showBookingCalendar(int id) async {
+    await apartmentController.fetchBookings(id);
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -693,5 +692,4 @@ class ApartmentDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
 }
