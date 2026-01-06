@@ -55,18 +55,30 @@ class MyReservationsController extends GetxController {
     }
   }
 
-  void rateBooking(int id, int stars) {
-    final index = myReservation.indexWhere((element) => element.id == id);
+  void rateBooking(MyReservations booking, int stars) {
+    final index = myReservation.indexWhere((element) =>
+    element.id == booking.id);
     if (index != -1) {
       myReservation[index].rating = stars;
-      myReservation.refresh(); // important for Obx
+      myReservation.refresh();
+      service.ratingApartment(booking.apartmentId, stars);
     }
+    // Get.snackbar(
+    //   "LUXESTAY",
+    //   "Thank you for your Feedback",
+    //   backgroundColor: const Color.fromARGB(215, 178, 145, 239),
+    //   borderRadius: 30,
+    //   maxWidth: 250,
+    //   margin: const EdgeInsets.all(10),
+    //   icon: Icon(Icons.thumb_up_alt_sharp, size: 30),
+    // );
   }
+
 
   void editDates(int bookingId) async {
     isLoading(true);
     try {
-      await service.editngBookingDates(
+      await service.editingBookingDates(
         DateFormat('yyyy-MM-dd').format(selectedRange.value!.start),
         DateFormat('yyyy-MM-dd').format(selectedRange.value!.end),
         bookingId,
@@ -168,14 +180,14 @@ class MyReservationsController extends GetxController {
         myReservation.refresh();
 
         Get.snackbar(
-          ' Status : ',
+          ' LUXESTAY : ',
           ' Booking Canceled Successfully',
           backgroundColor: Color.fromARGB(171, 76, 174, 80),
           duration: const Duration(milliseconds: 1500),
           borderRadius: 36,
           maxWidth: 300,
           margin: const EdgeInsets.all(10),
-          icon: Icon(Icons.cancel_schedule_send_outlined, size: 30),
+          icon: Icon(Icons.delete_sweep, size: 30),
         );
       }
     }

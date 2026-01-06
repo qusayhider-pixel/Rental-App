@@ -23,6 +23,7 @@ class MyReservationsScreen extends StatelessWidget {
           IconButton(
             onPressed: controller.fetchingMyReservations,
             icon: Icon(Icons.tips_and_updates_outlined),
+            // icon: Icon(Icons.youtube_searched_for_outlined),
           ),
         ],
       ),
@@ -211,8 +212,7 @@ class MyReservationsScreen extends StatelessWidget {
                                   ),
                                   onPressed: () =>
                                       controller.rateBooking(
-                                        booking.id,
-                                        starIndex + 1,
+                                        booking, starIndex + 1,
                                       ),
                                 );
                               }),

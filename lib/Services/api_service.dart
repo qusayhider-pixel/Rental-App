@@ -235,7 +235,7 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> editngBookingDates(String startDate, String endDate,
+  Future<void> editingBookingDates(String startDate, String endDate,
       int id) async {
     try {
       await dio.put('/editBooking/$id',
@@ -264,6 +264,61 @@ class ApiService {
     }
   }
 
-//-----------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------
+  Future<void> ratingApartment(int aptId, int stars) async {
+    try {
+      await dio.post('/properties/rate/$aptId',
+          options: Options(headers: {'Authorization': 'Bearer $token'}),
+          data: {'rating': stars}
+      );
+      print("rating done with $stars Stars :D");
+    }
+
+    catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/properties/rate/$aptId'");
+      print('❌ Error rating apartment : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<void> addToFav(int aptId) async
+  {
+    try {
+      await dio.post('/properties/addFavorite/$aptId',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      print(" Adding to Favorites Success :D");
+    }
+    catch (e) {
+      e.toString();
+      print(
+          "the bath is  ${dio.options.baseUrl}/properties/addFavorite/$aptId'");
+      print('❌ Error adding apartment to fav : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<void> removeFromFav(int aptId) async
+  {
+    try {
+      await dio.delete('/properties/removeFromFavorites/$aptId',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      print(" remove From Favorites Success :D");
+    }
+    catch (e) {
+      e.toString();
+      print(
+          "the bath is  ${dio.options
+              .baseUrl}/properties/removeFromFavorites/$aptId'");
+      print('❌ Error remove From Favorites : $e');
+      rethrow;
+    }
+  }
+
+
 
 }

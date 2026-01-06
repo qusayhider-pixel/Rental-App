@@ -10,7 +10,6 @@ import '../../Model/province_model.dart';
 
 class LuxeBackground extends StatelessWidget {
   final Widget child;
-
   const LuxeBackground({super.key, required this.child});
 
   @override
@@ -35,8 +34,8 @@ class LuxeBackground extends StatelessWidget {
                         Color(0xff261f32).withOpacity(0.6),
                       ]
                     : [
+                  Color.fromARGB(255, 124, 75, 253).withOpacity(0.5),
                         Color(0xffffffff).withOpacity(0.7),
-                        Color.fromARGB(255, 124, 75, 253).withOpacity(0.5),
                       ],
               ),
             ),

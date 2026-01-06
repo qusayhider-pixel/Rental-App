@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uni_project/Controller/BookingController.dart';
+import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Controller/FilterController.dart';
 
 import '../../Controller/ApartmentDetailsController.dart';
@@ -72,39 +73,60 @@ class ApartmentDetailsScreen extends StatelessWidget {
 
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title and Location
-                      Text(
-                        apartment.title,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Icon(Icons.location_on, size: 16),
-                          const SizedBox(width: 4),
-                          Text(
-                            "${apartment.province}, ${apartment.city}",
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 15,
-                            ),
+                  child: Stack(
+                      children: [
+                        Positioned(
+                          top: 16, right: 16,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("${apartment.rate}", style: TextStyle(
+                                  fontFamily: 'Multicolore',
+                                  fontSize: 20,
+                                  color: Colors.grey)),
+                              Icon(Icons.star_purple500_sharp,
+                                color: Color(0xE5F8E603),
+                                size: 25,),
+                            ],
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-                      // Specs Row
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          gradient: Get.isDarkMode
-                              ? const LinearGradient(
+                            // Title and Location
+                            Text(
+                              apartment.title,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                const Icon(Icons.location_on, size: 16,
+                                  color: Colors.red,),
+                                const SizedBox(width: 4),
+                                Text(
+                                  "${apartment.province}, ${apartment.city}",
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            // Specs Row
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                gradient: Get.isDarkMode
+                                    ? const LinearGradient(
                                   colors: [
                                     Color(0xff41394f),
                                     Color(0xff261f32),
@@ -112,7 +134,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 )
-                              : const LinearGradient(
+                                    : const LinearGradient(
                                   colors: [
                                     Color.fromARGB(245, 255, 255, 255),
                                     Color.fromARGB(171, 255, 255, 255),
@@ -120,76 +142,77 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
-                          borderRadius: BorderRadius.circular(21),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xc7846be7),
-                              spreadRadius: 0.5,
-                              blurRadius: 15,
-                              offset: const Offset(0, 6),
+                                borderRadius: BorderRadius.circular(21),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xc7846be7),
+                                    spreadRadius: 0.5,
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 6),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceAround,
+                                children: [
+                                  _buildFeatureIcon(
+                                    Icons.bed_outlined,
+                                    "${apartment.beds} Beds",
+                                  ),
+                                  _buildFeatureIcon(
+                                    Icons.bathtub_outlined,
+                                    "${apartment.baths} Baths",
+                                  ),
+                                  _buildFeatureIcon(
+                                    Icons.square_foot_outlined,
+                                    "${apartment.area} m²",
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildFeatureIcon(
-                              Icons.bed_outlined,
-                              "${apartment.beds} Beds",
+                            const SizedBox(height: 20),
+
+                            // Description
+                            const Text(
+                              "Description",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            _buildFeatureIcon(
-                              Icons.bathtub_outlined,
-                              "${apartment.baths} Baths",
+
+                            const SizedBox(height: 10),
+
+                            Text(
+                              apartment.description,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[700],
+                                height: 1.5,
+                              ),
                             ),
-                            _buildFeatureIcon(
-                              Icons.square_foot_outlined,
-                              "${apartment.area} m²",
+
+                            const SizedBox(height: 25),
+
+                            // Owner Info
+                            const Text(
+                              "Owner Information",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
 
-                      // Description
-                      const Text(
-                        "Description",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      Text(
-                        apartment.description,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[700],
-                          height: 1.5,
-                        ),
-                      ),
-
-                      const SizedBox(height: 25),
-
-                      // Owner Info
-                      const Text(
-                        "Owner Information",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 15),
-                      // Owner Card (same as before)
-                      Container(
-                        height: 80,
-                        width: 400,
-                        decoration: BoxDecoration(
-                          //dark mode
-                          gradient: Get.isDarkMode
-                              ? LinearGradient(
+                            const SizedBox(height: 15),
+                            // Owner Card (same as before)
+                            Container(
+                              height: 80,
+                              width: 400,
+                              decoration: BoxDecoration(
+                                //dark mode
+                                gradient: Get.isDarkMode
+                                    ? LinearGradient(
                                   colors: [
                                     Color(0xff41394f),
                                     Color(0xff261f32),
@@ -197,7 +220,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 )
-                              : //light  mode
+                                    : //light  mode
                                 LinearGradient(
                                   colors: [
                                     Color.fromARGB(245, 255, 255, 255),
@@ -206,213 +229,228 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0x7c846be7),
-                              blurRadius: 30,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 35,
-                                backgroundImage: NetworkImage(
-                                  "http://10.0.2.2:8000/storage/${apartment.ownerImageUrl}",
-                                ),
-                                onBackgroundImageError: (_, _) =>
-                                    const Icon(Icons.person),
+                                borderRadius: BorderRadius.circular(50),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color(0x7c846be7),
+                                    blurRadius: 30,
+                                    offset: const Offset(0, 6),
+                                  ),
+                                ],
                               ),
-                              Padding(
+                              child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                ),
-                                child: Column(
+                                    horizontal: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      apartment.ownerName,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.deepPurpleAccent,
-                                        fontWeight: FontWeight.bold,
+                                    CircleAvatar(
+                                      radius: 35,
+                                      backgroundImage: NetworkImage(
+                                        "http://10.0.2.2:8000/storage/${apartment
+                                            .ownerImageUrl}",
+                                      ),
+                                      onBackgroundImageError: (_, _) =>
+                                      const Icon(Icons.person),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Text(
+                                            apartment.ownerName,
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.deepPurpleAccent,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.phone,
+                                                size: 20,
+                                                // color: Colors.grey,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Text(
+                                                "+${apartment.ownerPhone}",
+                                                // style: const TextStyle(color: Colors.grey),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.phone,
-                                          size: 20,
-                                          // color: Colors.grey,
+                                    IconButton(
+                                      onPressed: () {}, // Mock call action
+                                      icon: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          // color: Colors.green[50],
+                                          shape: BoxShape.circle,
                                         ),
-                                        const SizedBox(width: 5),
-                                        Text(
-                                          "+${apartment.ownerPhone}",
-                                          // style: const TextStyle(color: Colors.grey),
+                                        child: const Icon(
+                                          size: 30,
+                                          Icons.message_outlined,
+                                          color: Colors.deepPurpleAccent,
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {}, // Mock call action
-                                icon: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    // color: Colors.green[50],
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    size: 30,
-                                    Icons.message_outlined,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                            ),
 
-                      const SizedBox(height: 30),
+                            const SizedBox(height: 30),
 
-                      Divider(color: Colors.grey[300]),
+                            Divider(color: Colors.grey[300]),
 
-                      const SizedBox(height: 20),
-
-                      // --- Date Picker Section ---
-                      const Text(
-                        "Select Dates",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(height: 15),
-                      InkWell(
-                        // onTap: () => _selectDates(context),
-                        onTap: () => showBookingCalendar(apartment.id),
-
-                        //<==use the new calender here
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 20,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade300),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.calendar_today_outlined),
-                                  const SizedBox(width: 12),
-                                  Obx(() {
-                                    final range = apartmentController
-                                        .selectedDateRange
-                                        .value;
-                                    return Text(
-                                      range == null
-                                          ? "Check-in  →  Check-out"
-                                          : "${formatter.format(range.start)}  →  ${formatter.format(range.end)}",
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    );
-                                  }),
-                                ],
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: Colors.grey,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      // Calculation Summary
-                      Obx(() {
-                        if (apartmentController.selectedDateRange.value ==
-                            null) {
-                          return const SizedBox();
-                        }
-                        final nights = apartmentController.nights() + 1;
-                        final totalPrice = nights * apartment.price;
-                        return Column(
-                          children: [
                             const SizedBox(height: 20),
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).primaryColor.withOpacity(0.05),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "$nights nights x \$${apartment.price.toInt()}",
-                                      ),
-                                      Text(
-                                        "\$${totalPrice.toInt()}",
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Divider(color: Colors.grey[300]),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        "Total (USD)",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "\$${totalPrice.toInt()}",
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+
+                            // --- Date Picker Section ---
+                            const Text(
+                              "Select Dates",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
+
+                            const SizedBox(height: 15),
+                            InkWell(
+                              // onTap: () => _selectDates(context),
+                              onTap: () => showBookingCalendar(apartment.id),
+
+                              //<==use the new calender here
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                  horizontal: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                            Icons.calendar_today_outlined),
+                                        const SizedBox(width: 12),
+                                        Obx(() {
+                                          final range = apartmentController
+                                              .selectedDateRange
+                                              .value;
+                                          return Text(
+                                            range == null
+                                                ? "Check-in  →  Check-out"
+                                                : "${formatter.format(
+                                                range.start)}  →  ${formatter
+                                                .format(range.end)}",
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // Calculation Summary
+                            Obx(() {
+                              if (apartmentController.selectedDateRange.value ==
+                                  null) {
+                                return const SizedBox();
+                              }
+                              final nights = apartmentController.nights() + 1;
+                              final totalPrice = nights * apartment.price;
+                              return Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Theme
+                                          .of(
+                                        context,
+                                      )
+                                          .primaryColor
+                                          .withOpacity(0.05),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "$nights nights x \$${apartment
+                                                  .price.toInt()}",
+                                            ),
+                                            Text(
+                                              "\$${totalPrice.toInt()}",
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Divider(color: Colors.grey[300]),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              "Total (USD)",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              "\$${totalPrice.toInt()}",
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
                           ],
-                        );
-                      }),
-                    ],
+                        ),
+                      ]
                   ),
                 ),
               ],
@@ -451,7 +489,8 @@ class ApartmentDetailsScreen extends StatelessWidget {
             child: Obx(
               () => GestureDetector(
                 onTap: () {
-                  apartmentController.addToFav(apartment);
+                  Get.find<FavoriteController>().addOrDelete_Fav(apartment);
+                  // apartmentController.addToFav(apartment);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -474,7 +513,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                         : Icons.favorite_outline_sharp,
                     size: 20,
                     color: apartment.isFav.value
-                        ? Colors.red
+                        ? Color.fromARGB(192, 245, 1, 103)
                         : Color(0xff846be7),
                   ),
                 ),
