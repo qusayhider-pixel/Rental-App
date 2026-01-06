@@ -13,7 +13,19 @@ class MyReservationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("My Reservations")),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("My Reservations"),
+        titleTextStyle: TextStyle(
+            fontFamily: 'Multicolore',
+            color: Get.isDarkMode ? Colors.white : Colors.black, fontSize: 20),
+        actions: [
+          IconButton(
+            onPressed: controller.fetchingMyReservations,
+            icon: Icon(Icons.tips_and_updates_outlined),
+          ),
+        ],
+      ),
       body: Obx(() {
         return controller.isLoading.value
             ? Center(child: const CircularProgressIndicator(strokeWidth: 3))
@@ -191,10 +203,9 @@ class MyReservationsScreen extends StatelessWidget {
                               children: List.generate(5, (starIndex) {
                                 return IconButton(
                                   icon: Icon(
-                                    // starIndex < booking.rating
-                                    //     ? Icons.star
-                                    //     :
-                                    Icons.star_border,
+                                    starIndex < booking.rating
+                                        ? Icons.star
+                                        : Icons.star_border,
                                     color: Colors.amber,
                                     size: 30,
                                   ),
@@ -370,16 +381,34 @@ Widget _buildStatusBadge(String status) {
   );
 }
 
-void showBookingCalendar(MyReservationsController c,
-    MyReservations booking,) async {
-  await c.fetchOtherBookings(booking.apartmentId);
-  Get.dialog(
-    Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: SizedBox(height: 420, child: MyReservationCalender(booking)),
-    ),
+void showBookingCalendar(MyReservationsController c, MyReservations booking,) {
+  Get.defaultDialog(
+    title: "Notice!",
+    middleText: "You're Changing the Duration of this Booking !",
+    textConfirm: "CONFIRM",
+    titleStyle: TextStyle(color: Colors.white, fontFamily: 'Multicolore'),
+    titlePadding: EdgeInsets.symmetric(vertical: 20),
+    cancelTextColor: Colors.white,
+    buttonColor: Colors.white,
+    textCancel: "Cancel",
+    middleTextStyle: TextStyle(color: Colors.white, fontSize: 15),
+    backgroundColor: Color.fromARGB(202, 99, 86, 153),
+    confirmTextColor: Color.fromARGB(255, 99, 86, 153),
+    onConfirm: () async {
+      Get.back();
+      await c.fetchOtherBookings(booking.apartmentId, booking.id);
+      Get.dialog(
+        Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: SizedBox(height: 420, child: MyReservationCalender(booking)),
+        ),
+      );
+      // c.editDates(booking.id);
+    },
+    radius: 24,
   );
-  c.editDates(booking.id);
 }
 
 Widget _buildFloatingButtons() {
@@ -420,16 +449,13 @@ Widget _buildFloatingButtons() {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(children: [
-                  ],
+          ],
           ),
         ),
       ),
     ),
   );
 }
-
-
-
 
 // // ==========================================
 // // (My Reservations)

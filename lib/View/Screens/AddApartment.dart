@@ -70,6 +70,8 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
           style: TextStyle(
             color: Get.isDarkMode ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
+              fontFamily: 'Multicolore',
+              fontSize: 18
           ),
         ),
         backgroundColor: Colors.transparent,

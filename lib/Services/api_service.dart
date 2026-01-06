@@ -10,6 +10,7 @@ class ApiService {
   final Dio dio = Dio(
     BaseOptions(
       baseUrl: "http://10.0.2.2:8000/api", //emulator
+      // baseUrl: "http://127.0.0.1:8000/api", //chrome
       headers: {"Accept": "application/json"},
     ),
   );
@@ -108,6 +109,27 @@ class ApiService {
           .toList();
     } catch (e) {
       print('❌ Error fetching Apartments Bookings : $e');
+      return [];
+    }
+  }
+
+  //---------------------------------------------------------------------------
+  Future<List<BookingRange>> fetchingForEditingRanges(int apartmentId,
+      int bookId) async {
+    try {
+      final response = await dio.get(
+        '/showAllBookingsForOnePropertyWithoutOne/$apartmentId/$bookId',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      final List ApartmentBookingsJson = response.data['data'];
+
+      return ApartmentBookingsJson
+          .map((json) => BookingRange.fromJson(json),)
+          .toList();
+    } catch (e) {
+      print(
+          '❌ Error fetching Apartments other Bookings without one booking : $e');
       return [];
     }
   }
@@ -213,12 +235,12 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> editngBookingDates(String start_date, String end_date,
+  Future<void> editngBookingDates(String startDate, String endDate,
       int id) async {
     try {
       await dio.put('/editBooking/$id',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
-        data: {"start_date": start_date, "end_date": end_date},
+        data: {"start_date": startDate, "end_date": endDate},
       );
     } catch (e) {
       e.toString();

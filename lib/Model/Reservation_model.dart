@@ -60,7 +60,7 @@ class MyReservations {
   final String propertyTitle;
   final String location;
   final String bookingPrice;
-  RxInt rating = 0.obs;
+  int rating = 0;
   String startDate;
   String endDate;
   String bookingStatusCheck;

@@ -5,9 +5,9 @@ import 'package:uni_project/Controller/MyReservationsController.dart';
 import 'package:uni_project/Model/Reservation_model.dart';
 
 class MyReservationCalender extends StatelessWidget {
-  MyReservations? booking;
+  final MyReservations booking;
 
-  MyReservationCalender(MyReservations booking, {super.key});
+  MyReservationCalender(this.booking, {super.key});
 
   final MyReservationsController c = Get.find();
 
@@ -15,6 +15,7 @@ class MyReservationCalender extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return TableCalendar(
+        daysOfWeekVisible: false,
         firstDay: DateTime.now(),
         lastDay: DateTime(2030),
         focusedDay: DateTime.now(),
@@ -54,7 +55,7 @@ class MyReservationCalender extends StatelessWidget {
         onRangeSelected: (start, end, focusedDay) {
           if (start != null && end != null) {
             c.updateRange(DateTimeRange(start: start, end: end));
-            c.editDates(booking!.id);
+            c.editDates(booking.id);
           }
         },
       );

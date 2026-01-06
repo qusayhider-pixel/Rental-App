@@ -7,8 +7,6 @@ import 'package:uni_project/Model/Reservation_model.dart';
 import 'package:uni_project/Model/booking_model.dart';
 import 'package:uni_project/Services/api_service.dart';
 
-import 'BookingController.dart';
-
 class MyReservationsController extends GetxController {
   ApiService service = ApiService();
   var myReservation = <MyReservations>[].obs;
@@ -60,17 +58,10 @@ class MyReservationsController extends GetxController {
   void rateBooking(int id, int stars) {
     final index = myReservation.indexWhere((element) => element.id == id);
     if (index != -1) {
-      // myReservation[index].rating = stars;
+      myReservation[index].rating = stars;
       myReservation.refresh(); // important for Obx
     }
   }
-
-  // void deleteBooking(MyReservations booking) {
-  //   // myReservation.removeWhere((element) => element.id == id);
-  //   booking.isCanceled(true);
-  //   service.cancelingABooking(booking.id);
-  //   Get.snackbar('Success', 'Reservation Cancelled Successfully');
-  // }
 
   void editDates(int bookingId) async {
     isLoading(true);
@@ -81,9 +72,14 @@ class MyReservationsController extends GetxController {
         bookingId,
       );
 
-      print(
-        "Editing the Ranges: ${selectedRange.value!.start} => ${selectedRange.value!.end}",
+      Get.snackbar("Booking Updated !", "Please Refresh the Page ",
+          backgroundColor: const Color.fromARGB(132, 9, 245, 1),
+          borderRadius: 30,
+          maxWidth: 250,
+          margin: const EdgeInsets.all(10),
+          icon: Icon(Icons.done_outline_sharp, size: 30,)
       );
+
     } catch (e) {
       if (e is DioException) {
         if (e.response?.data != null && e.response?.data['message'] != null) {
@@ -98,11 +94,10 @@ class MyReservationsController extends GetxController {
     }
   }
 
-  //----------------------------------------------------------------------------
-
-  Future<void> fetchOtherBookings(int apartmentId) async {
+  Future<void> fetchOtherBookings(int apartmentId, int bookingId) async {
     try {
-      final response = await service.fetchApartmentBookings(apartmentId);
+      final response = await service.fetchingForEditingRanges(
+          apartmentId, bookingId);
       otherBookings.value = response;
       final Set<DateTime> days = {};
       for (final range in otherBookings) {
@@ -113,6 +108,7 @@ class MyReservationsController extends GetxController {
         }
       }
       disabledDays.assignAll(days);
+      print("The disabled days with out this booknig : ");
       print(disabledDays);
     } catch (e) {
       e.toString();
@@ -140,8 +136,6 @@ class MyReservationsController extends GetxController {
   void updateRange(DateTimeRange range) {
     selectedRange.value = range;
   }
-
-  //----------------------------------------------------------------------------
 
   Future<void> updateStatus(MyReservations booking) async {
     final index = myReservation.indexWhere(
