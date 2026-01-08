@@ -10,7 +10,8 @@ Widget CreateTextField(String title , IconData icon , Color color , TextEditingC
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 30.0),
     child: TextFormField(
-      controller: controller,
+
+    controller: controller,
       validator: (value)
       {
         if(value!.isEmpty)

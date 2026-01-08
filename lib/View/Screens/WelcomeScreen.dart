@@ -76,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                   //Button
                   // Login Button
                   Padding(
-                    padding: const EdgeInsets.only(top: 50),
+                    padding: const EdgeInsets.only(top: 30),
                     child: SizedBox(
                       width: 300,
                       height: 50,

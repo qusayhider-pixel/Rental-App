@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:uni_project/Model/FavoriteModel.dart';
 import 'package:uni_project/Model/booking_model.dart';
 import '../Model/Reservation_model.dart';
 import '../Model/apartment_model.dart';
@@ -15,10 +16,6 @@ class ApiService {
     ),
   );
 
-  //storing the token
-  final box = GetStorage();
-  late final token = box.read('token');
-
   //---------------------------------------------------------------------------
   Future<Response> login(String phone, String password) async {
     return await dio.post(
@@ -28,7 +25,8 @@ class ApiService {
   }
 
   //-----------------------------------------------------------------------------
-  Future<Response> signUp({required String firstName, required String lastName, required String dateOfBirth, required String phone, required String password, File? avatar,}) async {
+  Future<Response> signUp(
+      {required String firstName, required String lastName, required String dateOfBirth, required String phone, required String password, File? avatar, File? idPhoto,}) async {
     FormData formData = FormData.fromMap({
       "first_name": firstName,
       "last_name": lastName,
@@ -39,6 +37,13 @@ class ApiService {
         "avatar": await MultipartFile.fromFile(
           avatar.path,
           filename: avatar.path.split('/').last,
+        ),
+      if (idPhoto != null)
+        "id_photo": await MultipartFile.fromFile(
+          idPhoto.path,
+          filename: idPhoto.path
+              .split('/')
+              .last,
         ),
     });
     return dio.post("/register", data: formData);
@@ -64,7 +69,8 @@ class ApiService {
       // print('The token is : $token');
       final response = await dio.get(
         '/properties/showAll',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
       );
 
       final List apartmentsJson = response.data['properties'];
@@ -81,7 +87,8 @@ class ApiService {
     try {
       final response = await dio.post(
         '/book/$id',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
         data: {"start_date": start_date, "end_date": end_date},
       );
 
@@ -99,7 +106,8 @@ class ApiService {
     try {
       final response = await dio.get(
         '/showAllBookingsForOneProperty/$apartmentId',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
       );
 
       final List ApartmentBookingsJson = response.data['data'];
@@ -119,7 +127,8 @@ class ApiService {
     try {
       final response = await dio.get(
         '/showAllBookingsForOnePropertyWithoutOne/$apartmentId/$bookId',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
       );
 
       final List ApartmentBookingsJson = response.data['data'];
@@ -158,7 +167,7 @@ class ApiService {
         data: formData,
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
+            'Authorization': 'Bearer ${GetStorage().read('token')}',
             'Content-Type': 'multipart/form-data',
           },
         ),
@@ -181,7 +190,9 @@ class ApiService {
     try
         {
           final response = await dio.get('/owner/Dashboard' ,
-            options: Options(headers: {'Authorization': 'Bearer $token'}),
+            options: Options(headers: {
+              'Authorization': 'Bearer ${GetStorage().read('token')}'
+            }),
           );
           final List reservationJson = response.data['data'];
 
@@ -199,7 +210,8 @@ class ApiService {
   Future<void> updateReservatoinRequestStatus (String status , int requestID )async{
     try{
       final response = await dio.put('/owner/updateRequestStatus/$requestID',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
         data: {'bookings_status_check': status},
       );
       // return ReservationStatus.fromJson(response.data) ;
@@ -218,7 +230,8 @@ class ApiService {
   Future<List<MyReservations>> fetchingMyReservations() async {
     try {
       final response = await dio.get('/getTenantBookings',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
       );
       final List myReservations = response.data['data'];
 
@@ -239,7 +252,8 @@ class ApiService {
       int id) async {
     try {
       await dio.put('/editBooking/$id',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
         data: {"start_date": startDate, "end_date": endDate},
       );
     } catch (e) {
@@ -254,7 +268,8 @@ class ApiService {
   Future<void> cancelingABooking(int id) async {
     try {
       await dio.post('/cancelBooking/$id',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
       );
     } catch (e) {
       e.toString();
@@ -268,7 +283,9 @@ class ApiService {
   Future<void> ratingApartment(int aptId, int stars) async {
     try {
       await dio.post('/properties/rate/$aptId',
-          options: Options(headers: {'Authorization': 'Bearer $token'}),
+          options: Options(headers: {
+            'Authorization': 'Bearer ${GetStorage().read('token')}'
+          }),
           data: {'rating': stars}
       );
       print("rating done with $stars Stars :D");
@@ -283,11 +300,11 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> addToFav(int aptId) async
-  {
+  Future<void> addToFav(int aptId) async {
     try {
       await dio.post('/properties/addFavorite/$aptId',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
       );
       print(" Adding to Favorites Success :D");
     }
@@ -301,11 +318,11 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> removeFromFav(int aptId) async
-  {
+  Future<void> removeFromFav(int aptId) async {
     try {
       await dio.delete('/properties/removeFromFavorites/$aptId',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
       );
       print(" remove From Favorites Success :D");
     }
@@ -315,6 +332,25 @@ class ApiService {
           "the bath is  ${dio.options
               .baseUrl}/properties/removeFromFavorites/$aptId'");
       print('❌ Error remove From Favorites : $e');
+      rethrow;
+    }
+  }
+
+//----------------------------------------------------------------------------
+  Future<List<MyFavoriteModel>> fetchingMyFavorites() async {
+    try {
+      final response = await dio.get('/properties/showFavoritesList',
+        options: Options(
+            headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'}),
+      );
+      final List myFav = response.data['favorites'];
+
+      return myFav.map((json) => MyFavoriteModel.fromJson(json)).toList();
+    }
+    catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/properties/showFavoritesList");
+      print('❌ Error fetching my favorites : $e');
       rethrow;
     }
   }

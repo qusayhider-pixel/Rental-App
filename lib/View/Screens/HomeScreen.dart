@@ -27,7 +27,14 @@ class HomeScreen extends StatelessWidget {
               fontSize: 40,
               foreground: Paint()
                 ..shader = LinearGradient(
-                  colors: <Color>[Color(0xff5a00ff), Color(0xffBF9BFF)],
+                  colors: <Color>[
+                    Color(0xfff6c9c5),
+                    Color(0xffdc85b4),
+                    Color(0xffae4fdc),
+                    Color(0xff6918e8),
+
+                    // Color(0xff5a00ff), Color(0xffBF9BFF)
+                  ],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ).createShader(Rect.fromLTWH(0.0, 0.0, 300.0, 70.0)),
@@ -80,21 +87,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            //
-            //     Obx(() {
-            //   return ListView.builder(
-            //     shrinkWrap: true,
-            //     physics: const NeverScrollableScrollPhysics(),
-            //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            //     itemCount: filterController.filteredApartments.length,
-            //     itemBuilder: (context, index) {
-            //       return ApartmentCard(
-            //         apartment: filterController.filteredApartments[index],
-            //       );
-            //     },
-            //   );
-            // }),
-
             // List
             Obx(
               () => filterController.isLoading.value
@@ -123,10 +115,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterSection(
-    FilterController filterController,
-    BuildContext context,
-  ) {
+  Widget _buildFilterSection(FilterController filterController,
+      BuildContext context,) {
     return Obx(
       () => Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -134,18 +124,29 @@ class HomeScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(36),
           gradient: Get.isDarkMode
               ? LinearGradient(
-                  colors: [Color(0xff41394f), Color(0xff261f32)],
+            colors: [
+              Color(0xff7f3aa1),
+              Color(0xff5416b5),
+              Color(0xff150b52),
+              Color(0xff0c0516),
+              Color(0xff190019),
+              // Color(0xff41394f), Color(0xff261f32)
+            ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
               : //light  mode
                 LinearGradient(
                   colors: [
-                    Color.fromARGB(245, 255, 255, 255),
-                    const Color.fromARGB(171, 255, 255, 255),
+                    Color(0xfff6c9c5),
+                    Color(0xffdc85b4),
+                    Color(0xffae4fdc),
+                    Color(0xff6918e8),
+                    // Color.fromARGB(245, 255, 255, 255),
+                    // const Color.fromARGB(171, 255, 255, 255),
                   ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
           boxShadow: [
             BoxShadow(
@@ -171,20 +172,22 @@ class HomeScreen extends StatelessWidget {
               childrenPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               title: Row(
                 children: [
-                  Icon(Icons.tune),
-                  const SizedBox(width: 10),
+                  Icon(Icons.tune, color: Colors.white),
+                  SizedBox(width: 10),
                   Text(
                     "Filter Search",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ],
               ),
-              subtitle: !filterController.isFilterExpanded.value
-                  ? Text(
-                      "Tap to expand filters",
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    )
-                  : null,
+              // subtitle: !filterController.isFilterExpanded.value
+              //     ? Text(
+              //         "Tap to expand filters",
+              //         style: TextStyle(fontSize: 12, color: Colors.grey),
+              //       )
+              //     : null,
               children: [
                 const Divider(height: 1),
                 const SizedBox(height: 20),
@@ -204,7 +207,8 @@ class HomeScreen extends StatelessWidget {
                           ),
                           value: filterController.selectedProvince.value,
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          hint: Text("Province"),
+                          hint: Text(
+                            "Province", style: TextStyle(color: Colors.white),),
                           items: provinces.map((province) {
                             return DropdownMenuItem(
                               value: province,
@@ -218,7 +222,7 @@ class HomeScreen extends StatelessWidget {
                     ),
 
                     IconButton(
-                      icon: Icon(Icons.repeat),
+                      icon: Icon(Icons.repeat, color: Colors.white),
                       onPressed: filterController.resetFilters,
                     ),
 
@@ -232,7 +236,8 @@ class HomeScreen extends StatelessWidget {
                           icon: Icon(Icons.location_city_sharp),
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           value: filterController.selectedCity.value,
-                          hint: Text("City"),
+                          hint: Text(
+                            "City", style: TextStyle(color: Colors.white),),
                           items:
                               filterController.selectedProvince.value?.cities
                                   .map((city) {
@@ -259,13 +264,14 @@ class HomeScreen extends StatelessWidget {
                     const Text(
                       "Price Range",
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     Text(
                       "\$${filterController.priceRange.value.start.round()} - \$${filterController.priceRange.value.end.round()}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ],
                 ),
@@ -273,6 +279,7 @@ class HomeScreen extends StatelessWidget {
                   values: filterController.priceRange.value,
                   min: 100,
                   max: 5000,
+                  activeColor: Color(0xff7120e4),
                   divisions: 50,
                   labels: RangeLabels(
                     "\$${filterController.priceRange.value.start.round()}",
@@ -285,7 +292,7 @@ class HomeScreen extends StatelessWidget {
                 const Text(
                   "Bedrooms",
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -311,15 +318,15 @@ class HomeScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Get.isDarkMode
                                 ? isSelected
-                                      ? Color.fromARGB(195, 208, 188, 255)
+                                ? Color(0xff7120e4)
                                       : Color(0xff261f32)
                                 : isSelected
-                                ? Color(0xff594ba0)
+                                ? Color(0xff7120e4)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(100),
                             border: Border.all(
                               color: isSelected
-                                  ? Color(0xff594ba0)
+                                  ? Color(0xff7120e4)
                                   : Colors.transparent,
                             ),
                             boxShadow: isSelected

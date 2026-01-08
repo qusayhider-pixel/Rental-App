@@ -35,20 +35,20 @@ class ApartmentDetailsController extends GetxController {
   }
 
   void addToFav(Apartment apartment) async {
-    if (apartment.isFav.value == true) {
+    if (apartment.isFav == true) {
       await Get.defaultDialog(
         title: "Warning!",
         middleText: "You're Removing this Apartment from Your Favourites",
         textConfirm: "Confirm",
         textCancel: "Cancel",
         onConfirm: () {
-          apartment.isFav.value = false; // ✅ remove fav
+          apartment.isFav = false; // ✅ remove fav
           Get.back();
         },
         radius: 24,
       );
     } else {
-      apartment.isFav.value = true;
+      apartment.isFav = true;
       favApartments.add(apartment);
     }
   }

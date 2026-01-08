@@ -17,6 +17,21 @@ class ApartmentDetailsScreen extends StatelessWidget {
   final ApartmentDetailsController apartmentController = Get.find();
   final FilterController filterController = Get.find();
   final BookingController bookingController = Get.find();
+  final FavoriteController favController = Get.find();
+  List<Color> darkGradient = [
+    Color(0xff7f3aa1).withOpacity(0.7),
+    Color(0xff5416b5).withOpacity(0.7),
+    Color(0xff150b52).withOpacity(0.7),
+    Color(0xff0c0516).withOpacity(0.7),
+    Color(0xff190019).withOpacity(0.7),
+  ];
+  List<Color> lightGradient = [
+    Color(0xfff6c9c5).withOpacity(0.7),
+    Color(0xffdc85b4).withOpacity(0.7),
+    Color(0xffae4fdc).withOpacity(0.7),
+    Color(0xff6918e8).withOpacity(0.7),
+  ];
+
 
   static Widget _buildFeatureIcon(IconData icon, String label) {
     return Row(
@@ -27,7 +42,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 13,
-            color: Colors.grey[700],
+            color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -82,11 +97,13 @@ class ApartmentDetailsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("${apartment.rate}", style: TextStyle(
-                                  fontFamily: 'Multicolore',
+                                  fontFamily: 'Louis',
                                   fontSize: 20,
                                   color: Colors.grey)),
                               Icon(Icons.star_purple500_sharp,
-                                color: Color(0xE5F8E603),
+                                color: Get.isDarkMode
+                                    ? Color(0xE5F8E603)
+                                    : Color(0xFF7B4DFD),
                                 size: 25,),
                             ],
                           ),
@@ -126,21 +143,16 @@ class ApartmentDetailsScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 gradient: Get.isDarkMode
-                                    ? const LinearGradient(
-                                  colors: [
-                                    Color(0xff41394f),
-                                    Color(0xff261f32),
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                                    ? LinearGradient(
+                                  colors: darkGradient,
+                                  end: Alignment.centerLeft,
+                                  begin: Alignment.centerRight,
                                 )
-                                    : const LinearGradient(
-                                  colors: [
-                                    Color.fromARGB(245, 255, 255, 255),
-                                    Color.fromARGB(171, 255, 255, 255),
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                                    : //light  mode
+                                LinearGradient(
+                                  colors: lightGradient,
+                                  end: Alignment.centerLeft,
+                                  begin: Alignment.centerRight,
                                 ),
                                 borderRadius: BorderRadius.circular(21),
                                 boxShadow: [
@@ -205,7 +217,6 @@ class ApartmentDetailsScreen extends StatelessWidget {
                             ),
 
                             const SizedBox(height: 15),
-                            // Owner Card (same as before)
                             Container(
                               height: 80,
                               width: 400,
@@ -213,21 +224,15 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                 //dark mode
                                 gradient: Get.isDarkMode
                                     ? LinearGradient(
-                                  colors: [
-                                    Color(0xff41394f),
-                                    Color(0xff261f32),
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                                  colors: darkGradient,
+                                  end: Alignment.centerRight,
+                                  begin: Alignment.centerLeft,
                                 )
                                     : //light  mode
                                 LinearGradient(
-                                  colors: [
-                                    Color.fromARGB(245, 255, 255, 255),
-                                    const Color.fromARGB(171, 255, 255, 255),
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                                  colors: lightGradient,
+                                  end: Alignment.centerRight,
+                                  begin: Alignment.centerLeft,
                                 ),
                                 borderRadius: BorderRadius.circular(50),
                                 boxShadow: [
@@ -267,7 +272,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                             apartment.ownerName,
                                             style: const TextStyle(
                                               fontSize: 20,
-                                              color: Colors.deepPurpleAccent,
+                                              color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -277,12 +282,13 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                               const Icon(
                                                 Icons.phone,
                                                 size: 20,
-                                                // color: Colors.grey,
+                                                color: Colors.white,
                                               ),
                                               const SizedBox(width: 5),
                                               Text(
                                                 "+${apartment.ownerPhone}",
-                                                // style: const TextStyle(color: Colors.grey),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
                                               ),
                                             ],
                                           ),
@@ -299,8 +305,8 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                         ),
                                         child: const Icon(
                                           size: 30,
-                                          Icons.message_outlined,
-                                          color: Colors.deepPurpleAccent,
+                                          Icons.wechat_outlined,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
@@ -324,7 +330,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                               ),
                             ),
 
-                            const SizedBox(height: 15),
+                            const SizedBox(height: 5),
                             InkWell(
                               // onTap: () => _selectDates(context),
                               onTap: () => showBookingCalendar(apartment.id),
@@ -333,13 +339,13 @@ class ApartmentDetailsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                  horizontal: 20,
+                                  vertical: 22,
+                                  horizontal: 27,
                                 ),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Colors.grey.shade300),
-                                  borderRadius: BorderRadius.circular(24),
+                                  borderRadius: BorderRadius.circular(33),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment
@@ -466,9 +472,18 @@ class ApartmentDetailsScreen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Get.isDarkMode
-                      ? const Color.fromARGB(226, 54, 53, 53)
-                      : Colors.white,
+                  gradient: Get.isDarkMode
+                      ? LinearGradient(
+                    colors: darkGradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                      : //light  mode
+                  LinearGradient(
+                    colors: lightGradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -478,26 +493,35 @@ class ApartmentDetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Icon(Icons.arrow_back_ios_new, size: 20),
+                child: const Icon(
+                  Icons.arrow_back_ios_new, size: 20, color: Colors.white,),
               ),
             ),
           ),
 
+          // --- Custom heart buttom ---
           Positioned(
             top: 50,
             right: 20,
-            child: Obx(
-              () => GestureDetector(
+            child: GestureDetector(
                 onTap: () {
-                  Get.find<FavoriteController>().addOrDelete_Fav(apartment);
-                  // apartmentController.addToFav(apartment);
+                  favController.addOrDelete_Fav(apartment);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Get.isDarkMode
-                        ? const Color.fromARGB(226, 54, 53, 53)
-                        : Colors.white,
+                    gradient: Get.isDarkMode
+                        ? LinearGradient(
+                      colors: darkGradient,
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                    )
+                        : //light  mode
+                    LinearGradient(
+                      colors: lightGradient,
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                    ),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -508,18 +532,18 @@ class ApartmentDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   child: Icon(
-                    apartment.isFav.value
+                    apartment.isFav
                         ? Icons.favorite
                         : Icons.favorite_outline_sharp,
                     size: 20,
-                    color: apartment.isFav.value
+                    color: apartment.isFav
                         ? Color.fromARGB(192, 245, 1, 103)
-                        : Color(0xff846be7),
+                        : Colors.white,
                   ),
                 ),
-              ),
             ),
           ),
+
 
           // --- Bottom Booking Bar ---
           Positioned(
@@ -535,19 +559,17 @@ class ApartmentDetailsScreen extends StatelessWidget {
                   height: 70,
                   decoration: BoxDecoration(
                     gradient: Get.isDarkMode
-                        ? const LinearGradient(
-                            colors: [Color(0xff41394f), Color(0xff261f32)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          )
-                        : const LinearGradient(
-                            colors: [
-                              Color.fromARGB(245, 255, 255, 255),
-                              Color.fromARGB(171, 255, 255, 255),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                        ? LinearGradient(
+                      colors: darkGradient,
+                      end: Alignment.centerLeft,
+                      begin: Alignment.centerRight,
+                    )
+                        : //light  mode
+                    LinearGradient(
+                      colors: lightGradient,
+                      end: Alignment.centerLeft,
+                      begin: Alignment.centerRight,
+                    ),
                     borderRadius: BorderRadius.circular(42),
                     boxShadow: [
                       BoxShadow(
@@ -571,9 +593,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                 "Price ",
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Get.isDarkMode
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: Colors.white,
                                 ),
                               ),
                               apartmentController.selectedDateRange.value ==
@@ -587,17 +607,13 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                             style: TextStyle(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold,
-                                              color: Get.isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                              color: Colors.white,
                                             ),
                                           ),
                                           TextSpan(
                                             text: "/per night",
                                             style: TextStyle(
-                                              color: Get.isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ],
@@ -611,17 +627,13 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                             style: TextStyle(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold,
-                                              color: Get.isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                              color: Colors.white,
                                             ),
                                           ),
                                           TextSpan(
                                             text: "/per $nights night",
                                             style: TextStyle(
-                                              color: Get.isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ],
@@ -675,14 +687,11 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                         }
                                       },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(
-                                    context,
-                                  ).primaryColor,
+                                  backgroundColor: Color(0xff3da442),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(24),
                                   ),
-                                  elevation: 0,
-                                  disabledBackgroundColor: const Color.fromARGB(
+                                  disabledBackgroundColor: Color.fromARGB(
                                     68,
                                     126,
                                     126,

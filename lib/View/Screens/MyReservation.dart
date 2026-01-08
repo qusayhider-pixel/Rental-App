@@ -54,14 +54,16 @@ class MyReservationsScreen extends StatelessWidget {
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Color(0xff60519b),
-                              Color(0xbb82838f),
+                              Color(0xfff6c9c5).withOpacity(0.5),
+                              Color(0xffdc85b4).withOpacity(0.5),
+                              Color(0xffae4fdc).withOpacity(0.5),
+                              Color(0xff6918e8).withOpacity(0.5),
                             ],
                           ),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Color(0xff60519b),
                               // spreadRadius: 2,

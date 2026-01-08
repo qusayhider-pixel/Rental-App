@@ -7,30 +7,37 @@ import '../Model/LoginResponse.dart';
 class AuthController extends GetxController {
   var user = Rxn<LoginResponse>();
   final box = GetStorage();
-  bool get isLoggedIn => user.value != null;
 
-  void setUser(LoginResponse loginResponse) {
-    user.value = loginResponse;
-    box.write('user', {
-      'token': loginResponse.token,
-      'first_name': loginResponse.firstname,
-      'last_name': loginResponse.lastname,
-      'phone': loginResponse.phone,
-      'avatar': loginResponse.avatar,
-    });
+  @override
+  void onInit() {
+    super.onInit();
+    final storedUser = getUserFromStorage();
+    if (storedUser != null) {
+      user.value = storedUser;
+    }
   }
 
-  void loadUser() {
-    final data = box.read('user');
-    if (data != null) {
-      user.value = LoginResponse(
-        token: data['token'],
-        firstname: data['first_name'],
-        lastname: data['last_name'],
-        phone: data['phone'],
-        avatar: data['avatar'],
-      );
-    }
+  void setUser(LoginResponse user) {
+    box.write('token', user.token);
+    box.write('firstname', user.firstname);
+    box.write('lastname', user.lastname);
+    box.write('phone', user.phone);
+    box.write('avatar', user.avatar);
+
+    this.user.value = user;
+  }
+
+  LoginResponse? getUserFromStorage() {
+    final token = box.read('token');
+    if (token == null) return null;
+
+    return LoginResponse(
+      token: token,
+      firstname: box.read('firstname'),
+      lastname: box.read('lastname'),
+      phone: box.read('phone'),
+      avatar: box.read('avatar'),
+    );
   }
 
   void logout() {

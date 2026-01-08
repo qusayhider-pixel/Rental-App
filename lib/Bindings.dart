@@ -1,6 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/ApartmentDetailsController.dart';
+import 'package:uni_project/Controller/AuthController.dart';
 import 'package:uni_project/Controller/BookingController.dart';
 import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Controller/MyReservationsController.dart';
@@ -14,6 +15,7 @@ class MyBinding extends Bindings{
 
   @override
   void dependencies() {
+    Get.lazyPut(() => AuthController(), fenix: true);
     Get.lazyPut(()=>LoginController() , fenix: true);
     Get.lazyPut(()=>SignUpController() ,fenix:  true);
     Get.lazyPut(()=>BookingController() , fenix: true);

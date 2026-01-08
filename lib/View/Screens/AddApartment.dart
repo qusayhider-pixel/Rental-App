@@ -1,10 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/ApartmentDetailsController.dart';
-
 import '../../Model/city_model.dart';
 import '../../Model/province_model.dart';
 
@@ -25,18 +23,27 @@ class LuxeBackground extends StatelessWidget {
         Positioned.fill(
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: Get.isDarkMode
+                  ? LinearGradient(
+                colors: [
+                  Color(0xff150b52).withOpacity(0.4),
+                  Color(0xff0c0516).withOpacity(0.4),
+                  Color(0xff190019).withOpacity(0.4),
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: Get.isDarkMode
-                    ? [
-                        Color(0xff41394f).withOpacity(0.6),
-                        Color(0xff261f32).withOpacity(0.6),
-                      ]
-                    : [
-                  Color.fromARGB(255, 124, 75, 253).withOpacity(0.5),
-                        Color(0xffffffff).withOpacity(0.7),
-                      ],
+              )
+                  : //light  mode
+              LinearGradient(
+                colors: [
+                  Color(0xfff6c9c5).withOpacity(0.3),
+                  Color(0xffdc85b4).withOpacity(0.3),
+                  Color(0xffae4fdc).withOpacity(0.3),
+                  Color(0xff6918e8).withOpacity(0.3),
+
+                ],
+                end: Alignment.topCenter,
+                begin: Alignment.bottomCenter,
               ),
             ),
           ),
@@ -67,7 +74,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         title: Text(
           "List Your Property",
           style: TextStyle(
-            color: Get.isDarkMode ? Colors.white : Colors.black,
+              color: Colors.white,
             fontWeight: FontWeight.bold,
               fontFamily: 'Multicolore',
               fontSize: 18
@@ -78,9 +85,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: Get.isDarkMode ? Colors.white : Colors.black,
-          ),
+              Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () {
             Get.back();
           },
@@ -107,11 +112,12 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                           isExpanded: true,
                           icon: Icon(
                             Icons.gps_fixed_outlined,
-                            color: Color(0xffcebbfd),
+                            color: Colors.white,
                           ),
                           value: apartmentController.selectedProvince.value,
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          hint: Text("  Province \t"),
+                          hint: Text("  Province \t",
+                            style: TextStyle(color: Colors.white),),
                           items: provinces.map((province) {
                             return DropdownMenuItem(
                               value: province,
@@ -130,11 +136,12 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                         () => DropdownButton<City>(
                           isExpanded: true,
                           iconDisabledColor: Colors.grey,
-                          iconEnabledColor: Color(0xffcebbfd),
+                          iconEnabledColor: Colors.white,
                           icon: Icon(Icons.location_city_sharp),
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           value: apartmentController.selectedCity.value,
-                          hint: Text("  City \t"),
+                          hint: Text("  City \t",
+                            style: TextStyle(color: Colors.white),),
                           items:
                               apartmentController.selectedProvince.value?.cities
                                   .map((city) {
@@ -244,9 +251,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                       decoration: InputDecoration(
                         labelText: "Description",
                         labelStyle: TextStyle(
-                          color: Get.isDarkMode
-                              ? DarkModeColor
-                              : LightModeColor,
+                          color: Colors.white,
                         ),
                         alignLabelWithHint: true,
                         prefixIcon: Padding(
@@ -254,9 +259,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                           // لرفع الأيقونة للأعلى
                           child: Icon(
                             Icons.description_outlined,
-                            color: Get.isDarkMode
-                                ? DarkModeColor
-                                : LightModeColor,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -284,7 +287,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
     return Text(
       title.toUpperCase(),
       style: TextStyle(
-        color: Get.isDarkMode ? DarkModeColor : LightModeColor,
+        color: Colors.white,
         fontSize: 14,
         fontWeight: FontWeight.bold,
         letterSpacing: 1.2,
@@ -301,9 +304,32 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Get.isDarkMode
-                ? Color(0xff261f32).withOpacity(0.8)
-                : Colors.white.withOpacity(0.6),
+            gradient: Get.isDarkMode
+                ? LinearGradient(
+              colors: [
+                Color(0xff7f3aa1).withOpacity(0.5),
+                Color(0xff5416b5).withOpacity(0.5),
+                Color(0xff150b52).withOpacity(0.5),
+                Color(0xff0c0516).withOpacity(0.5),
+                Color(0xff190019).withOpacity(0.5),
+                // Color(0xff41394f), Color(0xff261f32)
+              ],
+              begin: Alignment.centerRight,
+              end: Alignment.centerLeft,
+            )
+                : //light  mode
+            LinearGradient(
+              colors: [
+                Color(0xfff6c9c5).withOpacity(0.5),
+                Color(0xffdc85b4).withOpacity(0.5),
+                Color(0xffae4fdc).withOpacity(0.5),
+                Color(0xff6918e8).withOpacity(0.5),
+                // Color.fromARGB(245, 255, 255, 255),
+                // const Color(0xffc2b6f6),
+              ],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            ),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.white.withOpacity(0.1)),
           ),
@@ -320,9 +346,29 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
           width: isMain ? 120 : 90,
           height: isMain ? 120 : 90,
           decoration: BoxDecoration(
-            color: Get.isDarkMode
-                ? Color(0xff261f32).withOpacity(0.2)
-                : Colors.white.withOpacity(0.2),
+            gradient: Get.isDarkMode
+                ? LinearGradient(
+              colors: [
+                Color(0xff7f3aa1).withOpacity(0.5),
+                Color(0xff5416b5).withOpacity(0.5),
+                Color(0xff150b52).withOpacity(0.5),
+                Color(0xff0c0516).withOpacity(0.5),
+                Color(0xff190019).withOpacity(0.5),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            )
+                : //light  mode
+            LinearGradient(
+              colors: [
+                Color(0xfff6c9c5).withOpacity(0.7),
+                Color(0xffdc85b4).withOpacity(0.7),
+                Color(0xffae4fdc).withOpacity(0.7),
+                Color(0xff6918e8).withOpacity(0.7),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
               color: isMain ? DarkModeColor : Colors.white.withOpacity(0.2),
@@ -403,16 +449,16 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
-          color: Get.isDarkMode ? DarkModeColor : LightModeColor,
+          color: Colors.white,
         ),
         prefixIcon: Icon(
           icon,
-          color: Get.isDarkMode ? DarkModeColor : LightModeColor,
+          color: Colors.white,
           size: 20,
         ),
         suffixText: suffix,
         suffixStyle: TextStyle(
-          color: Get.isDarkMode ? DarkModeColor : LightModeColor,
+          color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -426,7 +472,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(32),
         gradient: LinearGradient(
-          colors: [DarkModeColor, const Color(0xFFC5A028)], // Gold Gradient
+          colors: [DarkModeColor, Color(0xFFC5A028)], // Gold Gradient
         ),
         boxShadow: [
           BoxShadow(
@@ -448,8 +494,9 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         child: Text(
           label,
           style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18,
+            color: Colors.white,
+            fontSize: 25,
+            fontFamily: 'Louis',
             fontWeight: FontWeight.bold,
           ),
         ),

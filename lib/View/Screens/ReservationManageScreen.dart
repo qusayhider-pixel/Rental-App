@@ -19,7 +19,7 @@ class ReservationManagementScreen extends StatelessWidget {
         return controller.isLoading.value ?
         Center(child: const CircularProgressIndicator(strokeWidth: 3,)) :
         controller.reservationRequest.isEmpty ?
-        Center(child: Text("No pending Reservations Requests")) :
+        Center(child: Text("No Reservations Requests")) :
         ListView.builder(
           padding: const EdgeInsets.all(16),
           itemCount: controller.reservationRequest.length,
@@ -34,16 +34,27 @@ class ReservationManagementScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 gradient: Get.isDarkMode
-                    ? const LinearGradient(
-                  colors: [Color(0xff41394f), Color(0xff261f32)],
+                    ? LinearGradient(
+                  colors: [
+                    Color(0xff7f3aa1).withOpacity(0.5),
+                    Color(0xff5416b5).withOpacity(0.5),
+                    Color(0xff150b52).withOpacity(0.5),
+                    Color(0xff0c0516).withOpacity(0.5),
+                    Color(0xff190019).withOpacity(0.5),
+                    // Color(0xff41394f), Color(0xff261f32)
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
                     : LinearGradient(
                   colors: [
-                    const Color(0xffffffff),
-                    const Color(0xffd3d5e7),
-                    const Color(0xffb2a2f1),
+                    Color(0xfff6c9c5).withOpacity(0.2),
+                    Color(0xffdc85b4).withOpacity(0.2),
+                    Color(0xffae4fdc).withOpacity(0.2),
+                    Color(0xff6918e8).withOpacity(0.2),
+                    // const Color(0xffffffff),
+                    // const Color(0xffd3d5e7),
+                    // const Color(0xffb2a2f1),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -120,7 +131,9 @@ class ReservationManagementScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     _buildInfoRow(icon: Icons.date_range, label: "Duration",value: "( ${req.startDate} -> ${req.endDate} ) ${req.numberOfDays+1} Days"),
                     const SizedBox(height: 8),
-                    _buildInfoRow(  icon: Icons.attach_money,label:  "Total Price", value:  "\$${req.bookingPrice}"),
+                    _buildInfoRow(icon: Icons.attach_money,
+                        label: "Total Price",
+                        value: " ${req.bookingPrice}\$"),
 
                     const SizedBox(height: 20),
 
@@ -210,9 +223,9 @@ class ReservationManagementScreen extends StatelessWidget {
           child: Text(
             value,
             style: TextStyle(
-              fontSize:  label=="Total Price" ? 20 : 13 ,
+              fontSize: label == "Total Price" ? 22 : 13,
               fontWeight: FontWeight.bold,
-              color: label=="Total Price" ? Color(0xFF4CAE50) :
+              color: label == "Total Price" ? Color(0xFF1D9822) :
               Get.isDarkMode
                   ? Colors.white70
                   : Colors.black54,
@@ -242,7 +255,7 @@ class ReservationManagementScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: color.withOpacity(0.5)),
+        border: Border.all(color: color.withOpacity(0.5), width: 2),
       ),
       child: Text(
         status,

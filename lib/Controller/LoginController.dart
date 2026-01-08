@@ -16,8 +16,7 @@ class LoginController extends GetxController {
 
 
   var isLoading = false.obs;
-  final AuthController authController = Get.put(AuthController());
-
+  final AuthController authController = Get.find();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -36,14 +35,11 @@ class LoginController extends GetxController {
       final loginData = LoginResponse.fromJson(response.data);
       ///saving the token
       authController.setUser(loginData) ;
-      final box = GetStorage();
-      box.write('token', loginData.token);
-
 
       Get.offAll(() => HomeScreen());
 
-      Get.snackbar("LUXESTAY", "Login Success" ,  backgroundColor: const Color.fromARGB(
-          132, 9, 245, 1),
+      Get.snackbar("LUXESTAY", "Login Success",
+        backgroundColor: const Color.fromARGB(132, 9, 245, 1),
         borderRadius: 30,
         maxWidth: 250,
         margin: const EdgeInsets.all(10),
@@ -57,7 +53,15 @@ class LoginController extends GetxController {
         } else {
         }
         // ignore: avoid_print
-        Get.snackbar("Message", '${e.response?.data}');print("❌ Server Response: ${e.response?.data}");
+        Get.snackbar(
+          "Error",
+          '${e.response?.data}',
+          backgroundColor: Color.fromARGB(166, 245, 1, 9),
+          borderRadius: 30,
+          maxWidth: 250,
+          margin: const EdgeInsets.all(4),
+          icon: Icon(Icons.error, size: 30),
+        );
       }
     } finally {
       isLoading.value = false;
