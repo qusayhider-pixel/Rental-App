@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uni_project/Controller/SignUpController.dart';
 import '../../Controller/AuthController.dart';
 
 class Profilescreen extends StatelessWidget {
@@ -8,6 +9,7 @@ class Profilescreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Get.find<AuthController>();
+
     final user = auth.user.value;
     if (user == null) {}
     return Scaffold(
@@ -81,35 +83,52 @@ class Profilescreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 25),
+                      padding: const EdgeInsets.only(left: 28),
                       child: Align(
                         alignment: AlignmentGeometry.topLeft,
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
-                          radius: 15,
+                          radius: 18,
                         ),
                       ),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                        radius: 130,
-                        backgroundImage: user?.avatar != null
-                            ? NetworkImage(
+                      child: Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 130,
+                              backgroundImage: user?.avatar != null
+                                  ? NetworkImage(
                                 "http://10.0.2.2:8000/storage/${user!.avatar}",
                               )
-                            : null,
-                        child: user?.avatar == null
-                            ? const Icon(Icons.person)
-                            : null,
-                      ),
+                                  : null,
+                              child: user?.avatar == null
+                                  ? const Icon(Icons.person)
+                                  : null,
+                            ),
+
+                            Positioned(
+                                bottom: 20,
+                                right: 20,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print('to do ');
+                                  },
+                                  child: Icon(
+                                      Icons.camera_alt_outlined, size: 33,
+                                      color: Colors.white),
+                                )),
+                          ]),
                     ),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 8, children: [
                         Icon(
-                          Icons.person_pin_rounded,
+                          Icons.person,
                           size: 30,
                           color: Colors.white,
                         ),
@@ -117,7 +136,7 @@ class Profilescreen extends StatelessWidget {
                           "${user?.firstname} ${user?.lastname} ",
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 45,
+                            fontSize: 42,
                             fontFamily: 'Louis',
                             fontWeight: FontWeight.bold,
                           ),
@@ -127,14 +146,16 @@ class Profilescreen extends StatelessWidget {
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 8,
                       children: [
-                        Icon(Icons.phone, size: 40, color: Colors.white),
+                        Icon(Icons.phone, size: 30, color: Colors.white),
                         Text(
                           "+${user?.phone}",
                           style: TextStyle(
                             color: Colors.white70,
                             fontFamily: 'Louis',
-                            fontSize: 25,
+                            fontSize: 22,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
