@@ -1,7 +1,5 @@
-import 'dart:nativewrappers/_internal/vm/bin/vmservice_io.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../Controller/AuthController.dart';
 
 class Profilescreen extends StatelessWidget {
