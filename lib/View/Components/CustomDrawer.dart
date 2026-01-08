@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Controller/AuthController.dart';
 import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
+import 'package:uni_project/View/Screens/ProfileScreen.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 
 import '../../Controller/LoginController.dart';
@@ -93,7 +94,7 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Phone: ${user?.phone}",
+                    " +${user?.phone}",
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 15,
@@ -159,6 +160,9 @@ class CustomDrawer extends StatelessWidget {
 
         if (title == 'Reservation Management') {
           Get.to(() => ReservationManagementScreen());
+        }
+        if (title == 'My Profile') {
+          Get.to(() => Profilescreen());
         }
 
         if (title == 'Logout') {
