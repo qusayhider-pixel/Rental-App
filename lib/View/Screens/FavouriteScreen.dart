@@ -68,8 +68,10 @@ class FavouriteScreen extends StatelessWidget {
                   controller.isLoading.value
                       ? const Center(
                     child: CircularProgressIndicator(
-                      strokeWidth: 3, color: Colors.white60,),
-                  )
+                      strokeWidth: 3, color: Colors.white60,),)
+                      : controller.myFav.isEmpty
+                      ?
+                  Center(child: Text("There is No Favorites !"))
                       : MasonryGridView.count(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8, vertical: 10),

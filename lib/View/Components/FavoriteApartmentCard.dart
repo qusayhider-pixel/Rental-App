@@ -117,10 +117,10 @@ class FavoriteApartmentCard extends StatelessWidget {
                       children: [
                         Text(
                           apt.description,
-                          maxLines: 5,
+                          maxLines: 8,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),

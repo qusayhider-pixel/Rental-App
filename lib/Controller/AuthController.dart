@@ -33,10 +33,10 @@ class AuthController extends GetxController {
 
     return LoginResponse(
       token: token,
-      firstname: box.read('firstname'),
-      lastname: box.read('lastname'),
-      phone: box.read('phone'),
-      avatar: box.read('avatar'),
+      firstname: box.read('firstname') ?? '',
+      lastname: box.read('lastname') ?? '',
+      phone: box.read('phone') ?? '',
+      avatar: box.read('avatar') ?? '',
     );
   }
 

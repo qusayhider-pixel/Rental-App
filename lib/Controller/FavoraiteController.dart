@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:uni_project/Model/FavoriteModel.dart';
 import 'package:uni_project/Services/api_service.dart';
 import '../Model/apartment_model.dart';
+import 'FilterController.dart';
 
 class FavoriteController extends GetxController {
   ApiService service = ApiService();
   var myFav = <MyFavoriteModel>[].obs;
   var isLoading = false.obs;
+  var isFav = false.obs;
 
   @override
   void onInit() {
@@ -30,14 +32,14 @@ class FavoriteController extends GetxController {
   }
 
   void addOrDelete_Fav(Apartment apartment) async {
-    if (apartment.isFav) {
+    if (apartment.isFav.value) {
       await Get.defaultDialog(
         title: "Warning!",
         middleText: "You're Removing this Apartment from Your Favourites",
         textConfirm: "Confirm",
         textCancel: "Cancel",
         onConfirm: () async {
-          apartment.isFav = false; // ✅ remove fav
+          apartment.isFav.value = false;
           await service.removeFromFav(apartment.id);
           Get.back();
           Get.snackbar(
@@ -53,8 +55,8 @@ class FavoriteController extends GetxController {
         radius: 24,
       );
     } else {
-      apartment.isFav = true;
       await service.addToFav(apartment.id);
+      apartment.isFav.value = true;
       Get.snackbar(
         "LUXESTAY",
         "Adding To Favorites Done \n Please Refresh The Page",
@@ -65,5 +67,11 @@ class FavoriteController extends GetxController {
         icon: Icon(Icons.favorite, size: 30),
       );
     }
+  }
+
+  bool isFavorite(int id) {
+    int aptId = myFav.firstWhere((apt) => apt.id == id).id;
+
+    return aptId != 0 ? true : false;
   }
 }

@@ -19,20 +19,18 @@ class ApartmentDetailsScreen extends StatelessWidget {
   final BookingController bookingController = Get.find();
   final FavoriteController favController = Get.find();
   List<Color> darkGradient = [
-    Color(0xff7f3aa1).withOpacity(0.7),
-    Color(0xff5416b5).withOpacity(0.7),
-    Color(0xff150b52).withOpacity(0.7),
-    Color(0xff0c0516).withOpacity(0.7),
-    Color(0xff190019).withOpacity(0.7),
+    Color(0xff7f3aa1).withOpacity(0.9),
+    Color(0xff5416b5).withOpacity(0.9),
+    Color(0xff150b52).withOpacity(0.9),
+    Color(0xff0c0516).withOpacity(0.9),
+    Color(0xff190019).withOpacity(0.9),
   ];
   List<Color> lightGradient = [
-    Color(0xfff6c9c5).withOpacity(0.7),
-    Color(0xffdc85b4).withOpacity(0.7),
-    Color(0xffae4fdc).withOpacity(0.7),
-    Color(0xff6918e8).withOpacity(0.7),
+    Color(0xfff6c9c5).withOpacity(0.9),
+    Color(0xffdc85b4).withOpacity(0.9),
+    Color(0xffae4fdc).withOpacity(0.9),
+    Color(0xff6918e8).withOpacity(0.9),
   ];
-
-
   static Widget _buildFeatureIcon(IconData icon, String label) {
     return Row(
       children: [
@@ -506,6 +504,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
             child: GestureDetector(
                 onTap: () {
                   favController.addOrDelete_Fav(apartment);
+                  print(apartment.isFav.value);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -531,14 +530,17 @@ class ApartmentDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Icon(
-                    apartment.isFav
-                        ? Icons.favorite
-                        : Icons.favorite_outline_sharp,
-                    size: 20,
-                    color: apartment.isFav
-                        ? Color.fromARGB(192, 245, 1, 103)
-                        : Colors.white,
+                  child: Obx(
+                        () =>
+                        Icon(
+                          apartment.isFav.value
+                              ? Icons.favorite
+                              : Icons.favorite_outline_sharp,
+                          size: 20,
+                          color: apartment.isFav.value
+                              ? Color.fromARGB(192, 245, 1, 103)
+                              : Colors.white,
+                        ),
                   ),
                 ),
             ),

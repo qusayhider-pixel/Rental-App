@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:uni_project/Controller/FilterController.dart';
 import 'package:uni_project/View/Screens/HomeScreen.dart';
 import '../Model/LoginResponse.dart';
 import '../Services/api_service.dart';
@@ -19,6 +20,7 @@ class LoginController extends GetxController {
   final AuthController authController = Get.find();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+
 
   Future<void> login() async {
     try {
@@ -45,6 +47,8 @@ class LoginController extends GetxController {
         margin: const EdgeInsets.all(10),
         icon:  Icon(Icons.done_outline_sharp, size: 30,),
       );
+
+      Get.find<FilterController>().resetFilters();
     }
 
     catch (e) {
@@ -68,10 +72,10 @@ class LoginController extends GetxController {
     }
   }
 
-
   void logout() {
     authController.logout();
   }
+
 }
 
 

@@ -73,6 +73,7 @@ class FilterController extends GetxController {
       Get.snackbar('Error', 'Failed to load');
     } finally {
       isLoading(false);
+      isFilterExpanded(false);
     }
   }
 
@@ -130,10 +131,10 @@ class FilterController extends GetxController {
     // Filters
     priceRange.value = const RangeValues(100, 5000);
     selectedRooms.value = 2;
-    isFilterExpanded.value = true;
+    isFilterExpanded.value = false;
 
     // Apartments
-    filteredApartments.assignAll(allApartments);
+    fetchApartments();
     update();
   }
 }

@@ -33,11 +33,10 @@ class HomeScreen extends StatelessWidget {
                     Color(0xffae4fdc),
                     Color(0xff6918e8),
 
-                    // Color(0xff5a00ff), Color(0xffBF9BFF)
                   ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ).createShader(Rect.fromLTWH(0.0, 0.0, 300.0, 70.0)),
+                  end: Alignment.centerLeft,
+                  begin: Alignment.centerRight,
+                ).createShader(Rect.fromLTWH(70.0, 100.0, 300.0, 70.0)),
             ),
           ),
         ),
@@ -78,7 +77,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      filterController.fetchApartments();
                       filterController.resetFilters();
                     },
                     child: Text("See All"),

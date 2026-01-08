@@ -82,7 +82,7 @@ class WelcomeScreen extends StatelessWidget {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.off(LoginScreen());
+                          Get.off(() => LoginScreen());
                         },
                         child: Text(
                           'Login',
@@ -103,7 +103,7 @@ class WelcomeScreen extends StatelessWidget {
                     height: 50,
                     child: OutlinedButton(
                       onPressed: () {
-                        Get.to(SignUpScreen());
+                        Get.off(() => SignUpScreen());
                       },
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.white, width: 2),

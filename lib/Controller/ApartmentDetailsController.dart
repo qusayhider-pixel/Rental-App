@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uni_project/Controller/BookingController.dart';
+import 'package:uni_project/Controller/FilterController.dart';
 import 'package:uni_project/Services/api_service.dart';
 import 'package:uni_project/View/Screens/HomeScreen.dart';
 import '../Model/apartment_model.dart';
@@ -14,6 +15,8 @@ class ApartmentDetailsController extends GetxController {
   final service = ApiService();
 
   int? requestId;
+
+
   //----------- getting apartments's variables-----------
   var favApartments = <Apartment>[].obs;
   var selectedDateRange = Rxn<DateTimeRange>();
@@ -30,28 +33,29 @@ class ApartmentDetailsController extends GetxController {
   var selectedImages = RxList<File?>(List.generate(5, (_) => null));
 
   //-----------------------functions---------------------
+
   int nights() {
     return selectedDateRange.value?.duration.inDays ?? 0;
   }
 
-  void addToFav(Apartment apartment) async {
-    if (apartment.isFav == true) {
-      await Get.defaultDialog(
-        title: "Warning!",
-        middleText: "You're Removing this Apartment from Your Favourites",
-        textConfirm: "Confirm",
-        textCancel: "Cancel",
-        onConfirm: () {
-          apartment.isFav = false; // ✅ remove fav
-          Get.back();
-        },
-        radius: 24,
-      );
-    } else {
-      apartment.isFav = true;
-      favApartments.add(apartment);
-    }
-  }
+  // void addToFav(Apartment apartment) async {
+  //   if (apartment.isFav == true) {
+  //     await Get.defaultDialog(
+  //       title: "Warning!",
+  //       middleText: "You're Removing this Apartment from Your Favourites",
+  //       textConfirm: "Confirm",
+  //       textCancel: "Cancel",
+  //       onConfirm: () {
+  //         apartment.isFavorite.value = false; // ✅ remove fav
+  //         Get.back();
+  //       },
+  //       radius: 24,
+  //     );
+  //   } else {
+  //     apartment.isFavorite.value = true;
+  //     favApartments.add(apartment);
+  //   }
+  // }
 
   void updateProvince(Province? province) {
     selectedProvince.value = province;

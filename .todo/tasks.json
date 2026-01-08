@@ -4,7 +4,7 @@
     "priority": "HIGH",
     "tags": [],
     "title": "Rating the apartment in my bookings",
-    "description": "",
+    "description": "for once",
     "status": "TODO",
     "date": {
       "date": {
@@ -17,28 +17,6 @@
         "minute": 14,
         "second": 30,
         "nano": 141335100
-      }
-    },
-    "isImported": false
-  },
-  {
-    "id": "TASK_18",
-    "priority": "HIGH",
-    "tags": [],
-    "title": "Logout and Saving User",
-    "description": "So he don\u0027t have to log in again when opening the app in the next time",
-    "status": "TODO",
-    "date": {
-      "date": {
-        "year": 2026,
-        "month": 1,
-        "day": 4
-      },
-      "time": {
-        "hour": 16,
-        "minute": 16,
-        "second": 1,
-        "nano": 731978200
       }
     },
     "isImported": false

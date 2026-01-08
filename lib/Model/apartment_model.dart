@@ -17,7 +17,7 @@ class Apartment {
   final String ownerName;
   final String ownerPhone;
   final String ownerImageUrl;
-  bool isFav;
+  final RxBool isFav;
 
   Apartment({
     required this.id,
@@ -34,8 +34,8 @@ class Apartment {
     required this.ownerName, // New
     required this.ownerPhone, // New
     required this.ownerImageUrl,
-    required this.isFav,
-  });
+    required bool isFav,
+  }) : isFav = (isFav).obs;
 
   // static List<Apartment> listFromJson(Map<String, dynamic> json) {
   //   return (json['properties'] as List).map((item) => Apartment.fromJson(item)).toList();
