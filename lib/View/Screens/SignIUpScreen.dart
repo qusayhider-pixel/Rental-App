@@ -205,7 +205,8 @@ class SignUpScreen extends StatelessWidget {
                                   controller.signUp();
                                 }
                               },
-                              child: controller.isLoading.value
+                                child: Obx(() =>
+                                controller.isLoading.value
                                   ? const CircularProgressIndicator(
                                 color: Colors.white, strokeWidth: 3,
                               )
@@ -217,7 +218,7 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 2,
                                 ),
-                              ),
+                                ),)
                             ),
                       ),
                     ),
@@ -226,7 +227,7 @@ class SignUpScreen extends StatelessWidget {
                     //Having account
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -234,7 +235,7 @@ class SignUpScreen extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 16, fontFamily: 'louis', color:
 
-                            Colors.black54),
+                            Colors.grey.shade300),
                           ),
 
                           TextButton(
@@ -245,8 +246,8 @@ class SignUpScreen extends StatelessWidget {
                               'Login',
                               style: TextStyle(
                                 fontFamily: 'Louis',
-                                fontSize: 18,
-                                color: Colors.grey.shade400,
+                                fontSize: 20,
+                                color: Colors.grey.shade100,
                               ),
                             ),
                           ),

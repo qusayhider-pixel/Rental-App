@@ -152,7 +152,7 @@ class FavoriteApartmentCard extends StatelessWidget {
                   ),
 
                   Positioned(
-                    right: -20,
+                    right: 0,
                     child: IconButton(
                       onPressed: () {
                         Get.to(
