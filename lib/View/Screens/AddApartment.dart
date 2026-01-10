@@ -25,26 +25,25 @@ class LuxeBackground extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: Get.isDarkMode
                   ? LinearGradient(
-                colors: [
-                  Color(0xff150b52).withOpacity(0.4),
-                  Color(0xff0c0516).withOpacity(0.4),
-                  Color(0xff190019).withOpacity(0.4),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              )
+                      colors: [
+                        Color(0xff150b52).withOpacity(0.4),
+                        Color(0xff0c0516).withOpacity(0.4),
+                        Color(0xff190019).withOpacity(0.4),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    )
                   : //light  mode
-              LinearGradient(
-                colors: [
-                  Color(0xfff6c9c5).withOpacity(0.3),
-                  Color(0xffdc85b4).withOpacity(0.3),
-                  Color(0xffae4fdc).withOpacity(0.3),
-                  Color(0xff6918e8).withOpacity(0.3),
-
-                ],
-                end: Alignment.topCenter,
-                begin: Alignment.bottomCenter,
-              ),
+                    LinearGradient(
+                      colors: [
+                        Color(0xfff6c9c5).withOpacity(0.2),
+                        Color(0xffdc85b4).withOpacity(0.2),
+                        Color(0xffae4fdc).withOpacity(0.2),
+                        Color(0xff6918e8).withOpacity(0.2),
+                      ],
+                      end: Alignment.topCenter,
+                      begin: Alignment.bottomCenter,
+                    ),
             ),
           ),
         ),
@@ -74,18 +73,17 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         title: Text(
           "List Your Property",
           style: TextStyle(
-              color: Colors.white,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
-              fontFamily: 'Multicolore',
-              fontSize: 18
+            fontFamily: 'Multicolore',
+            fontSize: 18,
           ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(
-              Icons.arrow_back_ios_new, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () {
             Get.back();
           },
@@ -116,8 +114,10 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                           ),
                           value: apartmentController.selectedProvince.value,
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          hint: Text("  Province \t",
-                            style: TextStyle(color: Colors.white),),
+                          hint: Text(
+                            "  Province \t",
+                            style: TextStyle(color: Colors.white),
+                          ),
                           items: provinces.map((province) {
                             return DropdownMenuItem(
                               value: province,
@@ -140,8 +140,10 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                           icon: Icon(Icons.location_city_sharp),
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           value: apartmentController.selectedCity.value,
-                          hint: Text("  City \t",
-                            style: TextStyle(color: Colors.white),),
+                          hint: Text(
+                            "  City \t",
+                            style: TextStyle(color: Colors.white),
+                          ),
                           items:
                               apartmentController.selectedProvince.value?.cities
                                   .map((city) {
@@ -250,9 +252,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         labelText: "Description",
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
+                        labelStyle: TextStyle(color: Colors.white),
                         alignLabelWithHint: true,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(bottom: 60),
@@ -282,7 +282,6 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
 
   //--------------------------- Helper Widgets-------------------------------
 
-
   Widget _buildSectionHeader(String title) {
     return Text(
       title.toUpperCase(),
@@ -306,30 +305,30 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
           decoration: BoxDecoration(
             gradient: Get.isDarkMode
                 ? LinearGradient(
-              colors: [
-                Color(0xff7f3aa1).withOpacity(0.5),
-                Color(0xff5416b5).withOpacity(0.5),
-                Color(0xff150b52).withOpacity(0.5),
-                Color(0xff0c0516).withOpacity(0.5),
-                Color(0xff190019).withOpacity(0.5),
-                // Color(0xff41394f), Color(0xff261f32)
-              ],
-              begin: Alignment.centerRight,
-              end: Alignment.centerLeft,
-            )
+                    colors: [
+                      Color(0xff7f3aa1).withOpacity(0.5),
+                      Color(0xff5416b5).withOpacity(0.5),
+                      Color(0xff150b52).withOpacity(0.5),
+                      Color(0xff0c0516).withOpacity(0.5),
+                      Color(0xff190019).withOpacity(0.5),
+                      // Color(0xff41394f), Color(0xff261f32)
+                    ],
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
+                  )
                 : //light  mode
-            LinearGradient(
-              colors: [
-                Color(0xfff6c9c5).withOpacity(0.5),
-                Color(0xffdc85b4).withOpacity(0.5),
-                Color(0xffae4fdc).withOpacity(0.5),
-                Color(0xff6918e8).withOpacity(0.5),
-                // Color.fromARGB(245, 255, 255, 255),
-                // const Color(0xffc2b6f6),
-              ],
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
-            ),
+                  LinearGradient(
+                    colors: [
+                      Color(0xfff6c9c5).withOpacity(0.5),
+                      Color(0xffdc85b4).withOpacity(0.5),
+                      Color(0xffae4fdc).withOpacity(0.5),
+                      Color(0xff6918e8).withOpacity(0.5),
+                      // Color.fromARGB(245, 255, 255, 255),
+                      // const Color(0xffc2b6f6),
+                    ],
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft,
+                  ),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.white.withOpacity(0.1)),
           ),
@@ -339,7 +338,11 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
     );
   }
 
-  Widget _buildImageUploadBox({required String label, bool isMain = false, required int i,}) {
+  Widget _buildImageUploadBox({
+    required String label,
+    bool isMain = false,
+    required int i,
+  }) {
     return Column(
       children: [
         Container(
@@ -348,27 +351,27 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
           decoration: BoxDecoration(
             gradient: Get.isDarkMode
                 ? LinearGradient(
-              colors: [
-                Color(0xff7f3aa1).withOpacity(0.5),
-                Color(0xff5416b5).withOpacity(0.5),
-                Color(0xff150b52).withOpacity(0.5),
-                Color(0xff0c0516).withOpacity(0.5),
-                Color(0xff190019).withOpacity(0.5),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )
+                    colors: [
+                      Color(0xff7f3aa1).withOpacity(0.5),
+                      Color(0xff5416b5).withOpacity(0.5),
+                      Color(0xff150b52).withOpacity(0.5),
+                      Color(0xff0c0516).withOpacity(0.5),
+                      Color(0xff190019).withOpacity(0.5),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
                 : //light  mode
-            LinearGradient(
-              colors: [
-                Color(0xfff6c9c5).withOpacity(0.7),
-                Color(0xffdc85b4).withOpacity(0.7),
-                Color(0xffae4fdc).withOpacity(0.7),
-                Color(0xff6918e8).withOpacity(0.7),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+                  LinearGradient(
+                    colors: [
+                      Color(0xfff6c9c5).withOpacity(0.7),
+                      Color(0xffdc85b4).withOpacity(0.7),
+                      Color(0xffae4fdc).withOpacity(0.7),
+                      Color(0xff6918e8).withOpacity(0.7),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
               color: isMain ? DarkModeColor : Colors.white.withOpacity(0.2),
@@ -433,7 +436,12 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
     );
   }
 
-  Widget _buildTextField({String suffix = "", required String label, required IconData icon, required TextEditingController c,}) {
+  Widget _buildTextField({
+    String suffix = "",
+    required String label,
+    required IconData icon,
+    required TextEditingController c,
+  }) {
     return TextFormField(
       validator: (value) {
         if (value!.isEmpty) {
@@ -448,14 +456,8 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
       style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(
-          color: Colors.white,
-        ),
-        prefixIcon: Icon(
-          icon,
-          color: Colors.white,
-          size: 20,
-        ),
+        labelStyle: TextStyle(color: Colors.white),
+        prefixIcon: Icon(icon, color: Colors.white, size: 20),
         suffixText: suffix,
         suffixStyle: TextStyle(
           color: Colors.white,
@@ -483,7 +485,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
         ],
       ),
       child: ElevatedButton(
-        onPressed:apartmentController.uploadApartment,
+        onPressed: apartmentController.uploadApartment,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

@@ -17,8 +17,10 @@ class MyReservationsScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text("My Reservations"),
         titleTextStyle: TextStyle(
-            fontFamily: 'Multicolore',
-            color: Get.isDarkMode ? Colors.white : Colors.black, fontSize: 20),
+          fontFamily: 'Multicolore',
+          color: Get.isDarkMode ? Colors.white : Colors.black,
+          fontSize: 20,
+        ),
         actions: [
           IconButton(
             onPressed: controller.fetchingMyReservations,
@@ -33,303 +35,306 @@ class MyReservationsScreen extends StatelessWidget {
             : controller.myReservation.isEmpty
             ? Center(child: Text("No Reservations !"))
             : Stack(
-          children: [
-            ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: controller.myReservation.length,
-              itemBuilder: (context, index) {
-                final booking = controller.myReservation[index];
+                children: [
+                  ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: controller.myReservation.length,
+                    itemBuilder: (context, index) {
+                      final booking = controller.myReservation[index];
 
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  shadowColor: const Color(0xff7852ff),
-                  elevation: 5,
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    children: [
-                      ///////////////// => Top Section
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xfff6c9c5).withOpacity(0.5),
-                              Color(0xffdc85b4).withOpacity(0.5),
-                              Color(0xffae4fdc).withOpacity(0.5),
-                              Color(0xff6918e8).withOpacity(0.5),
-                            ],
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0xff60519b),
-                              // spreadRadius: 2,
-                              blurRadius: 30,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
+                      return Card(
+                        margin: const EdgeInsets.only(bottom: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Wrap(
-                            alignment: WrapAlignment.spaceAround,
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 250,
-                                child: Text(
-                                  booking.propertyTitle,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white70,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.circular(28),
-                                ),
-                                child: Text(
-                                  "\$${(booking.bookingPrice)}",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      ///////////////// => Middle Section
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        shadowColor: const Color(0xff7852ff),
+                        elevation: 5,
+                        clipBehavior: Clip.antiAlias,
                         child: Column(
                           children: [
-                            //////////////// => Duration
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: _buildDateBox(
-                                    "Check-in",
-                                    booking.startDate as String,
+                            ///////////////// => Top Section
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xfff6c9c5).withOpacity(0.8),
+                                    Color(0xffdc85b4).withOpacity(0.8),
+                                    Color(0xffae4fdc).withOpacity(0.8),
+                                    Color(0xff6918e8).withOpacity(0.8),
+                                  ],
+                                ),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0xff60519b),
+                                    // spreadRadius: 2,
+                                    blurRadius: 30,
+                                    offset: Offset(0, 3),
                                   ),
-                                ),
-                                const Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.grey,
-                                ),
-                                Expanded(
-                                  child: _buildDateBox(
-                                    "Check-out",
-                                    booking.endDate as String,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            const Divider(
-                              height: 30,
-                              indent: 30,
-                              endIndent: 30,
-                            ),
-
-                            //////////////// => Owner Info
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceAround,
-                              // crossAxisAlignment: WrapCrossAlignment.center,
-                              spacing: 20,
-                              children: [
-                                CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: Colors.teal,
-                                  backgroundImage: NetworkImage(
-                                    "http://10.0.2.2:8000/${booking
-                                        .ownerPhoto}",
-                                  ),
-                                  onBackgroundImageError: (_, _) =>
-                                  const Icon(Icons.person),
-                                ),
-
-                                Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.center,
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Wrap(
+                                  alignment: WrapAlignment.spaceAround,
+                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      "Owner: ${booking.ownerName}",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
+                                    SizedBox(
+                                      width: 250,
+                                      child: Text(
+                                        booking.propertyTitle,
+                                        style: const TextStyle(
+                                          fontFamily: "Louis",
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.phone,
-                                          size: 15,
-                                          color: Colors.grey,
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal,
+                                        borderRadius: BorderRadius.circular(28),
+                                      ),
+                                      child: Text(
+                                        "\$${(booking.bookingPrice)}",
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        Text(
-                                          " +${booking.ownerPhone}",
-                                          style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),
-
-                                _buildStatusBadge(
-                                  booking.bookingStatusCheck,
-                                ),
-                              ],
-                            ),
-                            // const Divider(height: 30, indent: 30, endIndent: 30),
-                            // const SizedBox(height: 20),
-
-                            //////////////// => Rating Stars
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(5, (starIndex) {
-                                return IconButton(
-                                  icon: Icon(
-                                    starIndex < booking.rating
-                                        ? Icons.star
-                                        : Icons.star_border,
-                                    color: Colors.amber,
-                                    size: 30,
-                                  ),
-                                  onPressed: () =>
-                                      controller.rateBooking(
-                                        booking, starIndex + 1,
-                                      ),
-                                );
-                              }),
-                            ),
-
-                            const Text(
-                              "Rate this stay",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
                               ),
                             ),
 
-                            const SizedBox(height: 20),
+                            ///////////////// => Middle Section
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  //////////////// => Duration
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: _buildDateBox(
+                                          "Check-in",
+                                          booking.startDate as String,
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.grey,
+                                      ),
+                                      Expanded(
+                                        child: _buildDateBox(
+                                          "Check-out",
+                                          booking.endDate as String,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
 
-                            //////////////// => Edit & Delete
-                            if (booking.bookingStatusCheck == 'pending')
-                              if (booking.isCanceled.value == false)
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextButton.icon(
-                                      onPressed: () =>
-                                      {
-                                        showBookingCalendar(
-                                          controller,
+                                  const Divider(
+                                    height: 30,
+                                    indent: 30,
+                                    endIndent: 30,
+                                  ),
+
+                                  //////////////// => Owner Info
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    // crossAxisAlignment: WrapCrossAlignment.center,
+                                    spacing: 20,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.teal,
+                                        backgroundImage: NetworkImage(
+                                          "http://10.0.2.2:8000/${booking.ownerPhoto}",
+                                        ),
+                                        onBackgroundImageError: (_, _) =>
+                                            const Icon(Icons.person),
+                                      ),
+
+                                      Column(
+                                        spacing: 5,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Owner: ${booking.ownerName}",
+                                            style: const TextStyle(
+                                              fontFamily: "Louis",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.phone,
+                                                size: 15,
+                                                color: Colors.grey,
+                                              ),
+                                              Text(
+                                                ": ${booking.ownerPhone}",
+                                                style: const TextStyle(
+                                                  fontFamily: "Louis",
+
+                                                  color: Colors.grey,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+
+                                      _buildStatusBadge(
+                                        booking.bookingStatusCheck,
+                                      ),
+                                    ],
+                                  ),
+                                  // const Divider(height: 30, indent: 30, endIndent: 30),
+                                  // const SizedBox(height: 20),
+
+                                  //////////////// => Rating Stars
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: List.generate(5, (starIndex) {
+                                      return IconButton(
+                                        icon: Icon(
+                                          starIndex < booking.rating
+                                              ? Icons.star
+                                              : Icons.star_border,
+                                          color: Colors.amber,
+                                          size: 30,
+                                        ),
+                                        onPressed: () => controller.rateBooking(
                                           booking,
+                                          starIndex + 1,
                                         ),
-                                      }, icon: const Icon(
-                                      Icons.edit_calendar,
-                                      size: 18,
-                                    ),
-                                      label: const Text("Edit Dates"),
-                                    ),
+                                      );
+                                    }),
+                                  ),
 
-                                    OutlinedButton.icon(
-                                      onPressed: () =>
-                                          controller
-                                              .updateStatus(booking),
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.red,
-                                        side: const BorderSide(
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                      icon: const Icon(
-                                        Icons.cancel_outlined,
-                                        size: 18,
-                                      ),
-                                      label: const Text("Cancel Booking"),
+                                  const Text(
+                                    "Rate this stay",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
                                     ),
-                                  ],
-                                ),
-                            // else                                               //Note: you need to store the [isCanceled] in api
-                            //   Container(
-                            //     width: double.infinity,
-                            //     padding: const EdgeInsets.all(10),
-                            //     decoration: BoxDecoration(
-                            //       color: Colors.red,
-                            //       borderRadius: BorderRadius.circular(24),
-                            //     ),
-                            //     child: Text("You Have Canceled this Booking!",
-                            //       textAlign: TextAlign.center,
-                            //       style: TextStyle(
-                            //         color: Colors.white,
-                            //         fontWeight: FontWeight.bold,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // if(booking.bookingStatusCheck == 'canceled')
-                            //   if(booking.isCanceled.value == true)
-                            //     Container(
-                            //       width: double.infinity,
-                            //       padding: const EdgeInsets.all(10),
-                            //       decoration: BoxDecoration(
-                            //         color: Colors.red,
-                            //         borderRadius: BorderRadius.circular(24),
-                            //       ),
-                            //       child: Text("You Have Canceled this Booking!",
-                            //         textAlign: TextAlign.center,
-                            //         style: TextStyle(
-                            //           color: Colors.white,
-                            //           fontWeight: FontWeight.bold,
-                            //         ),
-                            //       ),
-                            //     )
-                            //   else
-                            //     Container(
-                            //       width: double.infinity,
-                            //       padding: const EdgeInsets.all(10),
-                            //       decoration: BoxDecoration(
-                            //         color: Colors.red,
-                            //         borderRadius: BorderRadius.circular(24),
-                            //       ),
-                            //       child: Text(
-                            //         "The Owner Rejected this Booking!",
-                            //         textAlign: TextAlign.center,
-                            //         style: TextStyle(
-                            //           color: Colors.white,
-                            //           fontWeight: FontWeight.bold,
-                            //         ),
-                            //       ),
-                            //     ),
+                                  ),
+
+                                  const SizedBox(height: 20),
+
+                                  //////////////// => Edit & Delete
+                                  if (booking.bookingStatusCheck == 'pending')
+                                    if (booking.isCanceled.value == false)
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TextButton.icon(
+                                            onPressed: () => {
+                                              showBookingCalendar(
+                                                controller,
+                                                booking,
+                                              ),
+                                            },
+                                            icon: const Icon(
+                                              Icons.edit_calendar,
+                                              size: 18,
+                                            ),
+                                            label: const Text("Edit Dates"),
+                                          ),
+
+                                          OutlinedButton.icon(
+                                            onPressed: () => controller
+                                                .updateStatus(booking),
+                                            style: OutlinedButton.styleFrom(
+                                              foregroundColor: Colors.red,
+                                              side: const BorderSide(
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            icon: const Icon(
+                                              Icons.cancel_outlined,
+                                              size: 18,
+                                            ),
+                                            label: const Text("Cancel Booking"),
+                                          ),
+                                        ],
+                                      ),
+                                  // else                                               //Note: you need to store the [isCanceled] in api
+                                  //   Container(
+                                  //     width: double.infinity,
+                                  //     padding: const EdgeInsets.all(10),
+                                  //     decoration: BoxDecoration(
+                                  //       color: Colors.red,
+                                  //       borderRadius: BorderRadius.circular(24),
+                                  //     ),
+                                  //     child: Text("You Have Canceled this Booking!",
+                                  //       textAlign: TextAlign.center,
+                                  //       style: TextStyle(
+                                  //         color: Colors.white,
+                                  //         fontWeight: FontWeight.bold,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // if(booking.bookingStatusCheck == 'canceled')
+                                  //   if(booking.isCanceled.value == true)
+                                  //     Container(
+                                  //       width: double.infinity,
+                                  //       padding: const EdgeInsets.all(10),
+                                  //       decoration: BoxDecoration(
+                                  //         color: Colors.red,
+                                  //         borderRadius: BorderRadius.circular(24),
+                                  //       ),
+                                  //       child: Text("You Have Canceled this Booking!",
+                                  //         textAlign: TextAlign.center,
+                                  //         style: TextStyle(
+                                  //           color: Colors.white,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //     )
+                                  //   else
+                                  //     Container(
+                                  //       width: double.infinity,
+                                  //       padding: const EdgeInsets.all(10),
+                                  //       decoration: BoxDecoration(
+                                  //         color: Colors.red,
+                                  //         borderRadius: BorderRadius.circular(24),
+                                  //       ),
+                                  //       child: Text(
+                                  //         "The Owner Rejected this Booking!",
+                                  //         textAlign: TextAlign.center,
+                                  //         style: TextStyle(
+                                  //           color: Colors.white,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            // _buildFloatingButtons()
-          ],
-        );
+                  // _buildFloatingButtons()
+                ],
+              );
       }),
     );
   }
@@ -338,7 +343,14 @@ class MyReservationsScreen extends StatelessWidget {
 Widget _buildDateBox(String label, String date) {
   return Column(
     children: [
-      Text(label, style: const TextStyle(color: Colors.grey, fontSize: 14)),
+      Text(
+        label,
+        style: const TextStyle(
+          color: Colors.grey,
+          fontSize: 14,
+          fontFamily: "Louis",
+        ),
+      ),
       Text(
         date,
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -377,13 +389,13 @@ Widget _buildStatusBadge(String status) {
     decoration: BoxDecoration(
       color: color.withOpacity(0.1),
       borderRadius: BorderRadius.circular(40),
-      border: Border.all(color: color.withOpacity(0.5)),
+      border: Border.all(color: color.withOpacity(0.8)),
     ),
     child: Icon(icon, color: color, size: 30),
   );
 }
 
-void showBookingCalendar(MyReservationsController c, MyReservations booking,) {
+void showBookingCalendar(MyReservationsController c, MyReservations booking) {
   Get.defaultDialog(
     title: "Notice!",
     middleText: "You're Changing the Duration of this Booking !",
@@ -427,18 +439,18 @@ Widget _buildFloatingButtons() {
         decoration: BoxDecoration(
           gradient: Get.isDarkMode
               ? const LinearGradient(
-            colors: [Color(0xff41394f), Color(0xff261f32)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          )
+                  colors: [Color(0xff41394f), Color(0xff261f32)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
               : const LinearGradient(
-            colors: [
-              Color.fromARGB(245, 255, 255, 255),
-              Color.fromARGB(171, 255, 255, 255),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+                  colors: [
+                    Color.fromARGB(245, 255, 255, 255),
+                    Color.fromARGB(171, 255, 255, 255),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(

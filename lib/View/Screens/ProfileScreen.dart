@@ -43,16 +43,16 @@ class Profilescreen extends StatelessWidget {
                 end: Alignment.topRight,
                 colors: Get.isDarkMode
                     ? [
-                        Color(0xff7f3aa1).withOpacity(0.9),
-                        Color(0xff5716b5).withOpacity(0.9),
-                        Color(0xff150b52).withOpacity(0.9),
-                        Color(0xff190019).withOpacity(0.9),
+                        Color(0xff7f3aa1),
+                        Color(0xff5716b5),
+                        Color(0xff150b52),
+                        Color(0xff190019),
                       ]
                     : [
-                        Color(0xffdfb6b2).withOpacity(0.9),
-                        Color(0xff9d5e80).withOpacity(0.9),
-                        Color(0xff7f3aa1).withOpacity(0.9),
-                        Color(0xff5416b5).withOpacity(0.9),
+                        Color(0xffdfb6b2),
+                        Color(0xff9d5e80),
+                        Color(0xff7f3aa1),
+                        Color(0xff5416b5),
                       ],
               ),
             ),
@@ -83,7 +83,7 @@ class Profilescreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 28),
+                      padding: const EdgeInsets.only(left: 26),
                       child: Align(
                         alignment: AlignmentGeometry.topLeft,
                         child: CircleAvatar(
@@ -96,52 +96,63 @@ class Profilescreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Stack(
-                          children: [
-                            CircleAvatar(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(500),
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: CircleAvatar(
                               radius: 130,
                               backgroundImage: user?.avatar != null
                                   ? NetworkImage(
-                                "http://10.0.2.2:8000/storage/${user!.avatar}",
-                              )
+                                      "http://10.0.2.2:8000/storage/${user!.avatar}",
+                                    )
                                   : null,
                               child: user?.avatar == null
                                   ? const Icon(Icons.person)
                                   : null,
                             ),
+                          ),
 
-                            Positioned(
-                                bottom: 20,
-                                right: 20,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    print('to do ');
-                                  },
-                                  child: Icon(
-                                      Icons.camera_alt_outlined, size: 33,
-                                      color: Colors.white),
-                                )),
-                          ]),
+                          Positioned(
+                            bottom: 9,
+                            left: 9,
+                            right: 9,
+                            child: GestureDetector(
+                              onTap: () {
+                                print('to do ');
+                              },
+                              child: Icon(
+                                Icons.camera_alt_outlined,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 8, children: [
-                        Icon(
-                          Icons.person,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "${user?.firstname} ${user?.lastname} ",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 42,
-                            fontFamily: 'Louis',
-                            fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 8,
+                        children: [
+                          // Icon(Icons.person, size: 30, color: Colors.white),
+                          Text(
+                            "${user?.firstname} ${user?.lastname} ",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 41,
+                              fontFamily: 'Louis',
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
                     Row(

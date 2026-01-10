@@ -71,34 +71,42 @@ class CustomDrawer extends StatelessWidget {
                       // color: Colors.white,
                       shape: BoxShape.rectangle,
                     ),
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundImage: user?.avatar != null
-                          ? NetworkImage(
-                              "http://10.0.2.2:8000/storage/${user!.avatar}",
-                            )
-                          : null,
-                      child: user?.avatar == null
-                          ? const Icon(Icons.person)
-                          : null,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(500),
+                      ),
+                      child: CircleAvatar(
+                        radius: 70,
+                        backgroundImage: user?.avatar != null
+                            ? NetworkImage(
+                                "http://10.0.2.2:8000/storage/${user!.avatar}",
+                              )
+                            : null,
+                        child: user?.avatar == null
+                            ? const Icon(Icons.person)
+                            : null,
+                      ),
                     ),
                   ),
 
-                  const SizedBox(height: 15),
                   Text(
                     "${user?.firstname} ${user?.lastname} ",
                     style: const TextStyle(
+                      fontFamily: "Louis",
                       color: Colors.white,
                       fontSize: 30,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    " +${user?.phone}",
+                    "+${user?.phone}",
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      fontFamily: "Louis",
                     ),
                   ),
                 ],

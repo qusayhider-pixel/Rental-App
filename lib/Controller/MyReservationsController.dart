@@ -14,29 +14,6 @@ class MyReservationsController extends GetxController {
   var selectedRange = Rxn<DateTimeRange>();
   final disabledDays = <DateTime>{}.obs;
   var isLoading = false.obs;
-
-  // var myBookings = <UserBooking>[
-  //   UserBooking(
-  //     id: '101',
-  //     aptName: 'Cozy Mountain Cabin',
-  //     ownerName: 'John Doe',
-  //     ownerPhone: '+1 555 0123',
-  //     startDate: '2023-11-01',
-  //     endDate: '2023-11-05',
-  //     totalPrice: 600.0,
-  //     rating: 4,
-  //   ),
-  //   UserBooking(
-  //     id: '102',
-  //     aptName: 'Seaside Villa',
-  //     ownerName: 'Maria Garcia',
-  //     ownerPhone: '+1 555 9876',
-  //     startDate: '2023-12-20',
-  //     endDate: '2023-12-25',
-  //     totalPrice: 1500.0,
-  //     rating: 0,
-  //   ),
-  // ].obs;
   @override
   void onInit() {
     super.onInit();
@@ -56,24 +33,24 @@ class MyReservationsController extends GetxController {
   }
 
   void rateBooking(MyReservations booking, int stars) {
-    final index = myReservation.indexWhere((element) =>
-    element.id == booking.id);
+    final index = myReservation.indexWhere(
+      (element) => element.id == booking.id,
+    );
     if (index != -1) {
       myReservation[index].rating = stars;
       myReservation.refresh();
       service.ratingApartment(booking.apartmentId, stars);
     }
-    // Get.snackbar(
-    //   "LUXESTAY",
-    //   "Thank you for your Feedback",
-    //   backgroundColor: const Color.fromARGB(215, 178, 145, 239),
-    //   borderRadius: 30,
-    //   maxWidth: 250,
-    //   margin: const EdgeInsets.all(10),
-    //   icon: Icon(Icons.thumb_up_alt_sharp, size: 30),
-    // );
+    Get.snackbar(
+      "LUXESTAY",
+      "Thank you for your Feedback",
+      backgroundColor: const Color.fromARGB(215, 178, 145, 239),
+      borderRadius: 30,
+      maxWidth: 250,
+      margin: const EdgeInsets.all(10),
+      icon: Icon(Icons.thumb_up_alt_sharp, size: 30),
+    );
   }
-
 
   void editDates(int bookingId) async {
     isLoading(true);
@@ -84,19 +61,20 @@ class MyReservationsController extends GetxController {
         bookingId,
       );
 
-      Get.snackbar("Booking Updated !", "Please Refresh the Page ",
-          backgroundColor: const Color.fromARGB(132, 9, 245, 1),
-          borderRadius: 30,
-          maxWidth: 250,
-          margin: const EdgeInsets.all(10),
-          icon: Icon(Icons.done_outline_sharp, size: 30,)
+      Get.snackbar(
+        "Booking Updated !",
+        "Please Refresh the Page ",
+        backgroundColor: const Color.fromARGB(132, 9, 245, 1),
+        borderRadius: 30,
+        maxWidth: 250,
+        margin: const EdgeInsets.all(10),
+        icon: Icon(Icons.done_outline_sharp, size: 30),
       );
-
     } catch (e) {
       if (e is DioException) {
         if (e.response?.data != null && e.response?.data['message'] != null) {
         } else {
-          Get.snackbar("Message", '${e.response?.data}');
+          //  Get.snackbar("Message", '${e.response?.data}');
           print("❌ Server Response: ${e.response?.data}");
         }
       }
@@ -109,7 +87,9 @@ class MyReservationsController extends GetxController {
   Future<void> fetchOtherBookings(int apartmentId, int bookingId) async {
     try {
       final response = await service.fetchingForEditingRanges(
-          apartmentId, bookingId);
+        apartmentId,
+        bookingId,
+      );
       otherBookings.value = response;
       final Set<DateTime> days = {};
       for (final range in otherBookings) {

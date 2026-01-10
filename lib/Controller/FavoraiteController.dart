@@ -59,7 +59,7 @@ class FavoriteController extends GetxController {
       apartment.isFav.value = true;
       Get.snackbar(
         "LUXESTAY",
-        "Adding To Favorites Done \n Please Refresh The Page",
+        "Adding To Favorites Done",
         backgroundColor: Color.fromARGB(192, 245, 1, 103),
         borderRadius: 30,
         maxWidth: 250,

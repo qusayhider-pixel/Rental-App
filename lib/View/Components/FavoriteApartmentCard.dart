@@ -117,7 +117,7 @@ class FavoriteApartmentCard extends StatelessWidget {
                       children: [
                         Text(
                           apt.description,
-                          maxLines: 8,
+                          maxLines: 6,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 13,
@@ -141,6 +141,7 @@ class FavoriteApartmentCard extends StatelessWidget {
                         Text(
                           "${apt.price} \$",
                           style: const TextStyle(
+                            fontSize: 17,
                             color: Color(0xb544ef16),
                             fontWeight: FontWeight.bold,
                           ),
@@ -163,7 +164,7 @@ class FavoriteApartmentCard extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios_rounded,
-                        size: 15,
+                        size: 16,
                         color: Colors.white,
                       ),
                     ),
