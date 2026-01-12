@@ -169,7 +169,7 @@ class LuxeBackground extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(
-            'assets/Welcome.jpg', 
+            'assets/Welcome.jpg',
             fit: BoxFit.cover,
           ),
         ),
