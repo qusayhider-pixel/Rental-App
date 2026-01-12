@@ -2,21 +2,28 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:uni_project/Controller/AuthController.dart';
 import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
+import 'package:uni_project/View/Screens/ProfileScreen.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 
 import '../../Controller/LoginController.dart';
 import '../Screens/AddApartment.dart';
 
 class CustomDrawer extends StatelessWidget {
-  final controller = Get.find<LoginController>();
+  final auth = Get.find<AuthController>();
 
   CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final user = controller.authController.user.value;
+    final user = auth.user.value;
+    if (user == null) {
+      print("No user logged in");
+    }
+
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
       child: Drawer(
@@ -28,18 +35,31 @@ class CustomDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: Get.isDarkMode
                     ? LinearGradient(
-                        colors: [Color(0xff41394f), Color(0xff261f32)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xff7f3aa1),
+                          Color(0xff5416b5),
+                          Color(0xff150b52),
+                          Color(0xff0c0516),
+                          Color(0xff190019),
+                          // Color(0xff41394f),
+                          // Color(0xff261f32)
+                        ],
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
                       )
                     : //light  mode
                       LinearGradient(
                         colors: [
-                          Color(0xff846be7),
-                          const Color.fromARGB(171, 155, 101, 213),
+                          Color(0xffdfb6b2),
+                          Color(0xffc475a0),
+                          Color(0xffa44cd0),
+                          Color(0xff6a1fe0),
+
+                          // Color(0xff846be7),
+                          // const Color.fromARGB(171, 155, 101, 213),
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: Alignment.bottomRight,
+                        end: Alignment.topLeft,
                       ),
               ),
               child: Column(
@@ -51,34 +71,42 @@ class CustomDrawer extends StatelessWidget {
                       // color: Colors.white,
                       shape: BoxShape.rectangle,
                     ),
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundImage: user?.avatar != null
-                          ? NetworkImage(
-                              "http://10.0.2.2:8000/storage/${user!.avatar}",
-                            )
-                          : null,
-                      child: user?.avatar == null
-                          ? const Icon(Icons.person)
-                          : null,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(500),
+                      ),
+                      child: CircleAvatar(
+                        radius: 70,
+                        backgroundImage: user?.avatar != null
+                            ? NetworkImage(
+                                "http://10.0.2.2:8000/storage/${user!.avatar}",
+                              )
+                            : null,
+                        child: user?.avatar == null
+                            ? const Icon(Icons.person)
+                            : null,
+                      ),
                     ),
                   ),
 
-                  const SizedBox(height: 15),
                   Text(
                     "${user?.firstname} ${user?.lastname} ",
                     style: const TextStyle(
+                      fontFamily: "Louis",
                       color: Colors.white,
                       fontSize: 30,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    "Phone: ${user?.phone}",
+                    "+${user?.phone}",
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      fontFamily: "Louis",
                     ),
                   ),
                 ],
@@ -132,7 +160,7 @@ class CustomDrawer extends StatelessWidget {
           Get.to(() => AddApartmentScreen());
         }
         if (title == 'My Favorites') {
-          Get.to(() => Favouritescreen());
+          Get.to(() => FavouriteScreen());
         }
         if (title == 'My Reservations') {
           Get.to(() => MyReservationsScreen());
@@ -141,9 +169,12 @@ class CustomDrawer extends StatelessWidget {
         if (title == 'Reservation Management') {
           Get.to(() => ReservationManagementScreen());
         }
+        if (title == 'My Profile') {
+          Get.to(() => Profilescreen());
+        }
 
         if (title == 'Logout') {
-          controller.logout();
+          auth.logout();
 
           Get.snackbar(
             "LUXESTAY",

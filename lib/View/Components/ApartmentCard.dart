@@ -19,26 +19,42 @@ class ApartmentCard extends StatelessWidget {
         //dark mode
         gradient: Get.isDarkMode
             ? LinearGradient(
-                colors: [Color(0xff41394f), Color(0xff261f32)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xff7f3aa1).withOpacity(0.5),
+                  Color(0xff5416b5).withOpacity(0.5),
+                  Color(0xff150b52).withOpacity(0.5),
+                  Color(0xff0c0516).withOpacity(0.5),
+                  Color(0xff190019).withOpacity(0.5),
+                  // Color(0xff41394f), Color(0xff261f32)
+                ],
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
               )
             : //light  mode
               LinearGradient(
                 colors: [
-                  Color.fromARGB(245, 255, 255, 255),
-                  const Color(0xffc2b6f6),
+                  Color(0xfff6c9c5).withOpacity(0.5),
+                  Color(0xffdc85b4).withOpacity(0.5),
+                  Color(0xffae4fdc).withOpacity(0.5),
+                  Color(0xff6918e8).withOpacity(0.5),
+                  // Color.fromARGB(245, 255, 255, 255),
+                  // const Color(0xffc2b6f6),
                 ],
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
               ),
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(50),
+          topLeft: Radius.circular(120),
+          bottomRight: Radius.circular(40),
+          bottomLeft: Radius.circular(40),
+        ),
         boxShadow: [
           BoxShadow(
             color: Color(0xbe7255e5),
-            spreadRadius: 0.5,
-            blurRadius: 20,
-            offset: const Offset(0, 7),
+            spreadRadius: 0.2,
+            blurRadius: 22,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -47,44 +63,72 @@ class ApartmentCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(24),
-                ),
-                child: SizedBox(
-                  height: 200,
-                  child: Obx(
-                    () => filterController.isLoading.value
-                        ? CircularProgressIndicator(
-                            strokeWidth: 3,
-                            color: Colors.deepPurpleAccent,
-                          )
-                        : apartment.imageUrls.isEmpty ? Image.asset('assets/house icon.png'): Image.network(
-                            apartment.imageUrls[0],
-                            height: 200,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
+              Padding(
+                padding: EdgeInsets.all(0),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(120),
+                    bottomRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(0),
+                  ),
+                  child: SizedBox(
+                    height: 200,
+                    child: Obx(
+                      () => filterController.isLoading.value
+                          ? CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.deepPurpleAccent,
+                            )
+                          : apartment.imageUrls.isEmpty
+                          ? Image.asset('assets/house icon.png')
+                          : Image.network(
+                              apartment.imageUrls[0],
+                              height: 200,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
                   ),
                 ),
               ),
 
               Positioned(
-                top: 5,
-                right: 15,
+                top: -14,
+                right: 14,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  width: 35,
+                  padding: const EdgeInsets.symmetric(vertical: 22),
                   decoration: BoxDecoration(
-                    color: Get.isDarkMode
-                        ? const Color.fromARGB(226, 54, 53, 53)
-                        : Colors.white,
+                    gradient: Get.isDarkMode
+                        ? LinearGradient(
+                            colors: [
+                              Color(0xff7f3aa1),
+                              Color(0xff5416b5),
+                              Color(0xff150b52),
+                              // Color(0xff41394f), Color(0xff261f32)
+                            ],
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                          )
+                        : //light  mode
+                          LinearGradient(
+                            colors: [
+                              Color(0xfff6c9c5),
+                              Color(0xffdc85b4),
+                              Color(0xffae4fdc),
+                              Color(0xff6918e8),
+                              // Color.fromARGB(245, 255, 255, 255),
+                              // const Color(0xffc2b6f6),
+                            ],
+                            begin: Alignment.bottomRight,
+                            end: Alignment.topLeft,
+                          ),
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
                     icon: Icon(Icons.open_in_new),
-                    color: Get.isDarkMode
-                        ? Color.fromARGB(255, 165, 148, 250)
-                        : Colors.red,
+                    color: Colors.white,
                     iconSize: 20,
                     onPressed: () {
                       Get.to(
@@ -95,8 +139,8 @@ class ApartmentCard extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 15,
-                left: 15,
+                bottom: 10,
+                left: 10,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -104,16 +148,15 @@ class ApartmentCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: Get.isDarkMode
-                        ? const Color.fromARGB(226, 54, 53, 53)
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(8),
+                        ? Color(0xff0c0516).withOpacity(0.7)
+                        : Color(0xffaa70db),
+                    borderRadius: BorderRadius.circular(28),
                   ),
                   child: Text(
                     "\$${apartment.price.toInt()}/day",
                     style: TextStyle(
-                      color: Get.isDarkMode
-                          ? const Color.fromARGB(255, 165, 148, 250)
-                          : const Color.fromARGB(255, 0, 0, 0),
+                      color: Color.fromARGB(255, 255, 255, 255),
+
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -128,11 +171,18 @@ class ApartmentCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.location_on, size: 16, color: Colors.grey),
-                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.location_on,
+                      size: 16,
+                      color: Colors.grey.shade300,
+                    ),
+                    SizedBox(width: 4),
                     Text(
                       "${apartment.province}, ${apartment.city}",
-                      style: const TextStyle(color: Colors.grey, fontSize: 13),
+                      style: TextStyle(
+                        color: Colors.grey.shade200,
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
@@ -140,6 +190,7 @@ class ApartmentCard extends StatelessWidget {
                 Text(
                   apartment.title,
                   style: TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     // color: Get.isDarkMode ? Colors.white70 : Colors.black,
@@ -152,7 +203,7 @@ class ApartmentCard extends StatelessWidget {
                   apartment.description,
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.grey[600],
+                    color: Get.isDarkMode ? Colors.grey : Colors.white,
                     height: 1.4,
                   ),
                   maxLines: 2,
@@ -192,13 +243,13 @@ class ApartmentCard extends StatelessWidget {
   Widget _buildFeature(IconData icon, String label) {
     return Row(
       children: [
-        Icon(icon, size: 18),
+        Icon(icon, size: 18, color: Colors.white),
         const SizedBox(width: 6),
         Text(
           label,
           style: TextStyle(
             fontSize: 13,
-            // color: Colors.grey[700],
+            color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
         ),

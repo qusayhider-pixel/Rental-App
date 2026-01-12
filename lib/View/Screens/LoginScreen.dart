@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // GlobalKey<FormState> formState = GlobalKey<FormState>();
+    GlobalKey<FormState> formState = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       body: Form(
-        // key: formState,
+        key: formState,
         child: SizedBox(
           child: Stack(
             fit: StackFit.expand,
@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
 
                       //picture
                       Padding(
-                        padding: const EdgeInsets.only(top: 60),
+                        padding: const EdgeInsets.only(top: 40),
                         child: SvgPicture.asset('assets/login.svg'),
                       ),
 
@@ -88,9 +88,13 @@ class LoginScreen extends StatelessWidget {
                           width: 350,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
-                              controller.login();
-                            },
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : () {
+                                    if (formState.currentState!.validate()) {
+                                      controller.login();
+                                    }
+                                  },
                             child: Obx(() {
                               return controller.isLoading.value
                                   ? const CircularProgressIndicator(

@@ -17,7 +17,7 @@ class Apartment {
   final String ownerName;
   final String ownerPhone;
   final String ownerImageUrl;
-  RxBool isFav = false.obs;
+  final RxBool isFav;
 
   Apartment({
     required this.id,
@@ -33,8 +33,9 @@ class Apartment {
     required this.rate,
     required this.ownerName, // New
     required this.ownerPhone, // New
-    required this.ownerImageUrl, // New
-  });
+    required this.ownerImageUrl,
+    required bool isFav,
+  }) : isFav = (isFav).obs;
 
   // static List<Apartment> listFromJson(Map<String, dynamic> json) {
   //   return (json['properties'] as List).map((item) => Apartment.fromJson(item)).toList();
@@ -46,6 +47,7 @@ class Apartment {
   factory Apartment.fromJson(Map<String, dynamic> json) {
     return Apartment(
       id: json['id'],
+      isFav: json['is_favorite'],
       title: json['title'],
       description: json['description'],
       imageUrls: (json['images'] as List)

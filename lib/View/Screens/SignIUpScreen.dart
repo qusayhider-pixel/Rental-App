@@ -20,6 +20,11 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Welcome',
+          style: TextStyle(fontFamily: 'Multicolore', fontSize: 25),
+        ),
         leading: IconButton(
           onPressed: () {
             Get.offAll(() => WelcomeScreen());
@@ -30,98 +35,167 @@ class SignUpScreen extends StatelessWidget {
 
       body: Form(
         key: formState,
-        child: SizedBox(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              //Background
-              Image.asset(
-                'assets/Welcome.jpg',
-                height: double.infinity,
-                width: double.infinity,
-                fit: BoxFit.cover,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            //Background
+            Image.asset(
+              'assets/Welcome.jpg',
+              height: double.infinity,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+
+            //picture
+            Positioned(
+              top: -10,
+              // left: 100,
+              right: 40,
+              child: SizedBox(
+                width: 170,
+                height: 170,
+                child: SvgPicture.asset('assets/signup.svg'),
               ),
-              Padding(
-                padding: EdgeInsetsGeometry.only(top: 60),
-                child: SingleChildScrollView(
-                  child: Column(
-                    spacing: 12,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //Text
-                      Text(
-                        'Welcome !',
-                        style: TextStyle(
-                          fontFamily: 'Multicolore',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30,
+            ),
+
+            Positioned(
+              top: 40,
+              // left: 100,
+              left: 40,
+              child: SizedBox(
+                width: 200,
+                height: 150,
+                child: Text(
+                  "Let's Create Your Acount",
+                  style: TextStyle(fontFamily: 'louis',
+                      fontSize: 25,
+                      color: Colors.black),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsetsGeometry.only(top: 140),
+              child: SingleChildScrollView(
+                child: Column(
+                  spacing: 12,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: ProfileImagePicker(radius: 60),
                         ),
-                      ),
-                      Text(
-                        "Let's Create Your Acount",
-                        style: TextStyle(fontFamily: 'louis', fontSize: 20),
-                      ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child:  ProfileImagePicker(),
-                          ),
-
-                          Column(
-                            spacing: 8,
-                            children: [
-                              SizedBox(
-                                width: 270,
-                                child: CreateTextField(
-                                  "First Name",
-                                  Icons.person,
-                                  Color(0xffa473ff),
-                                  controller.firstNameController,
-                                ),
+                        Column(
+                          spacing: 8,
+                          children: [
+                            SizedBox(
+                              width: 270,
+                              child: CreateTextField(
+                                "First Name",
+                                Icons.person,
+                                Color(0xffa473ff),
+                                controller.firstNameController,
                               ),
-                              SizedBox(
-                                width: 270,
-                                child: CreateTextField(
-                                  "Last Name",
-                                  Icons.person,
-                                  Color(0xcba474fe),
-                                  controller.lastNameController,
-                                ),
+                            ),
+                            SizedBox(
+                              width: 270,
+                              child: CreateTextField(
+                                "Last Name",
+                                Icons.person,
+                                Color(0xcba474fe),
+                                controller.lastNameController,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
 
-                      //Birthday
-                      BirthdayPicker(),
+                    //Birthday
+                    BirthdayPicker(),
 
-                      //Phone
-                      CreateTextField(
-                        "Your Phone Number",
-                        Icons.phone,
-                        Color(0xffC9ACFE),
-                        controller.phoneController,
-                      ),
+                    //Phone
+                    CreateTextField(
+                      "Your Phone Number",
+                      Icons.phone,
+                      Color(0xffC9ACFE),
+                      controller.phoneController,
+                    ),
 
-                      //password
-                      CreateTextField(
-                        "Your Password",
-                        Icons.lock,
-                        Color(0xffD6C0FF),
-                        controller.passwordController,
-                      ),
+                    //password
+                    CreateTextField(
+                      "Your Password",
+                      Icons.lock,
+                      Color(0xffD6C0FF),
+                      controller.passwordController,
+                    ),
 
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: SizedBox(
-                          width: 390,
-                          height: 50,
-                          child: Obx(
-                                () => ElevatedButton(
+                    // id photo
+                    GestureDetector(
+                      onTap: controller.creditIdImage,
+                      child: Obx(() {
+                        return Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            Container(
+                              width: 345,
+                              height: 130,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffd4bffd),
+                                border: BoxBorder.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(26),
+                                image: controller.creditImage.value != null
+                                    ? DecorationImage(
+                                  image: FileImage(
+                                      controller.creditImage.value!),
+                                  fit: BoxFit.cover,
+                                )
+                                    : null,
+                              ),
+                              child: controller.creditImage.value == null
+                                  ? const Center(
+                                child: Icon(
+                                  Icons.credit_card,
+                                  size: 50,
+                                  color: Colors.white,
+                                ),
+                              )
+                                  : null,
+                            ),
+
+                            // add icon
+                            Container(
+                              margin: const EdgeInsets.all(8),
+                              width: 36,
+                              height: 36,
+                              decoration: const BoxDecoration(
+                                color: Color(0xcba474fe),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.add_card,
+                                size: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                    ),
+
+
+                    SizedBox(
+                      width: 350,
+                      height: 50,
+                      child: Obx(
+                            () =>
+                            ElevatedButton(
                               onPressed: controller.isLoading.value
                                   ? null
                                   : () {
@@ -129,7 +203,8 @@ class SignUpScreen extends StatelessWidget {
                                   controller.signUp();
                                 }
                               },
-                              child: controller.isLoading.value
+                                child: Obx(() =>
+                                controller.isLoading.value
                                   ? const CircularProgressIndicator(
                                 color: Colors.white, strokeWidth: 3,
                               )
@@ -141,84 +216,24 @@ class SignUpScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 2,
                                 ),
-                              ),
+                                ),)
                             ),
-                          ),
-                        ),
                       ),
+                    ),
 
-                      // //coniform password
-                      // CreateTextField(
 
-                      //   "Coniform Your Password",
-                      //   Icons.security,
-                      //   Color(0xffE5D6FF),
-                      //   controller.passwordController
-                      // ),
-
-                      // Sign up Button
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 10),
-                      //   child: SizedBox(
-                      //     width: 390,
-                      //     height: 50,
-                      //     child:Obx(()=> ElevatedButton(
-                      //       onPressed: () {
-                      //
-                      //         // sharedPreference!.setString("state", "signup");
-                      //         // Access the selected image from ProfileImagePicker
-                      //         // File? selectedImage =
-                      //         //     _imagePickerKey.currentState?.selectedImage;
-                      //
-                      //         // // Validate image
-                      //         // if (selectedImage == null) {
-                      //         //   Get.snackbar(
-                      //         //     "Error",
-                      //         //     "Please select a profile image",
-                      //         //     snackPosition: SnackPosition.TOP,
-                      //         //   );
-                      //         // }
-                      //         // bool isFormValid = formState.currentState!.validate();
-                      //         // if (isFormValid) {
-                      //         //   Get.snackbar(
-                      //         //     "LUXESTAY",
-                      //         //     "Login Successfully",
-                      //         //
-                      //         //     snackPosition: SnackPosition.TOP,
-                      //         //   );
-                      //         //   // Get.off(() => MainScreen());
-                      //         // }
-                      //         // if(formState.currentState!.validate())
-                      //         //   {
-                      //         //    Get.to(RealEstateApp());
-                      //         //   }
-                      //       },
-                      //       child: Text(
-                      //         'SIGN UP',
-                      //         style: TextStyle(
-                      //           fontSize: 20,
-                      //           fontFamily: 'Multicolore',
-                      //           fontWeight: FontWeight.w500,
-                      //           letterSpacing: 2,
-                      //         ),
-                      //       ),
-                      //     ),)
-                      //   ),
-                      // ),
-
-                      //picture
-                      SizedBox(
-                        width: 200,
-                        height: 150,
-                        child: SvgPicture.asset('assets/signup.svg'),
-                      ),
-                      //Having account
-                      Row(
+                    //Having account
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Already Having An Account ?',
-                            style: TextStyle(fontSize: 16, fontFamily: 'louis'),
+                            'Already Have An Account ?',
+                            style: TextStyle(
+                                fontSize: 16, fontFamily: 'louis', color:
+
+                            Colors.grey.shade300),
                           ),
 
                           TextButton(
@@ -226,22 +241,22 @@ class SignUpScreen extends StatelessWidget {
                               Get.off(() => LoginScreen());
                             },
                             child: Text(
-                              '-> Login',
+                              'Login',
                               style: TextStyle(
                                 fontFamily: 'Louis',
                                 fontSize: 20,
-                                color: Colors.white54,
+                                color: Colors.grey.shade100,
                               ),
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

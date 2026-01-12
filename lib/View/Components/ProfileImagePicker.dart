@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import '../../Controller/SignUpController.dart';
 
 class ProfileImagePicker extends StatelessWidget {
-  ProfileImagePicker({super.key});
+  ProfileImagePicker({super.key, required this.radius});
   final SignUpController controller = Get.find<SignUpController>();
+  final double radius;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class ProfileImagePicker extends StatelessWidget {
           alignment: Alignment.bottomRight,
           children: [
             CircleAvatar(
-              radius: 60,
+              radius: radius,
               backgroundColor: const Color(0xcba474fe),
               backgroundImage: controller.avatarImage.value != null
                   ? FileImage(controller.avatarImage.value!)

@@ -22,13 +22,11 @@ class ReservationController extends GetxController{
       print(reservationRequest[0].bookingStatusCheck);
 
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load');
+      e.toString();
     } finally {
       isLoading(false);
     }
   }
-
-
 
   Future<void> updateStatus(int id, String newStatus) async {
     final index = reservationRequest.indexWhere((element) => element.id == id);

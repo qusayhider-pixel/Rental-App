@@ -20,7 +20,9 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       initialBinding: MyBinding(),
-      home: SplashScreenWidget(),
+      home: GetStorage().read('token') != null
+          ? HomeScreen()
+          : SplashScreenWidget(),
     );
 
   }
