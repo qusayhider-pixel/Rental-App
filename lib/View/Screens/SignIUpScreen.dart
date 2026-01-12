@@ -1,17 +1,15 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'dart:ui';
+
 import 'package:uni_project/View/Components/BirthdayPicker.dart';
 import 'package:uni_project/View/Screens/LoginScreen.dart';
 import '../../Controller/SignUpController.dart';
-import '../Components/CustomTextFeild.dart';
 import '../Components/ProfileImagePicker.dart';
 import 'WelcomeScreen.dart';
 
-
 class SignUpScreen extends StatelessWidget {
-   SignUpScreen({super.key});
+  SignUpScreen({super.key});
 
   final GlobalKey<FormState> formState = GlobalKey<FormState>();
   final SignUpController controller = Get.find();
@@ -19,246 +17,331 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
           'Welcome',
-          style: TextStyle(fontFamily: 'Multicolore', fontSize: 25),
+          style: TextStyle(fontFamily: 'Multicolore', fontSize: 25, color: Colors.white),
         ),
         leading: IconButton(
           onPressed: () {
             Get.offAll(() => WelcomeScreen());
           },
-          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
         ),
       ),
 
       body: Form(
         key: formState,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            //Background
-            Image.asset(
-              'assets/Welcome.jpg',
-              height: double.infinity,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+        child: LuxeBackground(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Let's Create Your Account",
+                    style: TextStyle(fontSize: 25, fontFamily: 'louis', fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 30),
 
-            //picture
-            Positioned(
-              top: -10,
-              // left: 100,
-              right: 40,
-              child: SizedBox(
-                width: 170,
-                height: 170,
-                child: SvgPicture.asset('assets/signup.svg'),
-              ),
-            ),
-
-            Positioned(
-              top: 40,
-              // left: 100,
-              left: 40,
-              child: SizedBox(
-                width: 200,
-                height: 150,
-                child: Text(
-                  "Let's Create Your Acount",
-                  style: TextStyle(fontFamily: 'louis',
-                      fontSize: 25,
-                      color: Colors.black),
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsetsGeometry.only(top: 140),
-              child: SingleChildScrollView(
-                child: Column(
-                  spacing: 12,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: ProfileImagePicker(radius: 60),
-                        ),
-
-                        Column(
-                          spacing: 8,
-                          children: [
-                            SizedBox(
-                              width: 270,
-                              child: CreateTextField(
-                                "First Name",
-                                Icons.person,
-                                Color(0xffa473ff),
-                                controller.firstNameController,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 270,
-                              child: CreateTextField(
-                                "Last Name",
-                                Icons.person,
-                                Color(0xcba474fe),
-                                controller.lastNameController,
-                              ),
-                            ),
-                          ],
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFD4AF37).withOpacity(0.2),
+                          blurRadius: 20,
+                          spreadRadius: 2,
                         ),
                       ],
                     ),
+                    child: ProfileImagePicker(radius: 60),
+                  ),
 
-                    //Birthday
-                    BirthdayPicker(),
+                  const SizedBox(height: 30),
 
-                    //Phone
-                    CreateTextField(
-                      "Your Phone Number",
-                      Icons.phone,
-                      Color(0xffC9ACFE),
-                      controller.phoneController,
-                    ),
-
-                    //password
-                    CreateTextField(
-                      "Your Password",
-                      Icons.lock,
-                      Color(0xffD6C0FF),
-                      controller.passwordController,
-                    ),
-
-                    // id photo
-                    GestureDetector(
-                      onTap: controller.creditIdImage,
-                      child: Obx(() {
-                        return Stack(
-                          alignment: Alignment.bottomRight,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white.withOpacity(0.1)),
+                        ),
+                        child: Column(
                           children: [
+                            Row(
+                              children: [
+                                Expanded(child: _buildTextFormField(
+                                    controller: controller.firstNameController,
+                                    label: "First Name",
+                                    icon: Icons.person_outline,
+                                    validator: (v) => v!.isEmpty ? "Required" : null
+                                )),
+                                const SizedBox(width: 15),
+                                Expanded(child: _buildTextFormField(
+                                    controller: controller.lastNameController,
+                                    label: "Last Name",
+                                    icon: Icons.person_outline,
+                                    validator: (v) => v!.isEmpty ? "Required" : null
+                                )),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+
                             Container(
-                              width: 345,
-                              height: 130,
+                              padding: const EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
-                                color: const Color(0xffd4bffd),
-                                border: BoxBorder.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(26),
-                                image: controller.creditImage.value != null
-                                    ? DecorationImage(
-                                  image: FileImage(
-                                      controller.creditImage.value!),
-                                  fit: BoxFit.cover,
-                                )
-                                    : null,
+                                color: Colors.white.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: controller.creditImage.value == null
-                                  ? const Center(
-                                child: Icon(
-                                  Icons.credit_card,
-                                  size: 50,
-                                  color: Colors.white,
-                                ),
-                              )
-                                  : null,
+                              child: BirthdayPicker(),
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Phone
+                            _buildTextFormField(
+                                controller: controller.phoneController,
+                                label: "Your Phone Number",
+                                icon: Icons.phone_outlined,
+                                inputType: TextInputType.phone,
+                                validator: (v) => v!.isEmpty ? "Required" : null
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Password
+                            _buildTextFormField(
+                                controller: controller.passwordController,
+                                label: "Your Password",
+                                icon: Icons.lock_outline,
+                                isPassword: true,
+                                validator: (v) => v!.isEmpty ? "Required" : null
+                            ),
+                            const SizedBox(height: 20),
+
+                            const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 8.0),
+                                child: Text("ID Verification", style: TextStyle(color: Colors.white70)),
+                              ),
                             ),
 
-                            // add icon
-                            Container(
-                              margin: const EdgeInsets.all(8),
-                              width: 36,
-                              height: 36,
-                              decoration: const BoxDecoration(
-                                color: Color(0xcba474fe),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.add_card,
-                                size: 18,
-                                color: Colors.white,
-                              ),
+                            // ID Image
+                            GestureDetector(
+                              onTap: controller.creditIdImage,
+                              child: Obx(() {
+                                return Container(
+                                  height: 130,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.05),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: Colors.white.withOpacity(0.2), style: BorderStyle.solid),
+                                    image: controller.creditImage.value != null
+                                        ? DecorationImage(
+                                      image: FileImage(controller.creditImage.value!),
+                                      fit: BoxFit.cover,
+                                    )
+                                        : null,
+                                  ),
+                                  child: controller.creditImage.value == null
+                                      ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.add_a_photo_outlined, color: Color(0xFFD4AF37), size: 30),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "Upload ID Photo",
+                                        style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 12),
+                                      ),
+                                    ],
+                                  )
+                                      : Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Container(
+                                      margin: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(6),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFFD4AF37),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(Icons.edit, size: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                );
+                              }),
                             ),
-                          ],
-                        );
-                      }),
-                    ),
 
+                            const SizedBox(height: 30),
 
-                    SizedBox(
-                      width: 350,
-                      height: 50,
-                      child: Obx(
-                            () =>
-                            ElevatedButton(
-                              onPressed: controller.isLoading.value
-                                  ? null
+                            Obx(() => _buildGoldButton(
+                              label: "SIGN UP",
+                              isLoading: controller.isLoading.value,
+                              onTap: controller.isLoading.value
+                                  ? () {}
                                   : () {
                                 if (formState.currentState!.validate()) {
                                   controller.signUp();
                                 }
                               },
-                                child: Obx(() =>
-                                controller.isLoading.value
-                                  ? const CircularProgressIndicator(
-                                color: Colors.white, strokeWidth: 3,
-                              )
-                                  : const Text(
-                                'SIGN UP',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Multicolore',
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 2,
-                                ),
-                                ),)
-                            ),
+                            )),
+                          ],
+                        ),
                       ),
                     ),
+                  ),
 
-
-                    //Having account
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Already Have An Account ?',
-                            style: TextStyle(
-                                fontSize: 16, fontFamily: 'louis', color:
-
-                            Colors.grey.shade300),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already Have An Account? ", style: TextStyle(color: Colors.white.withOpacity(0.7), fontFamily: 'louis')),
+                      GestureDetector(
+                        onTap: () {
+                          Get.off(() => LoginScreen());
+                        },
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Color(0xFFD4AF37),
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Color(0xFFD4AF37),
+                              fontFamily: 'Louis',
+                              fontSize: 16
                           ),
-
-                          TextButton(
-                            onPressed: () {
-                              Get.off(() => LoginScreen());
-                            },
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                fontFamily: 'Louis',
-                                fontSize: 20,
-                                color: Colors.grey.shade100,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
+}
+
+// ==========================================
+// Helper Widgets (Duplicate to ensure standalone functionality)
+// ==========================================
+
+class LuxeBackground extends StatelessWidget {
+  final Widget child;
+  const LuxeBackground({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/Welcome.jpg',
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  const Color(0xFF0F172A).withOpacity(0.6),
+                  const Color(0xFF0F172A).withOpacity(0.9),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SafeArea(child: child),
+      ],
+    );
+  }
+}
+
+Widget _buildTextFormField({
+  required TextEditingController controller,
+  required String label,
+  required IconData icon,
+  bool isPassword = false,
+  TextInputType inputType = TextInputType.text,
+  String? Function(String?)? validator,
+}) {
+  return TextFormField(
+    controller: controller,
+    obscureText: isPassword,
+    keyboardType: inputType,
+    validator: validator,
+    style: const TextStyle(color: Colors.white),
+    cursorColor: const Color(0xFFD4AF37),
+    decoration: InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: Colors.white70),
+      prefixIcon: Icon(icon, color: const Color(0xFFD4AF37), size: 20),
+      filled: true,
+      fillColor: Colors.white.withOpacity(0.1),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Color(0xFFD4AF37), width: 1.5),
+      ),
+      errorStyle: const TextStyle(color: Colors.redAccent),
+    ),
+  );
+}
+
+Widget _buildGoldButton({required String label, required VoidCallback onTap, bool isLoading = false}) {
+  return Container(
+    width: double.infinity,
+    height: 55,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12),
+      gradient: const LinearGradient(
+        colors: [Color(0xFFD4AF37), Color(0xFFC5A028)],
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: const Color(0xFFD4AF37).withOpacity(0.3),
+          blurRadius: 15,
+          offset: const Offset(0, 5),
+        ),
+      ],
+    ),
+    child: ElevatedButton(
+      onPressed: isLoading ? null : onTap,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      child: isLoading
+          ? const CircularProgressIndicator(color: Colors.black, strokeWidth: 3)
+          : Text(
+        label,
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 18,
+          fontFamily: 'Multicolore',
+          fontWeight: FontWeight.bold,
+          letterSpacing: 2,
+        ),
+      ),
+    ),
+  );
 }
