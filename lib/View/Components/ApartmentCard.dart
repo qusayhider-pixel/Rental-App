@@ -40,8 +40,8 @@ class ApartmentCard extends StatelessWidget {
                   // Color.fromARGB(245, 255, 255, 255),
                   // const Color(0xffc2b6f6),
                 ],
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft,
+                begin: Alignment.centerRight,
+                end: Alignment.centerLeft,
               ),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(50),
@@ -87,6 +87,16 @@ class ApartmentCard extends StatelessWidget {
                               height: 200,
                               width: double.infinity,
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                    height: 200,
+                                    width: double.infinity,
+                                    color: Color(0xa6f0e6ff).withOpacity(0.2),
+                                    child: const Icon(
+                                      Icons.error,
+                                      color: Colors.white38,
+                                    ),
+                                  ),
                             ),
                     ),
                   ),

@@ -76,8 +76,11 @@ class ApartmentDetailsScreen extends StatelessWidget {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                                   Container(
-                                    color: Colors.grey[300],
-                                    child: const Icon(Icons.error),
+                                    color: Color(0xa6f0e6ff).withOpacity(0.2),
+                                    child: const Icon(
+                                      Icons.error,
+                                      color: Colors.white38,
+                                    ),
                                   ),
                             );
                     },

@@ -66,7 +66,7 @@ class SignUpScreen extends StatelessWidget {
                 width: 200,
                 height: 150,
                 child: Text(
-                  "Let's Create Your Acount",
+                  "Let's Create Your Account",
                   style: TextStyle(fontFamily: 'louis',
                       fontSize: 25,
                       color: Colors.black),
@@ -95,7 +95,7 @@ class SignUpScreen extends StatelessWidget {
                           spacing: 8,
                           children: [
                             SizedBox(
-                              width: 270,
+                              width: 240,
                               child: CreateTextField(
                                 "First Name",
                                 Icons.person,
@@ -104,7 +104,7 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              width: 270,
+                              width: 240,
                               child: CreateTextField(
                                 "Last Name",
                                 Icons.person,

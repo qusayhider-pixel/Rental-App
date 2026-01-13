@@ -71,7 +71,8 @@ class WelcomeScreen extends StatelessWidget {
                   // Positioned(top: 1, right: 30, child:Icon(Icons.home_filled)),
 
                   //Picture
-                  SvgPicture.asset('assets/chat.svg'),
+                  Container(
+                      height: 350, child: SvgPicture.asset('assets/chat.svg')),
 
                   //Button
                   // Login Button

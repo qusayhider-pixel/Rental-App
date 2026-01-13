@@ -187,7 +187,7 @@ class HomeScreen extends StatelessWidget {
               //       )
               //     : null,
               children: [
-                const Divider(height: 1),
+                const Divider(height: 1 , color: Color(0xA3CCBAFB),),
                 const SizedBox(height: 20),
 
                 // -------- Dropdowns --------

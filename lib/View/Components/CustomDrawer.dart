@@ -1,14 +1,13 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Controller/AuthController.dart';
 import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
+import 'package:uni_project/View/Screens/NotificationScreen.dart';
 import 'package:uni_project/View/Screens/ProfileScreen.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
-
 import '../../Controller/LoginController.dart';
 import '../Screens/AddApartment.dart';
 
@@ -115,14 +114,16 @@ class CustomDrawer extends StatelessWidget {
 
             const SizedBox(height: 10),
             _buildDrawerItem(Icons.person_outline, "My Profile"),
+            _buildDrawerItem(
+                Icons.notifications_active_outlined, "Notifications"),
+            _buildDrawerItem(Icons.mark_unread_chat_alt_outlined, "Chats"),
+            const Divider(thickness: 1, indent: 30, endIndent: 30),
             _buildDrawerItem(Icons.add_home_outlined, "Add Apartment"),
             _buildDrawerItem(Icons.favorite_border, "My Favorites"),
-            _buildDrawerItem(Icons.bookmark_border, "My Reservations"),
+            _buildDrawerItem(Icons.bookmark_outline_rounded, "My Reservations"),
             _buildDrawerItem(
-              Icons.manage_accounts_outlined,
-              "Reservation Management",
-            ),
-            const Divider(thickness: 1, indent: 20, endIndent: 20),
+                Icons.manage_accounts_outlined, "Reservation Management"),
+            const Divider(thickness: 1, indent: 30, endIndent: 30),
             _buildDrawerItem(Icons.logout, "Logout", isDestructive: true),
           ],
         ),
@@ -156,6 +157,9 @@ class CustomDrawer extends StatelessWidget {
         ),
       ),
       onTap: () {
+        if (title == 'Notifications') {
+          Get.to(() => NotificationScreen());
+        }
         if (title == 'Add Apartment') {
           Get.to(() => AddApartmentScreen());
         }

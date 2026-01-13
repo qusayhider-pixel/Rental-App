@@ -74,6 +74,8 @@ class LoginController extends GetxController {
 
   void logout() {
     authController.logout();
+    // apiService.logout();
+    print("logout Success ;D");
   }
 
 }
