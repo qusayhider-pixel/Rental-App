@@ -49,7 +49,20 @@ class FavoriteApartmentCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.network(apt.imageUrls.first, fit: BoxFit.cover),
+                      Image.network(
+                        apt.imageUrls.first,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Container(
+                              height: 200,
+                              width: double.infinity,
+                              color: Color(0xa6f0e6ff).withOpacity(0.2),
+                              child: const Icon(
+                                Icons.error,
+                                color: Colors.white38,
+                              ),
+                            ),
+                      ),
                     ],
                   ),
                 ),

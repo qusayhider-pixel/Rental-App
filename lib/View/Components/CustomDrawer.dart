@@ -1,16 +1,17 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Controller/AuthController.dart';
+import 'package:uni_project/View/Screens/ConversationScreen.dart';
 import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
+import 'package:uni_project/View/Screens/NotificationScreen.dart';
 import 'package:uni_project/View/Screens/ProfileScreen.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
-
 import '../../Controller/LoginController.dart';
 import '../Screens/AddApartment.dart';
+import '../Screens/ChatScreen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final auth = Get.find<AuthController>();
@@ -114,16 +115,42 @@ class CustomDrawer extends StatelessWidget {
             ),
 
             const SizedBox(height: 10),
-            _buildDrawerItem(Icons.person_outline, "My Profile"),
-            _buildDrawerItem(Icons.add_home_outlined, "Add Apartment"),
-            _buildDrawerItem(Icons.favorite_border, "My Favorites"),
-            _buildDrawerItem(Icons.bookmark_border, "My Reservations"),
+            _buildDrawerItem(Icons.person_outline, "My Profile", () {
+              Get.to(() => Profilescreen());
+            }),
+            _buildDrawerItem(Icons.send_rounded, "Chats", () {
+              Get.to(() => ChatsScreen());
+            }),
             _buildDrawerItem(
-              Icons.manage_accounts_outlined,
-              "Reservation Management",
-            ),
-            const Divider(thickness: 1, indent: 20, endIndent: 20),
-            _buildDrawerItem(Icons.logout, "Logout", isDestructive: true),
+                Icons.notifications_active_outlined, "Notifications", () {
+              Get.to(() => NotificationScreen());
+            }),
+            const Divider(thickness: 1, indent: 30, endIndent: 30),
+            _buildDrawerItem(Icons.add_home_outlined, "Add Apartment", () {
+              Get.to(() => AddApartmentScreen());
+            }),
+            _buildDrawerItem(Icons.favorite_border, "My Favorites", () {
+              Get.to(() => FavouriteScreen());
+            }),
+            _buildDrawerItem(
+                Icons.bookmark_outline_rounded, "My Reservations", () {
+              Get.to(() => MyReservationsScreen());
+            }),
+            _buildDrawerItem(
+                Icons.manage_accounts_outlined, "Reservation Management", () {
+              Get.to(() => ReservationManagementScreen());
+            }),
+            const Divider(thickness: 1, indent: 30, endIndent: 30),
+            _buildDrawerItem(Icons.logout, "Logout", () {
+              auth.logout();
+              Get.snackbar(
+                "LUXESTAY",
+                "Logout Successfully",
+                backgroundColor: Color.fromARGB(197, 165, 148, 250),
+                borderRadius: 25,
+              );
+              Get.changeTheme(ThemeData.light());
+            }, isDestructive: true),
           ],
         ),
       ),
@@ -132,9 +159,10 @@ class CustomDrawer extends StatelessWidget {
 
   Widget _buildDrawerItem(
     IconData icon,
-    String title, {
+      String title, VoidCallback onTap, {
     bool isDestructive = false,
-  }) {
+
+      }) {
     return ListTile(
       leading: Icon(
         icon,
@@ -155,38 +183,7 @@ class CustomDrawer extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
       ),
-      onTap: () {
-        if (title == 'Add Apartment') {
-          Get.to(() => AddApartmentScreen());
-        }
-        if (title == 'My Favorites') {
-          Get.to(() => FavouriteScreen());
-        }
-        if (title == 'My Reservations') {
-          Get.to(() => MyReservationsScreen());
-        }
-
-        if (title == 'Reservation Management') {
-          Get.to(() => ReservationManagementScreen());
-        }
-        if (title == 'My Profile') {
-          Get.to(() => Profilescreen());
-        }
-
-        if (title == 'Logout') {
-          auth.logout();
-
-          Get.snackbar(
-            "LUXESTAY",
-            "Logout Successfully",
-            backgroundColor: Color.fromARGB(197, 165, 148, 250),
-            borderRadius: 25,
-          );
-          // sharedPreference!.clear();
-          Get.changeTheme(ThemeData.light());
-          // Get.offAll(WelcomeScreen());
-        }
-      },
+        onTap: onTap
     );
   }
 }

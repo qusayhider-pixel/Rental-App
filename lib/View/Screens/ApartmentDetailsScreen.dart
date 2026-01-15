@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:uni_project/Controller/BookingController.dart';
 import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Controller/FilterController.dart';
-
 import '../../Controller/ApartmentDetailsController.dart';
+import '../../Controller/ChatController.dart';
 import '../../Model/apartment_model.dart';
 import '../Components/ApartmentBookingCalender.dart';
 
@@ -18,14 +18,14 @@ class ApartmentDetailsScreen extends StatelessWidget {
   final FilterController filterController = Get.find();
   final BookingController bookingController = Get.find();
   final FavoriteController favController = Get.find();
-  List<Color> darkGradient = [
+  final List<Color> darkGradient = [
     Color(0xff7f3aa1).withOpacity(0.9),
     Color(0xff5416b5).withOpacity(0.9),
     Color(0xff150b52).withOpacity(0.9),
     Color(0xff0c0516).withOpacity(0.9),
     Color(0xff190019).withOpacity(0.9),
   ];
-  List<Color> lightGradient = [
+  final List<Color> lightGradient = [
     Color(0xfff6c9c5).withOpacity(0.9),
     Color(0xffdc85b4).withOpacity(0.9),
     Color(0xffae4fdc).withOpacity(0.9),
@@ -76,8 +76,11 @@ class ApartmentDetailsScreen extends StatelessWidget {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                                   Container(
-                                    color: Colors.grey[300],
-                                    child: const Icon(Icons.error),
+                                    color: Color(0xa6f0e6ff).withOpacity(0.2),
+                                    child: const Icon(
+                                      Icons.error,
+                                      color: Colors.white38,
+                                    ),
                                   ),
                             );
                     },
@@ -303,7 +306,10 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () {}, // Mock call action
+                                    onPressed: () {
+                                      Get.find<ChatsController>()
+                                          .getOrCreateConv(apartment.id);
+                                    }, // Mock call action
                                     icon: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(

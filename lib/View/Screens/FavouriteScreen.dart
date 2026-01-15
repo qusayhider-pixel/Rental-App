@@ -1,11 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Model/FavoriteModel.dart';
-
 import '../Components/FavoriteApartmentCard.dart';
 
 class FavouriteScreen extends StatelessWidget {
@@ -37,21 +35,20 @@ class FavouriteScreen extends StatelessWidget {
               Positioned.fill(child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                     colors:
                     Get.isDarkMode ?
                     [
-                      Color(0xff7f3aa1),
-                      Color(0xff5416b5),
-                      Color(0xff150b52),
-                      Color(0xff0c0516),
-                      Color(0xff190019),
+                      Color(0xff7f3aa1).withOpacity(0.7),
+                      Color(0xff5516b5).withOpacity(0.7),
+                      Color(0xff150b52).withOpacity(0.7),
+                      Color(0xff190019).withOpacity(0.7),
                     ]
                         :
                     [
                       Color(0xffdfb6b2),
-                      Color(0xff9d5e80),
+                      Color(0xffad6e40),
                       Color(0xff7f3aa1),
                       Color(0xff5416b5),
                       // Color.fromARGB(255, 89, 25, 255).withOpacity(0.5),

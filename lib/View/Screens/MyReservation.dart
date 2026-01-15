@@ -125,7 +125,7 @@ class MyReservationsScreen extends StatelessWidget {
                                       Expanded(
                                         child: _buildDateBox(
                                           "Check-in",
-                                          booking.startDate as String,
+                                          booking.startDate,
                                         ),
                                       ),
                                       const Icon(
@@ -135,7 +135,7 @@ class MyReservationsScreen extends StatelessWidget {
                                       Expanded(
                                         child: _buildDateBox(
                                           "Check-out",
-                                          booking.endDate as String,
+                                          booking.endDate,
                                         ),
                                       ),
                                     ],
