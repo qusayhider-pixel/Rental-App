@@ -3,22 +3,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:uni_project/Controller/ConversationController.dart';
-import 'package:uni_project/Controller/FavoraiteController.dart';
-import 'package:uni_project/Controller/NotificationController.dart';
 import 'package:uni_project/Model/Chat_Model.dart';
-import 'package:uni_project/Model/FavoriteModel.dart';
-import 'package:uni_project/Model/Notificaion_model.dart';
 import 'package:uni_project/View/Components/ChatCard.dart';
-import 'package:uni_project/View/Components/FavoriteApartmentCard.dart';
-import '../Components/NotificationCard.dart';
+import '../../Controller/ChatController.dart';
 
 class ChatsScreen extends StatelessWidget {
   const ChatsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ConversationController controller = Get.find();
+    ChatsController controller = Get.find();
 
     return Scaffold(
       extendBodyBehindAppBar: true,

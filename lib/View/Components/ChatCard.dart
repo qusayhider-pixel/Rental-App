@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uni_project/Controller/ChatController.dart';
+import 'package:uni_project/Controller/ConversationController.dart';
 import 'package:uni_project/View/Screens/ConversationScreen.dart';
 import '../../Model/Chat_Model.dart';
 
@@ -11,7 +13,12 @@ class ChatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(()=>ConversationScreen()),
+      onTap: () {
+        print(chat.chatID);
+        print(chat.receiverName);
+        Get.find<ConversationController>().fetchConversationInfo(chat.chatID);
+      },
+
       child: ClipRRect(
         borderRadius: BorderRadius.circular(33),
         child: Container(
@@ -30,11 +37,11 @@ class ChatCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(33),
             boxShadow: [
               BoxShadow(
-                color: Color(0x52dad2fa),
+                color: Color(0x30dad2fa),
                 spreadRadius: 1,
                 blurRadius: 15,
                 offset: const Offset(5, 15),
-              ),
+              )
             ],
           ),
           child:
@@ -78,7 +85,7 @@ class ChatCard extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Louis',
-                              fontSize: 14,
+                              fontSize: 17,
                             ),
                           ),
 
@@ -91,7 +98,7 @@ class ChatCard extends StatelessWidget {
                             style:  TextStyle(
                               fontSize: 13,
                               fontFamily: 'Louis',
-                              color: Colors.grey.shade400,
+                              color: Colors.grey.shade200,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -99,11 +106,8 @@ class ChatCard extends StatelessWidget {
                       ),
                     ),
 
-                    Positioned(
-                      right: 0,
-                        child: Text(chat.lastMessageDate ?? '',
-                          style: TextStyle(color: Colors.white, fontSize: 12),)
-                    ),
+                    Text("    ${chat.lastMessageDate}" ?? '',
+                      style: TextStyle(color: Colors.white, fontSize: 12),),
                   ],
                 ),
               ),

@@ -12,8 +12,8 @@ import '../Model/province_model.dart';
 class ApiService {
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: "http://10.0.2.2:8000/api", //emulator
-      // baseUrl: "http://10.2.0.2:8000/api", //physical mobile
+      // baseUrl: "http://10.0.2.2:8000/api", //emulator
+      baseUrl: "http://10.214.255.87:8000/api", //physical mobile
       // baseUrl: "http://127.0.0.1:8000/api", //chrome
       headers: {"Accept": "application/json"},
     ),
@@ -232,10 +232,8 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> updateReservationRequestStatus(
-    String status,
-    int requestID,
-  ) async {
+  Future<void> updateReservationRequestStatus(String status,
+      int requestID) async {
     try {
       final response = await dio.put(
         '/owner/updateRequestStatus/$requestID',
@@ -453,4 +451,81 @@ class ApiService {
       rethrow;
     }
   }
+
+  //----------------------------------------------------------------------------
+  Future<void> createOrGetConversation(int aptID) async {
+    try {
+      await dio.post(
+        '/chat/property/$aptID',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
+    } catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/chat/property/$aptID");
+      print('❌ Error creating/getting chat : $e');
+      rethrow;
+    }
+  }
+
+  //---------------------------------------------------------------------------
+  Future<Conversation> conversationInformation(int chatId) async {
+    try {
+      final response = await dio.get(
+        '/chat/details',
+        data: {"conversation_id": chatId},
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
+      return Conversation.fromJson(response.data['data']);
+    } catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/chat/details  $chatId");
+      print('❌ Error getting chat info : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<List<Messages>> fetchingMessages(int chatId) async {
+    try {
+      final response = await dio.get(
+        '/messages',
+        data: {"conversation_id": chatId},
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
+      final List messages = response.data['data'];
+
+      return messages.map((json) => Messages.fromJson(json)).toList();
+    } catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}api/messages");
+      print('❌ Error fetching my messages : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<void> sendMessage(String chatID, String msg) async {
+    try {
+      await dio.post(
+        '/messages/send',
+        data: { "conversation_id": chatID, "contents": msg},
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
+    } catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/messages/send   $chatID");
+      print('❌ Error sending a message : $e');
+      rethrow;
+    }
+  }
+
+
 }

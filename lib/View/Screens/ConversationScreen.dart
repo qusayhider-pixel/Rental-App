@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:get/get.dart';
-
+import 'package:uni_project/Controller/ConversationController.dart';
 import '../../Model/Chat_Model.dart';
-
 final ChatUser landlord = ChatUser(
   id: 'owner_01',
   name: 'Karim Essam',
@@ -50,16 +49,12 @@ final List<Message> mockMessages = [
 ];
 
 
+class ConversationScreen extends StatelessWidget {
 
-class ConversationScreen extends StatefulWidget {
-  const ConversationScreen({super.key});
-  @override
-  State<ConversationScreen> createState() => _ConversationScreenState();
-}
+  ConversationScreen({super.key});
 
-class _ConversationScreenState extends State<ConversationScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
+  ConversationController controller = Get.find();
+
   Color accent =  Color.fromARGB(255, 151, 85, 222) ;
   LinearGradient gradient = Get.isDarkMode ?
   LinearGradient(colors: [
@@ -80,8 +75,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
     end: Alignment.centerLeft,
     begin: Alignment.centerRight,
   );
+
   @override
   Widget build(BuildContext context) {
+    print(controller.myConversation.value!.aptImage);
     return Scaffold(
       body: Stack(
         children: [
@@ -122,22 +119,24 @@ class _ConversationScreenState extends State<ConversationScreen> {
             children: [
               _buildCustomHeader(context),
               Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 20,
-                  ),
-                  itemCount: mockMessages.length,
-                  itemBuilder: (context, index) {
-                    final msg = mockMessages[index];
-                    final isFirstInSequence =
-                        index == 0 || mockMessages[index - 1].isMe != msg.isMe;
-                    return ChatBubble(
-                      message: msg,
-                      isFirstInSequence: isFirstInSequence,
-                    );
-                  },
+                child: Obx(() =>
+                    ListView.builder(
+                      controller: controller.scrollController,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 20,
+                      ),
+                      itemCount: controller.messages.length,
+                      itemBuilder: (context, index) {
+                        final msg = controller.messages[index];
+                        final isFirstInSequence = index == 0 ||
+                            controller.messages[index - 1].isMe != msg.isMe;
+                        return ChatBubble(
+                          message: msg,
+                          isFirstInSequence: isFirstInSequence,
+                        );
+                      },
+                    ),
                 ),
               ),
               Padding(
@@ -186,12 +185,24 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     _buildIconButton(Icons.arrow_back_ios_new, () {Get.back();}),
 
 
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: accent,
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(landlord.avatarUrl),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.network(
+                        "http://10.0.2.2:8000/storage/${controller
+                            .myConversation.value!.receiverAvatar}",
+                        width: 65,
+                        height: 65,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Container(
+                              height: 65,
+                              width: 65,
+                              color: Color(0xa6f0e6ff).withOpacity(0.2),
+                              child: const Icon(
+                                Icons.error,
+                                color: Colors.white38,
+                              ),
+                            ),
                       ),
                     ),
 
@@ -203,7 +214,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           Row(
                             children: [
                               Text(
-                                landlord.name,
+                                controller.myConversation.value!.receiverName,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -232,7 +243,36 @@ class _ConversationScreenState extends State<ConversationScreen> {
                         ],
                       ),
                     ),
-                    _buildIconButton(Icons.phone_outlined, () {}),
+                    _buildIconButton(Icons.phone_outlined, () {
+                      Get.dialog(
+                          AlertDialog(
+                            icon: Icon(
+                                Icons.person_pin_rounded, color: Colors.white,
+                                size: 50),
+                            title: Text(
+                              "${controller.myConversation.value!
+                                  .receiverName} 's Number ",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Louis",
+                                  fontSize: 18
+                              ),
+                            ),
+                            content: SelectableText(
+                                "+ ${controller
+                                    .myConversation.value!
+                                    .receiverPhone}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color(0xFF04BAFF),
+                                    fontFamily: "Louis",
+                                    fontSize: 18
+                                )),
+                            backgroundColor: accent.withOpacity(0.8),
+
+                          )
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -253,10 +293,21 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Image.network(
-                        currentProperty.imageUrl,
+                        "http://10.0.2.2:8000/${controller.myConversation.value!
+                            .aptImage}",
                         width: 50,
                         height: 50,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Container(
+                              height: 50,
+                              width: 50,
+                              color: Color(0xa6f0e6ff).withOpacity(0.2),
+                              child: const Icon(
+                                Icons.error,
+                                color: Colors.white38,
+                              ),
+                            ),
                       ),
                     ),
 
@@ -276,7 +327,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             ),
                           ),
                           Text(
-                            currentProperty.title,
+                            controller.myConversation.value!.aptTitle,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -290,11 +341,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     ),
 
                     Text(
-                      currentProperty.price,
+                      "\$${controller.myConversation.value!.aptPrice}",
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.lightGreenAccent,
                       ),
                     ),
                   ],
@@ -354,7 +405,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: TextField(
-                    controller: _controller,
+                    controller: controller.textController,
                     style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'Sans-Serif',
@@ -382,26 +433,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   Widget _buildSendButton() {
     return GestureDetector(
-      onTap: () {
-        if (_controller.text.isNotEmpty) {
-          setState(() {
-            mockMessages.add(
-              Message(
-                id: DateTime.now().toString(),
-                content: _controller.text,
-                timestamp: DateTime.now(),
-                isMe: true,
-              ),
-            );
-            _controller.clear();
-          });
-          _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent + 100,
-            duration:  Duration(milliseconds: 400),
-            curve: Curves.linear,
-          );
-        }
-      },
+      onTap: () => controller.sendMessage(controller.textController.text),
       child: Container(
         width: 48,
         height: 48,
@@ -429,7 +461,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
 }
 
 class ChatBubble extends StatelessWidget {
-  final Message message;
+  final Messages message;
   final bool isFirstInSequence;
 
   const ChatBubble({
@@ -491,7 +523,7 @@ class ChatBubble extends StatelessWidget {
               ),
             ),
             Text(
-              "${message.timestamp.hour}:${message.timestamp.minute}",
+              message.time,
               style: const TextStyle(
                 color: Color.fromARGB(255, 187, 187, 187),
                 fontSize: 11,
