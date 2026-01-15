@@ -1,13 +1,12 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/View/Screens/ConversationScreen.dart';
-import '../../Model/FavoriteModel.dart';
+import '../../Model/Chat_Model.dart';
 
 class ChatCard extends StatelessWidget {
-  final MyFavoriteModel apt;
+  final Chat chat;
 
-  const ChatCard({super.key, required this.apt});
+  const ChatCard({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class ChatCard extends StatelessWidget {
           ),
           child:
 
-              ///apt info
+          ///chat info
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Row(
@@ -50,7 +49,7 @@ class ChatCard extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Image.network(
-                        apt.imageUrls.first,
+                        "http://10.0.2.2:8000/storage/${chat.receiverAvatar}",
                         width: 65,
                         height: 65,
                         fit: BoxFit.cover,
@@ -75,7 +74,7 @@ class ChatCard extends StatelessWidget {
                         children: [
 
                           Text(
-                            "${apt.governorate}  -  ${apt.ownerName}",
+                            chat.receiverName,
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Louis',
@@ -86,7 +85,7 @@ class ChatCard extends StatelessWidget {
                           const SizedBox(height: 4),
 
                           Text(
-                            apt.description,
+                            "${chat.lastMessageContents ?? ''} ",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style:  TextStyle(
@@ -102,7 +101,8 @@ class ChatCard extends StatelessWidget {
 
                     Positioned(
                       right: 0,
-                      child:Text("${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} ",style: TextStyle(color: Colors.white ,fontSize: 12),)
+                        child: Text(chat.lastMessageDate ?? '',
+                          style: TextStyle(color: Colors.white, fontSize: 12),)
                     ),
                   ],
                 ),

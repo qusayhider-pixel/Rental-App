@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:uni_project/Model/Chat_Model.dart';
 import 'package:uni_project/Model/FavoriteModel.dart';
 import 'package:uni_project/Model/Notificaion_model.dart';
 import 'package:uni_project/Model/booking_model.dart';
@@ -429,6 +430,26 @@ class ApiService {
       e.toString();
       print("the bath is  ${dio.options.baseUrl}/notify/updateStatus");
       print('❌ Error update my notifications\'status : $e');
+      rethrow;
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  Future<List<Chat>> fetchingMyChats() async {
+    try {
+      final response = await dio.get(
+        '/chat/my',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
+      final List chats = response.data['data'];
+
+      return chats.map((json) => Chat.fromJson(json)).toList();
+    } catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/chat/my");
+      print('❌ Error fetching my chats : $e');
       rethrow;
     }
   }

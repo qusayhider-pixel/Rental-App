@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:uni_project/Controller/ConversationController.dart';
 import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Controller/NotificationController.dart';
+import 'package:uni_project/Model/Chat_Model.dart';
 import 'package:uni_project/Model/FavoriteModel.dart';
 import 'package:uni_project/Model/Notificaion_model.dart';
 import 'package:uni_project/View/Components/ChatCard.dart';
@@ -16,7 +18,7 @@ class ChatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FavoriteController controller = Get.find();
+    ConversationController controller = Get.find();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -71,7 +73,7 @@ class ChatsScreen extends StatelessWidget {
                     color: Colors.white60,
                   ),
                 )
-                    : controller.myFav.isEmpty
+                    : controller.myChats.isEmpty
                     ? Center(child: Text("There is No Notifications !"))
                     : MasonryGridView.count(
                   padding: const EdgeInsets.symmetric(
@@ -81,13 +83,12 @@ class ChatsScreen extends StatelessWidget {
                   crossAxisCount: 1,
                   mainAxisSpacing: 0,
                   crossAxisSpacing: 9,
-                  itemCount: controller.myFav.length,
-                  itemBuilder: (context, index) {
-                    final MyFavoriteModel notify =
-                    controller.myFav[index];
-                    return ChatCard(apt: notify);
-                  },
-                ),
+                        itemCount: controller.myChats.length,
+                        itemBuilder: (context, index) {
+                          final Chat chat = controller.myChats[index];
+                          return ChatCard(chat: chat);
+                        },
+                      ),
               ),
             ),
           ),

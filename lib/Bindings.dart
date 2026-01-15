@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:uni_project/Controller/ApartmentDetailsController.dart';
 import 'package:uni_project/Controller/AuthController.dart';
 import 'package:uni_project/Controller/BookingController.dart';
+import 'package:uni_project/Controller/ConversationController.dart';
 import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Controller/MyReservationsController.dart';
 import 'package:uni_project/Controller/NotificationController.dart';
@@ -22,6 +23,7 @@ class MyBinding extends Bindings{
     Get.lazyPut(() => FavoriteController(), fenix: true);
     Get.lazyPut(()=>ReservationController() , fenix: true);
     Get.lazyPut(() => NotificationController(), fenix: true);
+    Get.lazyPut(() => ConversationController(), fenix: true);
     Get.lazyPut(()=>MyReservationsController() , fenix: true);
     Get.lazyPut(() => ApartmentDetailsController(), fenix: true);
   }

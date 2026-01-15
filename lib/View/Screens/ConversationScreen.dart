@@ -2,47 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:get/get.dart';
 
-class Message {
-  final String id;
-  final String content;
-  final DateTime timestamp;
-  final bool isMe;
-
-  Message({
-    required this.id,
-    required this.content,
-    required this.timestamp,
-    required this.isMe,
-  });
-}
-
-class ChatUser {
-  final String id;
-  final String name;
-  final String avatarUrl;
-  final bool isOnline;
-  final bool isVerified;
-
-  ChatUser({
-    required this.id,
-    required this.name,
-    required this.avatarUrl,
-    this.isOnline = false,
-    this.isVerified = false,
-  });
-}
-
-class PropertyContext {
-  final String title;
-  final String imageUrl;
-  final String price;
-
-  PropertyContext({
-    required this.title,
-    required this.imageUrl,
-    required this.price,
-  });
-}
+import '../../Model/Chat_Model.dart';
 
 final ChatUser landlord = ChatUser(
   id: 'owner_01',
@@ -111,7 +71,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ):
-  LinearGradient(colors: [1
+  LinearGradient(colors: [
     Color(0xff6918e8).withOpacity(0.6),
     Color(0xffae4fdc).withOpacity(0.6),
     Color(0xffdc85b4).withOpacity(0.6),
