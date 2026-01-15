@@ -32,7 +32,7 @@ class ReservationController extends GetxController{
     final index = reservationRequest.indexWhere((element) => element.id == id);
     if (index != -1) {
       reservationRequest[index].bookingStatusCheck = newStatus;
-      await service.updateReservatoinRequestStatus(newStatus, id);
+      await service.updateReservationRequestStatus(newStatus, id);
       reservationRequest.refresh();
     }
     // ReservationStatus message = await service.updateReservatoinRequestStatus(newStatus, id);

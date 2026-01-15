@@ -45,12 +45,12 @@ class ReservationManagementScreen extends StatelessWidget {
                             )
                           : LinearGradient(
                               colors: [
+                                Color(0xfff6c9c5).withOpacity(0.1),
                                 Color(0xfff6c9c5).withOpacity(0.4),
-                                Color(0xffdc85b4).withOpacity(0.4),
                                 Color(0xffae4fdc).withOpacity(0.4),
-                                Color(0xff6918e8).withOpacity(0.1),
+                                Color(0xff6918e8).withOpacity(0.4),
                               ],
-                              begin: Alignment.center,
+                              begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
                             ),
                       boxShadow: [

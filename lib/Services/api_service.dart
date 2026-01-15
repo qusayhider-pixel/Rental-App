@@ -231,7 +231,7 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> updateReservatoinRequestStatus(
+  Future<void> updateReservationRequestStatus(
     String status,
     int requestID,
   ) async {

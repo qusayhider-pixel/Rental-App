@@ -35,16 +35,15 @@ class FavouriteScreen extends StatelessWidget {
               Positioned.fill(child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                     colors:
                     Get.isDarkMode ?
                     [
-                      Color(0xff7f3aa1).withOpacity(0.5),
-                      Color(0xff5516b5).withOpacity(0.5),
-                      Color(0xff150b52).withOpacity(0.5),
-                      Color(0xff0c0516).withOpacity(0.5),
-                      Color(0xff190019).withOpacity(0.5),
+                      Color(0xff7f3aa1).withOpacity(0.7),
+                      Color(0xff5516b5).withOpacity(0.7),
+                      Color(0xff150b52).withOpacity(0.7),
+                      Color(0xff190019).withOpacity(0.7),
                     ]
                         :
                     [

@@ -1,17 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:uni_project/Controller/FilterController.dart';
 import 'package:uni_project/Model/Notificaion_model.dart';
 
 class NotificatoinCard extends StatelessWidget {
   final NotificationModel notification;
-
   const NotificatoinCard({super.key, required this.notification});
 
   @override
   Widget build(BuildContext context) {
-    final FilterController controller = Get.find();
     return ClipRRect(
       borderRadius: BorderRadius.circular(33),
       child: BackdropFilter(
@@ -103,14 +99,7 @@ class NotificatoinCard extends StatelessWidget {
                     Positioned(
                       right: 0,
                       child: IconButton(
-                        onPressed: () {
-                          // Get.to(
-                          //   () => ApartmentDetailsScreen(
-                          //     apartment: controller.getApartmentById(notification.id),
-                          //   ),
-                          // );
-                        },
-                        // icon: Icon(Icons.check, size: 22, color: Colors.white),
+                        onPressed: () {},
                         icon: Icon(
                           notification.status == 0
                               ? Icons.done_rounded

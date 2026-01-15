@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uni_project/Controller/BookingController.dart';
-import 'package:uni_project/Controller/FilterController.dart';
 import 'package:uni_project/Services/api_service.dart';
 import 'package:uni_project/View/Screens/HomeScreen.dart';
 import '../Model/apartment_model.dart';
