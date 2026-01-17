@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Model/Chat_Model.dart';
 import 'package:uni_project/Model/FavoriteModel.dart';
 import 'package:uni_project/Model/Notificaion_model.dart';
+import 'package:uni_project/Model/Profile_model.dart';
 import 'package:uni_project/Model/booking_model.dart';
 import '../Model/Reservation_model.dart';
 import '../Model/apartment_model.dart';
@@ -12,8 +13,8 @@ import '../Model/province_model.dart';
 class ApiService {
   final Dio dio = Dio(
     BaseOptions(
-      // baseUrl: "http://10.0.2.2:8000/api", //emulator
-      baseUrl: "http://10.214.255.87:8000/api", //physical mobile
+      baseUrl: "http://10.0.2.2:8000/api", //emulator
+      // baseUrl: "http://10.214.255.87:8000/api", //physical mobile
       // baseUrl: "http://127.0.0.1:8000/api", //chrome
       headers: {"Accept": "application/json"},
     ),
@@ -98,6 +99,22 @@ class ApiService {
     } catch (e) {
       print('❌ Error fetching Apartments: $e');
       return [];
+    }
+  }
+
+  //----------------------------------------------------------------------------------
+  Future<Apartment> getOneApartment(int aptID) async {
+    try {
+      final response = await dio.get(
+        '/properties/showOne/$aptID',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
+      return Apartment.fromJson(response.data['data']);
+    } catch (e) {
+      print('❌ Error fetching Apartment: $e');
+      rethrow;
     }
   }
 
@@ -276,11 +293,8 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> editingBookingDates(
-    String startDate,
-    String endDate,
-    int id,
-  ) async {
+  Future<void> editingBookingDates(String startDate, String endDate,
+      int id) async {
     try {
       await dio.put(
         '/editBooking/$id',
@@ -319,10 +333,10 @@ class ApiService {
     try {
       await dio.post(
         '/properties/rate/$aptId',
+        data: {'rating': stars},
         options: Options(
           headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
         ),
-        data: {'rating': stars},
       );
       print("rating done with $stars Stars :D");
     } catch (e) {
@@ -453,14 +467,15 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> createOrGetConversation(int aptID) async {
+  Future<int> createOrGetConversation(int aptID) async {
     try {
-      await dio.post(
+      final response = await dio.post(
         '/chat/property/$aptID',
         options: Options(
           headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
         ),
       );
+      return response.data['conversation']['id'];
     } catch (e) {
       e.toString();
       print("the bath is  ${dio.options.baseUrl}/chat/property/$aptID");
@@ -527,5 +542,37 @@ class ApiService {
     }
   }
 
+  //----------------------------------------------------------------------------
+  Future<ProfileModel> getProfile() async {
+    try {
+      final response = await dio.get('/get/user/profile',
+          options: Options(headers: {
+            'Authorization': 'Bearer ${GetStorage().read('token')}'
+          }));
+      return ProfileModel.fromJson(response.data['data']);
+    }
+    catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/get/user/profile");
+      print('❌ Error fetching my profile : $e');
+      rethrow;
+    }
+  }
 
+  //----------------------------------------------------------------------------
+  Future<int> getUnSeenNotifications() async {
+    try {
+      final response = await dio.get('/notify/countUnseen',
+          options: Options(headers: {
+            'Authorization': 'Bearer ${GetStorage().read('token')}'
+          }));
+      return response.data['count'];
+    }
+    catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/notify/countUnseen");
+      print('❌ Error fetching my UnSeen notifications : $e');
+      rethrow;
+    }
+  }
 }

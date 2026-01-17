@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../../Controller/FilterController.dart';
 import '../../Model/city_model.dart';
 import '../../Model/province_model.dart';
@@ -7,16 +8,36 @@ import '../Components/ApartmentCard.dart';
 import '../Components/CustomDrawer.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final FilterController filterController = Get.put(FilterController());
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 
     return Scaffold(
+      key: scaffoldKey,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leading: InkWell(
+          onTap: () {
+            if (scaffoldKey.currentState!.isDrawerOpen) {
+              scaffoldKey.currentState!.closeDrawer();
+            } else {
+              scaffoldKey.currentState!.openDrawer();
+              filterController.getUnSeenNotification();
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.menu, // or your custom icon
+            ),
+          ),
+        ),
         title: Center(
           child: Text(
             "LUXESTAY",
@@ -46,10 +67,13 @@ class HomeScreen extends StatelessWidget {
                 ? Icon(Icons.wb_sunny_sharp)
                 : Icon(Icons.dark_mode_sharp),
             onPressed: () {
+              print(Get.isDarkMode);
               if (Get.isDarkMode) {
-                Get.changeTheme(ThemeData.light());
+                Get.changeThemeMode(ThemeMode.light);
+                GetStorage().write('isDarkMode', false);
               } else {
-                Get.changeTheme(ThemeData.dark());
+                Get.changeThemeMode(ThemeMode.dark);
+                GetStorage().write('isDarkMode', true);
               }
             },
           ),

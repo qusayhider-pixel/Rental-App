@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Controller/AuthController.dart';
+import 'package:uni_project/Controller/FilterController.dart';
 import 'package:uni_project/View/Screens/ConversationScreen.dart';
 import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
@@ -10,11 +11,14 @@ import 'package:uni_project/View/Screens/NotificationScreen.dart';
 import 'package:uni_project/View/Screens/ProfileScreen.dart';
 import 'package:uni_project/View/Screens/ReservationManageScreen.dart';
 import '../../Controller/LoginController.dart';
+import '../../Controller/NotificationController.dart';
 import '../Screens/AddApartment.dart';
 import '../Screens/ChatScreen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final auth = Get.find<AuthController>();
+  final filter = Get.find<FilterController>();
+
 
   CustomDrawer({super.key});
 
@@ -73,12 +77,10 @@ class CustomDrawer extends StatelessWidget {
                       shape: BoxShape.rectangle,
                     ),
                     child: Container(
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(500),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
                       ),
                       child: CircleAvatar(
                         radius: 70,
@@ -143,12 +145,6 @@ class CustomDrawer extends StatelessWidget {
             const Divider(thickness: 1, indent: 30, endIndent: 30),
             _buildDrawerItem(Icons.logout, "Logout", () {
               auth.logout();
-              Get.snackbar(
-                "LUXESTAY",
-                "Logout Successfully",
-                backgroundColor: Color.fromARGB(197, 165, 148, 250),
-                borderRadius: 25,
-              );
               Get.changeTheme(ThemeData.light());
             }, isDestructive: true),
           ],
@@ -164,7 +160,8 @@ class CustomDrawer extends StatelessWidget {
 
       }) {
     return ListTile(
-      leading: Icon(
+
+        leading: Icon(
         icon,
         color: isDestructive
             ? Colors.red
@@ -183,6 +180,11 @@ class CustomDrawer extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
       ),
+        trailing: title == "Notifications"
+            ? filter.unSeen.value > 0 ? CircleAvatar(
+          child: Obx(() => Text("${filter.unSeen.value}")),)
+            : null : null,
+
         onTap: onTap
     );
   }

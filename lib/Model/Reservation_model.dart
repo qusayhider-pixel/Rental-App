@@ -60,7 +60,7 @@ class MyReservations {
   final String propertyTitle;
   final String location;
   final String bookingPrice;
-  int rating = 0;
+  double rating;
   String startDate;
   String endDate;
   String bookingStatusCheck;
@@ -68,6 +68,7 @@ class MyReservations {
 
   MyReservations({
     required this.id,
+    required this.rating,
     required this.apartmentId,
     required this.ownerName,
     required this.ownerPhoto,
@@ -84,6 +85,7 @@ class MyReservations {
   factory MyReservations.fromJson(Map<String, dynamic> json) {
     return MyReservations(
       id: json['Booking_ID'],
+      rating: double.parse(json['booking_rate']),
       apartmentId: json['Property Id'],
       ownerName: json['Owner Name'],
       ownerPhoto: json['Owner Photo'],

@@ -26,13 +26,14 @@ class ChatsController extends GetxController {
     }
   }
 
-  void getOrCreateConv(int aptId) async {
+  Future<int> getOrCreateConv(int aptId) async {
     try {
       isLoading(true);
-      await service.createOrGetConversation(aptId);
+      return await service.createOrGetConversation(aptId);
       print(" Now Go the Conversation ");
     } catch (e) {
       Get.snackbar('Error', 'Failed to get or create this chat ');
+      rethrow;
     } finally {
       isLoading(false);
     }

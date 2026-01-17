@@ -3,34 +3,64 @@ import 'package:get/get.dart';
 import '../../Controller/SignUpController.dart';
 
 class ProfileImagePicker extends StatelessWidget {
-  ProfileImagePicker({super.key, required this.radius});
+  ProfileImagePicker({super.key,});
   final SignUpController controller = Get.find<SignUpController>();
-  final double radius;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: controller.pickAvatarImage,
       child: Obx(() {
-        return Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            CircleAvatar(
-              radius: radius,
-              backgroundColor: const Color(0xcba474fe),
-              backgroundImage: controller.avatarImage.value != null
-                  ? FileImage(controller.avatarImage.value!)
-                  : null,
-              child: controller.avatarImage.value == null
-                  ? const Icon(Icons.person, size: 50, color: Colors.white)
-                  : null,
+        return Container(
+          height: 115,
+          width: 200,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(
+                26),
+            border: Border.all(
+                color: Colors.white.withOpacity(
+                    0.2),
+                style: BorderStyle.solid),
+            image: controller.avatarImage.value !=
+                null
+                ? DecorationImage(
+              image: FileImage(
+                  controller.avatarImage.value!),
+              fit: BoxFit.cover,
+            )
+                : null,
+          ),
+          child: controller.avatarImage.value ==
+              null
+              ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                  Icons.person_add,
+                  color: Color(0xFF712BB7),
+                  size: 40),
+              Text(
+                "Upload Profile Photo",
+                style: TextStyle(
+                    color: Color(0xFF712BB7).withOpacity(0.6),
+                    fontSize: 12),
+              ),
+            ],
+          )
+              : Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(6),
+              decoration: const BoxDecoration(
+                color: Color(0xFF8A1AD5),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.edit,
+                  size: 16, color: Colors.white),
             ),
-            const CircleAvatar(
-              radius: 18,
-              backgroundColor: Color(0xcba474fe),
-              child: Icon(Icons.camera_alt, size: 18, color: Colors.white),
-            ),
-          ],
+          ),
         );
       }),
     );

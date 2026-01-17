@@ -62,32 +62,43 @@ class NotificationScreen extends StatelessWidget {
           ),
           SafeArea(
             child: SafeArea(
-              child: Obx(
-                () => controller.isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3,
-                          color: Colors.white60,
-                        ),
-                      )
-                    : controller.notifications.isEmpty
-                    ? Center(child: Text("There is No Notifications !"))
-                    : MasonryGridView.count(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 10,
-                        ),
-                        crossAxisCount: 1,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 15,
-                        itemCount: controller.notifications.length,
-                        itemBuilder: (context, index) {
-                          final NotificationModel notify =
-                              controller.notifications[index];
-                          return NotificatoinCard(notification: notify);
-                        },
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        color: Colors.white60,
                       ),
-              ),
+                    );
+                  }
+
+                  final groups = controller.grouped;
+
+                  if (groups.isEmpty) {
+                    return const Center(
+                      child: Text("There is No Notifications !"),
+                    );
+                  }
+
+                  return MasonryGridView.count(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8, vertical: 10),
+                    crossAxisCount: 1,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 15,
+                    itemCount: groups.length,
+                    itemBuilder: (context, index) {
+                      final group = groups[index];
+                      final lastNotification = group.items.last;
+
+                      return NotificatoinCard(
+                        notification: group.items,
+                        count: group.items.length,
+                      );
+                    },
+                  );
+                })
+
             ),
           ),
         ],

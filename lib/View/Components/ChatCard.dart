@@ -91,23 +91,38 @@ class ChatCard extends StatelessWidget {
 
                           const SizedBox(height: 4),
 
-                          Text(
-                            "${chat.lastMessageContents ?? ''} ",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style:  TextStyle(
-                              fontSize: 13,
-                              fontFamily: 'Louis',
-                              color: Colors.grey.shade200,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+
+                            // alignment: WrapAlignment.center,
+                            children: [
+                              if(chat.lastMessageContents != null)
+
+                                Icon(Icons.done_rounded,
+                                  color: Color(0xDB53EF13), size: 16,),
+
+                              Flexible(
+                                child: Text(
+                                  " ${chat.lastMessageContents ?? ''} ",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: '',
+                                    color: Color(0xDAD3D3D3),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
 
-                    Text("    ${chat.lastMessageDate}" ?? '',
-                      style: TextStyle(color: Colors.white, fontSize: 12),),
+                    Text(chat.lastMessageDate ?? '',
+                        style: TextStyle(color: Colors.white,
+                            fontSize: 13,
+                            fontFamily: 'Louis')),
                   ],
                 ),
               ),

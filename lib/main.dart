@@ -18,8 +18,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = GetStorage().read('isDarkMode') ?? false;
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       initialBinding: MyBinding(),
       home: GetStorage().read('token') != null
           ? HomeScreen()

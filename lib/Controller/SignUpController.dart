@@ -10,6 +10,8 @@ import 'package:image_picker/image_picker.dart';
 class SignUpController extends GetxController {
   final ApiService apiService = ApiService();
   var isLoading = false.obs;
+  RxBool isVisible = false.obs;
+
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();

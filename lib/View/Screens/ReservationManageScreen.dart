@@ -6,11 +6,22 @@ class ReservationManagementScreen extends StatelessWidget {
   ReservationManagementScreen({super.key});
 
   final ReservationController controller = Get.find();
+  RxBool isOpen = false.obs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(" Reservation Management")),
+      appBar: AppBar(
+        title: const Text(" Reservation Management"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              isOpen.value = !isOpen.value;
+            },
+            icon: Icon(Icons.filter_list),
+          ),
+        ],
+      ),
       body: Obx(() {
         return controller.isLoading.value
             ? Center(child: const CircularProgressIndicator(strokeWidth: 3))

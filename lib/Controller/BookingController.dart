@@ -10,8 +10,6 @@ import '../Services/api_service.dart';
 
 class BookingController extends GetxController {
   final service = ApiService();
-  final ApartmentDetailsController dateController = Get.find();
-
   //-----------booking variables------------------
 
   var requestId = 0.obs;
@@ -19,11 +17,14 @@ class BookingController extends GetxController {
   var isLoading = false.obs;
   final RxSet<DateTime> disabledDays = <DateTime>{}.obs;
   final Rxn<DateTimeRange> selectedRange = Rxn<DateTimeRange>();
+  var focusedDay = DateTime
+      .now()
+      .obs;
 
   //------------booking method-------------------
 
   void getBookingId(int apartmentId) async {
-    if (dateController.selectedDateRange.value == null) return;
+    if (selectedRange.value == null) return;
 
     isLoading.value = true;
 
@@ -31,10 +32,10 @@ class BookingController extends GetxController {
       Booking booking = await service.booking(
         DateFormat(
           'yyyy-MM-dd',
-        ).format(dateController.selectedDateRange.value!.start),
+        ).format(selectedRange.value!.start),
         DateFormat(
           'yyyy-MM-dd',
-        ).format(dateController.selectedDateRange.value!.end),
+        ).format(selectedRange.value!.end),
         apartmentId,
       );
 
@@ -78,6 +79,10 @@ class BookingController extends GetxController {
   }
 
   void updateRange(DateTimeRange range) {
-    dateController.selectedDateRange.value = range;
+    selectedRange.value = range;
+  }
+
+  int nights() {
+    return selectedRange.value?.duration.inDays ?? 0;
   }
 }

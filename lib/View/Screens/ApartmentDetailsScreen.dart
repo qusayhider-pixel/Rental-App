@@ -4,8 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:uni_project/Controller/BookingController.dart';
 import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Controller/FilterController.dart';
+import 'package:uni_project/Model/Chat_Model.dart';
 import '../../Controller/ApartmentDetailsController.dart';
 import '../../Controller/ChatController.dart';
+import '../../Controller/ConversationController.dart';
 import '../../Model/apartment_model.dart';
 import '../Components/ApartmentBookingCalender.dart';
 
@@ -306,10 +308,13 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () {
-                                      Get.find<ChatsController>()
-                                          .getOrCreateConv(apartment.id);
-                                    }, // Mock call action
+                                    onPressed: () async {
+                                      Get
+                                          .find<ConversationController>()
+                                          .fetchConversationInfo(await Get
+                                          .find<ChatsController>()
+                                          .getOrCreateConv(apartment.id));
+                                    },
                                     icon: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
@@ -368,8 +373,8 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                       const Icon(Icons.calendar_today_outlined),
                                       const SizedBox(width: 12),
                                       Obx(() {
-                                        final range = apartmentController
-                                            .selectedDateRange
+                                        final range = bookingController
+                                            .selectedRange
                                             .value;
                                         return Text(
                                           range == null
@@ -395,11 +400,10 @@ class ApartmentDetailsScreen extends StatelessWidget {
 
                           // Calculation Summary
                           Obx(() {
-                            if (apartmentController.selectedDateRange.value ==
-                                null) {
+                            if (bookingController.selectedRange.value == null) {
                               return const SizedBox();
                             }
-                            final nights = apartmentController.nights() + 1;
+                            final nights = bookingController.nights() + 1;
                             final totalPrice = nights * apartment.price;
                             return Column(
                               children: [
@@ -561,7 +565,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
             left: 0,
             right: 0,
             child: Obx(() {
-              final nights = apartmentController.nights() + 1;
+              final nights = bookingController.nights() + 1;
               final totalPrice = nights * apartment.price;
               return Container(
                 padding: const EdgeInsets.all(20),
@@ -606,8 +610,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              apartmentController.selectedDateRange.value ==
-                                      null
+                              bookingController.selectedRange.value == null
                                   ? RichText(
                                       text: TextSpan(
                                         children: [
@@ -641,7 +644,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                             ),
                                           ),
                                           TextSpan(
-                                            text: "/per $nights night",
+                                            text: "/for $nights night",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -664,9 +667,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                 onPressed:
                                     bookingController.requestStatus ==
                                             'pending' ||
-                                        apartmentController
-                                                .selectedDateRange
-                                                .value ==
+                                        bookingController.selectedRange.value ==
                                             null ||
                                         bookingController.isLoading.value
                                     ? null
@@ -747,7 +748,8 @@ class ApartmentDetailsScreen extends StatelessWidget {
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: SizedBox(height: 420, child: ApartmentBookingCalendar()),
+        child: SizedBox(height: 420,
+            child: ApartmentBookingCalendar(controller: bookingController)),
       ),
     );
   }
