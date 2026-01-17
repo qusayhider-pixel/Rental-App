@@ -362,7 +362,8 @@ class MyReservationsScreen extends StatelessWidget {
                     return AnimatedPositioned(
                         duration: const Duration(seconds: 1),
                         curve: Curves.easeInOutExpo,
-                        top: isOpen.value ? -10 : -71,
+                        // top: isOpen.value ? -10 : -80,
+                        bottom: isOpen.value ? 10 : -80,
                         left: 0,
                         right: 0,
                         // left: isOpen.value ? 10 : -500,
@@ -371,10 +372,23 @@ class MyReservationsScreen extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadiusGeometry.circular(50),
                             child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF33333F).withOpacity(0.3),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff6918e8).withOpacity(0.2),
+                                      Color(0xffae4fdc).withOpacity(0.2),
+                                      Color(0xffdc85b4).withOpacity(0.2),
+                                    ],
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0xbbffffff).withOpacity(0.3),
+                                      blurRadius: 30,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -499,7 +513,7 @@ class MyReservationsScreen extends StatelessWidget {
     }
 
     return Container(
-      height: 35,
+      height: 40,
       decoration: BoxDecoration(
         color: color.withOpacity(0.8),
         borderRadius: BorderRadius.circular(30),
@@ -558,26 +572,28 @@ class MyReservationsScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildDateBox(String label, String date) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.grey,
+            fontSize: 14,
+            fontFamily: "Louis",
+          ),
+        ),
+        Text(
+          date,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+      ],
+    );
+  }
+
+
 }
 
-Widget _buildDateBox(String label, String date) {
-  return Column(
-    children: [
-      Text(
-        label,
-        style: const TextStyle(
-          color: Colors.grey,
-          fontSize: 14,
-          fontFamily: "Louis",
-        ),
-      ),
-      Text(
-        date,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-      ),
-    ],
-  );
-}
 
 
 

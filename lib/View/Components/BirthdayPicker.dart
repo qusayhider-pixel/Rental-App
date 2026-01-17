@@ -22,66 +22,68 @@ class _BirthdayPickerState extends State<BirthdayPicker> {
         }
         return null;
       },
-
       controller: widget.controller.dobController,
       textInputAction: TextInputAction.next,
+      style: const TextStyle(color: Color(0xFF712BB7), fontSize: 13),
       decoration:
+      // InputDecoration(
+      //   labelText: "Your Birthday",
+      //   labelStyle: const TextStyle(color: Colors.white70, fontSize: 13),
+      //   prefixIcon: Icon(
+      //       Icons.calendar_month, color: const Color(0xff9e14e4), size: 20),
+      //   filled: true,
+      //   fillColor: Colors.white.withOpacity(0.1),
+      //   border: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //     borderSide: BorderSide.none,
+      //   ),
+      //   focusedBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(12),
+      //     borderSide: BorderSide(color: Color(0xFFC293F3), width: 1.5),
+      //   ),
+      //   errorBorder: OutlineInputBorder(
+      //       borderSide: BorderSide(color: Colors.red),
+      //       borderRadius: BorderRadius.all(Radius.circular(12))
+      //   ),
+      //
+      //   focusedErrorBorder: OutlineInputBorder(
+      //       borderSide: BorderSide(color: Colors.red),
+      //       borderRadius: BorderRadius.all(Radius.circular(12))
+      //   ),
+      //   errorStyle: TextStyle(color: Color(0xFFFF001E)),
+      // ),
+
       InputDecoration(
-        labelText: "Your Birthday",
-        labelStyle: const TextStyle(color: Colors.white70, fontSize: 13),
-        prefixIcon: Icon(
-            Icons.calendar_month, color: const Color(0xff9e14e4), size: 20),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.1),
+        labelStyle: const TextStyle(color: Color(0xff6e35a4), fontSize: 13),
+        fillColor: Colors.white.withOpacity(0.2),
+
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: Color(0xFFC293F3), width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-            borderRadius: BorderRadius.all(Radius.circular(12))
+          borderSide: BorderSide(color: Colors.red),
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+        ),
+        errorStyle: const TextStyle(color: Color(0xFFFF001E)
         ),
 
-        focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-            borderRadius: BorderRadius.all(Radius.circular(12))
+        hintText: "Your Birthday",
+        hintStyle: const TextStyle(color: Color(0xFF712BB7), fontSize: 13),
+        prefixIcon: const Padding(
+          padding: EdgeInsets.all(defaultPadding),
+          child: Icon(Icons.calendar_month, color: Color(0xff8726db)),
         ),
-        errorStyle: TextStyle(color: Color(0xFFFF001E)),
       ),
-      // InputDecoration(
-      //   filled: true,
-      //   fillColor: const Color(0xffBF9BFF),
-      //
-      //   enabledBorder: OutlineInputBorder(
-      //     borderSide: BorderSide(color: kPrimaryLightColor),
-      //     borderRadius: const BorderRadius.all(Radius.circular(40)),
-      //   ),
-      //
-      //   focusedBorder: const OutlineInputBorder(
-      //     borderSide: BorderSide(color: kPrimaryColor),
-      //     borderRadius: BorderRadius.all(Radius.circular(40)),
-      //   ),
-      //
-      //   errorBorder: const OutlineInputBorder(
-      //     borderSide: BorderSide(color: Colors.red),
-      //     borderRadius: BorderRadius.all(Radius.circular(40)),
-      //   ),
-      //
-      //   focusedErrorBorder: const OutlineInputBorder(
-      //     borderSide: BorderSide(color: Colors.red),
-      //     borderRadius: BorderRadius.all(Radius.circular(40)),
-      //   ),
-      //
-      //   hintText: "Your Birthday",
-      //   prefixIcon: const Padding(
-      //     padding: EdgeInsets.all(defaultPadding),
-      //     child: Icon(Icons.calendar_month),
-      //   ),
-      // ),
       readOnly: true,
       onTap: () {
         _selectDate();

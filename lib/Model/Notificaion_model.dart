@@ -24,3 +24,15 @@ class NotificationModel {
     );
   }
 }
+
+class NotificationGroup {
+  final String type;
+  final String senderName;
+  final List<NotificationModel> items;
+
+  NotificationGroup({
+    required this.type,
+    required this.senderName,
+    required this.items,
+  });
+}

@@ -23,6 +23,8 @@ class FilterController extends GetxController {
 
   var priceRange = const RangeValues(100, 5000).obs;
 
+  var unSeen = 0.obs;
+
   var selectedRooms = 2.obs;
 
   var isFilterExpanded = false.obs;
@@ -34,6 +36,15 @@ class FilterController extends GetxController {
   void onInit() {
     super.onInit();
     fetchApartments();
+  }
+
+  void getUnSeenNotification() async {
+    try {
+      unSeen.value = await service.getUnSeenNotifications();
+      print(unSeen);
+    } catch (e) {
+      print('error get the number of unseen notifications');
+    }
   }
 
   // UI Updates---------------------------------------------------------------------------

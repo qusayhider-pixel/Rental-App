@@ -13,6 +13,7 @@ class NotificationController extends GetxController {
     fetchNotification();
   }
 
+
   void fetchNotification() async {
     try {
       isLoading(true);
@@ -30,4 +31,43 @@ class NotificationController extends GetxController {
     service.changeNotificationStatus();
     super.onClose();
   }
+
+  //---------------------grouping Notifications--------------------------------
+  List<NotificationGroup> get grouped => groupSequential();
+
+  List<NotificationGroup> groupSequential() {
+    final List<NotificationGroup> groups = [];
+
+    for (final n in notifications) {
+      if (groups.isEmpty) {
+        groups.add(
+          NotificationGroup(
+            type: n.title,
+            senderName: n.sender,
+            items: [n],
+          ),
+        );
+        continue;
+      }
+
+      final lastGroup = groups.last;
+
+      final canMerge =
+          lastGroup.type == n.title && lastGroup.senderName == n.sender;
+
+      if (canMerge) {
+        lastGroup.items.add(n);
+      } else {
+        groups.add(
+          NotificationGroup(
+            type: n.title,
+            senderName: n.sender,
+            items: [n],
+          ),
+        );
+      }
+    }
+    return groups;
+  }
+
 }

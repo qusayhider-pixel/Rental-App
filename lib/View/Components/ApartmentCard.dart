@@ -50,7 +50,7 @@ class ApartmentCard extends StatelessWidget {
                   end: Alignment.centerLeft,
                 ),
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(50),
+            topRight: Radius.circular(40),
             topLeft: Radius.circular(120),
             bottomRight: Radius.circular(40),
             bottomLeft: Radius.circular(40),

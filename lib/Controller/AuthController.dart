@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/View/Screens/WelcomeScreen.dart';
@@ -7,6 +11,7 @@ import '../Model/LoginResponse.dart';
 class AuthController extends GetxController {
   var user = Rxn<LoginResponse>();
   final box = GetStorage();
+  var unSeen = 0;
 
   @override
   void onInit() {
@@ -44,5 +49,14 @@ class AuthController extends GetxController {
     box.erase();
     user.value = null;
     Get.offAll(() => WelcomeScreen());
+    Get.snackbar(
+      "LUXESTAY",
+      "Logout Success",
+      backgroundColor: const Color.fromARGB(132, 9, 245, 1),
+      borderRadius: 30,
+      maxWidth: 250,
+      margin: const EdgeInsets.all(10),
+      icon: Icon(Icons.done_outline_sharp, size: 30),
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Model/Chat_Model.dart';
 import 'package:uni_project/Model/FavoriteModel.dart';
 import 'package:uni_project/Model/Notificaion_model.dart';
+import 'package:uni_project/Model/Profile_model.dart';
 import 'package:uni_project/Model/booking_model.dart';
 import '../Model/Reservation_model.dart';
 import '../Model/apartment_model.dart';
@@ -541,5 +542,37 @@ class ApiService {
     }
   }
 
+  //----------------------------------------------------------------------------
+  Future<ProfileModel> getProfile() async {
+    try {
+      final response = await dio.get('/get/user/profile',
+          options: Options(headers: {
+            'Authorization': 'Bearer ${GetStorage().read('token')}'
+          }));
+      return ProfileModel.fromJson(response.data['data']);
+    }
+    catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/get/user/profile");
+      print('❌ Error fetching my profile : $e');
+      rethrow;
+    }
+  }
 
+  //----------------------------------------------------------------------------
+  Future<int> getUnSeenNotifications() async {
+    try {
+      final response = await dio.get('/notify/countUnseen',
+          options: Options(headers: {
+            'Authorization': 'Bearer ${GetStorage().read('token')}'
+          }));
+      return response.data['count'];
+    }
+    catch (e) {
+      e.toString();
+      print("the bath is  ${dio.options.baseUrl}/notify/countUnseen");
+      print('❌ Error fetching my UnSeen notifications : $e');
+      rethrow;
+    }
+  }
 }
