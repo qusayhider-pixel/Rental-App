@@ -36,15 +36,47 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(Icons.real_estate_agent_rounded, size: 120, color: Color(0xFFD4AF37)),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.05),
+                      border: Border.all(
+                          color: Colors.white.withOpacity(0.1), width: 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.2),
+                          blurRadius: 20,
+                          spreadRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: ShaderMask(
+                      shaderCallback: (bounds) =>
+                          LinearGradient(
+                            colors: [
+                              Color(0xff4805b0),
+                              Color(0xff9d05e8),
+                              Color(0xffc450e0),
+                              Color(0xffeed5a0),
+                              Color(0xffeed5a0),
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ).createShader(bounds),
+                      child: const Icon(
+                          Icons.real_estate_agent_rounded, size: 120,
+                          color: Color(
+                              0xFFA516E4)),
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   const Text(
                     "Welcome Back!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'Multicolore', // الحفاظ على الخط القديم إذا رغبت، أو تغييره
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Multicolore',
+                      fontSize: 28,
                       letterSpacing: 1.5,
                       color: Colors.white,
                     ),
@@ -155,9 +187,7 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-// ==========================================
-// Helper Widgets (To keep UI consistent without external imports)
-// ==========================================
+
 
 class LuxeBackground extends StatelessWidget {
   final Widget child;
@@ -180,8 +210,9 @@ class LuxeBackground extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  const Color(0xFF0F172A).withOpacity(0.6),
-                  const Color(0xFF0F172A).withOpacity(0.9),
+                  Color(0xB88B5AC5).withOpacity(0.3),
+                  Color(0xFF8B5AC5).withOpacity(0.8),
+                  Color(0xFF8B5AC5).withOpacity(0.95),
                 ],
               ),
             ),
@@ -205,13 +236,15 @@ Widget _buildTextFormField({
     controller: controller,
     obscureText: isPassword,
     keyboardType: inputType,
+    textInputAction: TextInputAction.next,
     validator: validator,
     style: const TextStyle(color: Colors.white),
-    cursorColor: const Color(0xFFD4AF37),
+    cursorColor: const Color(0xff9d05e8),
+
     decoration: InputDecoration(
       labelText: label,
       labelStyle: const TextStyle(color: Colors.white70),
-      prefixIcon: Icon(icon, color: const Color(0xFFD4AF37), size: 20),
+      prefixIcon: Icon(icon, color: const Color(0xff9e14e4), size: 20),
       filled: true,
       fillColor: Colors.white.withOpacity(0.1),
       border: OutlineInputBorder(
@@ -220,9 +253,18 @@ Widget _buildTextFormField({
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFFD4AF37), width: 1.5),
+        borderSide: BorderSide(color: Color(0xFFC293F3), width: 1.5),
       ),
-      errorStyle: const TextStyle(color: Colors.redAccent),
+      errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.all(Radius.circular(12))
+      ),
+
+      focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.all(Radius.circular(12))
+      ),
+      errorStyle: TextStyle(color: Color(0xFFFF001E)),
     ),
   );
 }
@@ -233,12 +275,17 @@ Widget _buildGoldButton({required String label, required VoidCallback onTap, boo
     height: 55,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
-      gradient: const LinearGradient(
-        colors: [Color(0xFFD4AF37), Color(0xFFC5A028)],
+      gradient: LinearGradient(
+        colors: [
+          Color(0xffdc85b4).withOpacity(0.7),
+          Color(0xff9d05e8).withOpacity(0.7),
+          Color(0xff4805b0).withOpacity(0.7),
+          Color(0xff4805b0),
+        ],
       ),
       boxShadow: [
         BoxShadow(
-          color: const Color(0xFFD4AF37).withOpacity(0.3),
+          color: const Color(0xFFB724F3).withOpacity(0.7),
           blurRadius: 15,
           offset: const Offset(0, 5),
         ),
@@ -252,11 +299,11 @@ Widget _buildGoldButton({required String label, required VoidCallback onTap, boo
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       child: isLoading
-          ? const CircularProgressIndicator(color: Colors.black, strokeWidth: 3)
+          ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 3)
           : Text(
         label,
         style: const TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontSize: 18,
           fontFamily: 'Multicolore',
           fontWeight: FontWeight.bold,

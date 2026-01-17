@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/View/Screens/LoginScreen.dart';
 import 'package:uni_project/View/Screens/SignIUpScreen.dart';
@@ -17,9 +16,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
 
-  final Color _primaryGold = const Color(0xFFD4AF37);
-  final Color _secondaryGold = const Color(0xFFC5A028);
-  final Color _darkOverlay = const Color(0xFF0F172A);
+  final Color _primaryGold = const Color(0xFFA151E3);
+  final Color _darkOverlay = const Color(0xFF8B5AC5);
 
   @override
   void initState() {
@@ -67,7 +65,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 colors: [
                   _darkOverlay.withOpacity(0.3),
                   _darkOverlay.withOpacity(0.8),
-                  _darkOverlay.withOpacity(0.95), // تركيز اللون في الأسفل
+                  _darkOverlay,
                 ],
               ),
             ),
@@ -91,23 +89,44 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.white.withOpacity(0.05), // زجاجي خفيف
+                              color: Colors.white.withOpacity(0.05),
                               border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
                               boxShadow: [
                                 BoxShadow(
-                                  color: _primaryGold.withOpacity(0.1),
+                                  color: Colors.white.withOpacity(0.2),
                                   blurRadius: 20,
                                   spreadRadius: 5,
                                 ),
                               ],
                             ),
-                            child:  const Icon(Icons.real_estate_agent_rounded, size: 120, color: Color(0xFFD4AF37)),
+                            child: ShaderMask(
+                              shaderCallback: (bounds) =>
+                                  LinearGradient(
+                                    colors: [
+                                      Color(0xff4805b0),
+                                      Color(0xff9d05e8),
+                                      Color(0xffc450e0),
+                                      Color(0xffeed5a0),
+                                      Color(0xffeed5a0),
+                                    ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ).createShader(bounds),
+                              child: const Icon(
+                                  Icons.real_estate_agent_rounded, size: 120,
+                                  color: Color(
+                                      0xFFA516E4)),
+                            ),
                           ),
                           const SizedBox(height: 25),
 
                           ShaderMask(
                             shaderCallback: (bounds) => LinearGradient(
-                              colors: [_primaryGold, const Color(0xFFFBF5B7), _secondaryGold],
+                              colors: [
+                                Color(0xff4805b0),
+                                Color(0xff9d05e8),
+                                Color(0xffc450e0),
+                              ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ).createShader(bounds),
@@ -123,16 +142,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                             ),
                           ),
 
+
                           const SizedBox(height: 12),
 
-                          // الوصف بخط Louis
                           Text(
                             'Your Key to Luxury Living',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'Louis',
                               color: Colors.white.withOpacity(0.8),
-                              fontSize: 16,
+                              fontSize: 18,
                               letterSpacing: 1.2,
                             ),
                           ),
@@ -194,7 +213,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         gradient: LinearGradient(
-          colors: [_primaryGold, _secondaryGold],
+            colors: [
+              Color(0xffdc85b4).withOpacity(0.7),
+              Color(0xff9d05e8).withOpacity(0.7),
+              Color(0xff4805b0).withOpacity(0.7),
+              Color(0xff4805b0),
+            ],
+            begin: AlignmentGeometry.topLeft,
+            end: AlignmentGeometry.bottomRight
         ),
         boxShadow: [
           BoxShadow(
@@ -214,7 +240,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         child: Text(
           label,
           style: const TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 16,
             fontFamily: 'Multicolore',
             fontWeight: FontWeight.bold,

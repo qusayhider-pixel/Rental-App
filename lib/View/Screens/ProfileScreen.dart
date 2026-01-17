@@ -82,17 +82,16 @@ class Profilescreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 26),
-                      child: Align(
-                        alignment: AlignmentGeometry.topLeft,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 18,
-                        ),
-                      ),
-                    ),
-
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 26),
+                    //   child: Align(
+                    //     alignment: AlignmentGeometry.topLeft,
+                    //     child: CircleAvatar(
+                    //       backgroundColor: Color(0xC0FFFFFF),
+                    //       radius: 18,
+                    //     ),
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Stack(

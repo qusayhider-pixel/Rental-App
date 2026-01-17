@@ -15,10 +15,8 @@ class ApartmentDetailsController extends GetxController {
 
   int? requestId;
 
-
   //----------- getting apartments's variables-----------
   var favApartments = <Apartment>[].obs;
-  var selectedDateRange = Rxn<DateTimeRange>();
   final bookings = <BookingRange>[].obs;
 
   //--------------adding apartments's variables----------
@@ -33,28 +31,6 @@ class ApartmentDetailsController extends GetxController {
 
   //-----------------------functions---------------------
 
-  int nights() {
-    return selectedDateRange.value?.duration.inDays ?? 0;
-  }
-
-  // void addToFav(Apartment apartment) async {
-  //   if (apartment.isFav == true) {
-  //     await Get.defaultDialog(
-  //       title: "Warning!",
-  //       middleText: "You're Removing this Apartment from Your Favourites",
-  //       textConfirm: "Confirm",
-  //       textCancel: "Cancel",
-  //       onConfirm: () {
-  //         apartment.isFavorite.value = false; // ✅ remove fav
-  //         Get.back();
-  //       },
-  //       radius: 24,
-  //     );
-  //   } else {
-  //     apartment.isFavorite.value = true;
-  //     favApartments.add(apartment);
-  //   }
-  // }
 
   void updateProvince(Province? province) {
     selectedProvince.value = province;

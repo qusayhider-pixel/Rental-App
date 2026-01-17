@@ -3,51 +3,6 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/ConversationController.dart';
 import '../../Model/Chat_Model.dart';
-final ChatUser landlord = ChatUser(
-  id: 'owner_01',
-  name: 'Karim Essam',
-  avatarUrl:
-      'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200',
-  isOnline: true,
-  isVerified: true,
-);
-
-final PropertyContext currentProperty = PropertyContext(
-  title: 'Luxury Nile View Apt',
-  imageUrl:
-      'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=200',
-  price: '\$1,200/mo',
-);
-
-final List<Message> mockMessages = [
-  Message(
-    id: '1',
-    content: 'Hello Karim, is this apartment still available for next month?',
-    timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-    isMe: true,
-  ),
-  Message(
-    id: '2',
-    content:
-        'Hello! Yes, it is available starting from the 1st. Would you like to schedule a viewing?',
-    timestamp: DateTime.now().subtract(const Duration(hours: 1, minutes: 55)),
-    isMe: false,
-  ),
-  Message(
-    id: '3',
-    content: 'That would be great. Is Saturday morning okay?',
-    timestamp: DateTime.now().subtract(const Duration(hours: 1, minutes: 50)),
-    isMe: true,
-  ),
-  Message(
-    id: '4',
-    content:
-        'Saturday at 10:00 AM works perfectly. I will send you the location details shortly.',
-    timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
-    isMe: false,
-  ),
-];
-
 
 class ConversationScreen extends StatelessWidget {
 
@@ -221,14 +176,6 @@ class ConversationScreen extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              if (landlord.isVerified) ...[
-                                const SizedBox(width: 4),
-                                Icon(
-                                  Icons.verified,
-                                  size: 16,
-                                  color: accent,
-                                ),
-                              ],
                             ],
                           ),
                           const Text(

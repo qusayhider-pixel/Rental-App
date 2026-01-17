@@ -17,7 +17,7 @@ class ProfileImagePicker extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: radius,
-              backgroundColor: const Color(0xcba474fe),
+              backgroundColor: const Color(0xcd943ad9),
               backgroundImage: controller.avatarImage.value != null
                   ? FileImage(controller.avatarImage.value!)
                   : null,

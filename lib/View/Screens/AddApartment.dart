@@ -16,7 +16,7 @@ class LuxeBackground extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(
-            'assets/Apartments/purple1.jpg',
+            'assets/addApartment.jpg',
             fit: BoxFit.cover,
           ),
         ),
@@ -329,6 +329,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                     begin: Alignment.bottomRight,
                     end: Alignment.topLeft,
                   ),
+            boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.2))],
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.white.withOpacity(0.1)),
           ),
@@ -372,6 +373,7 @@ class _AddApartmentScreenState extends State<AddApartmentScreen> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
+            boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.2))],
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
               color: isMain ? DarkModeColor : Colors.white.withOpacity(0.2),

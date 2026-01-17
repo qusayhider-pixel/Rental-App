@@ -77,6 +77,16 @@ class FilterController extends GetxController {
     }
   }
 
+  Future<Apartment> fetchOneApt(int aptID) async {
+    try {
+      Apartment apt = await service.getOneApartment(aptID);
+      return apt;
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load');
+      rethrow;
+    }
+  }
+
   Apartment getApartmentById(int id) {
     return allApartments.firstWhere((apt) => apt.id == id);
   }

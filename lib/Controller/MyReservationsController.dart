@@ -10,10 +10,39 @@ import 'package:uni_project/Services/api_service.dart';
 class MyReservationsController extends GetxController {
   ApiService service = ApiService();
   var myReservation = <MyReservations>[].obs;
+  var myReservationFiltered = <MyReservations>[].obs;
   final otherBookings = <BookingRange>[].obs;
+  var isLoading = false.obs;
+  RxString filter = ''.obs;
+
+  //-----------------------------------------
   var selectedRange = Rxn<DateTimeRange>();
   final disabledDays = <DateTime>{}.obs;
-  var isLoading = false.obs;
+  var focusedDay = DateTime
+      .now()
+      .obs;
+
+  //-----------------------------------------
+  void applyFilters() {
+    final result = myReservation.where((booking) {
+      final matchesStatus = booking.bookingStatusCheck == filter.value;
+
+      return matchesStatus;
+    }).toList();
+
+    myReservationFiltered.assignAll(result);
+    update(); // for GetBuilder
+  }
+
+  // Reset Filters---------------------------------------------------------------------------
+  void resetFilters() {
+    print('🔄 Reset filters');
+    fetchingMyReservations();
+    update();
+  }
+
+
+  //-----------------------------------------
   @override
   void onInit() {
     super.onInit();
@@ -24,6 +53,7 @@ class MyReservationsController extends GetxController {
     try {
       isLoading(true);
       myReservation.value = await service.fetchingMyReservations();
+      myReservationFiltered.assignAll(myReservation);
       print(myReservation.isEmpty);
     } catch (e) {
       Get.snackbar('Error', 'Failed to load');
@@ -33,23 +63,22 @@ class MyReservationsController extends GetxController {
   }
 
   void rateBooking(MyReservations booking, int stars) {
-    final index = myReservation.indexWhere(
-      (element) => element.id == booking.id,
-    );
-    if (index != -1) {
-      myReservation[index].rating = stars;
+    final index = myReservation.indexWhere((element) =>
+    element.id == booking.id);
+    if (index != -1 && myReservation[index].rating == 0) {
+      myReservation[index].rating = stars.toDouble();
       myReservation.refresh();
       service.ratingApartment(booking.apartmentId, stars);
+      Get.snackbar(
+        "LUXESTAY",
+        "Thank you for your Feedback",
+        backgroundColor: const Color.fromARGB(215, 178, 145, 239),
+        borderRadius: 30,
+        maxWidth: 250,
+        margin: const EdgeInsets.all(10),
+        icon: Icon(Icons.thumb_up_alt_sharp, size: 30),
+      );
     }
-    Get.snackbar(
-      "LUXESTAY",
-      "Thank you for your Feedback",
-      backgroundColor: const Color.fromARGB(215, 178, 145, 239),
-      borderRadius: 30,
-      maxWidth: 250,
-      margin: const EdgeInsets.all(10),
-      icon: Icon(Icons.thumb_up_alt_sharp, size: 30),
-    );
   }
 
   void editDates(int bookingId) async {
@@ -70,6 +99,9 @@ class MyReservationsController extends GetxController {
         margin: const EdgeInsets.all(10),
         icon: Icon(Icons.done_outline_sharp, size: 30),
       );
+      focusedDay = DateTime
+          .now()
+          .obs;
     } catch (e) {
       if (e is DioException) {
         if (e.response?.data != null && e.response?.data['message'] != null) {
