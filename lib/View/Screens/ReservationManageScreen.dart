@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/ReservationController.dart';
+import 'package:uni_project/Services/api_service.dart';
 
 class ReservationManagementScreen extends StatelessWidget {
   ReservationManagementScreen({super.key});
@@ -86,7 +89,7 @@ class ReservationManagementScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 30,
                                   backgroundImage: NetworkImage(
-                                    "http://10.0.2.2:8000/storage/${req.tenantAvatar}",
+                                    "$baseUrl/storage/${req.tenantAvatar}",
                                   ),
                                   backgroundColor: Colors.grey[200],
                                   onBackgroundImageError: (_, _) =>

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/Model/Notificaion_model.dart';
+import 'package:uni_project/Services/api_service.dart';
 
 class NotificatoinCard extends StatelessWidget {
   final List<NotificationModel> notification;
@@ -58,7 +59,6 @@ class NotificatoinCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 ///notification info
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -80,11 +80,10 @@ class NotificatoinCard extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 25,
                           backgroundImage: NetworkImage(
-                            "http://10.0.2.2:8000/storage/${notification.last
-                                .avatar}",
+                            "$baseUrl/storage/${notification.last.avatar}",
                           ),
                           onBackgroundImageError: (_, _) =>
-                          const Icon(Icons.person),
+                              const Icon(Icons.person),
                         ),
                       ),
                       SizedBox(width: 9),
@@ -93,28 +92,27 @@ class NotificatoinCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              " ${notification.last.sender} - ${notification
-                                  .last.title}",
+                              " ${notification.last.sender} - ${notification.last.title}",
                               style: TextStyle(
                                 color: Colors.grey.shade300,
                                 fontSize: 12,
                               ),
                             ),
                             const SizedBox(height: 4),
-                            Obx(() =>
-                                Text(
-                                  isExpanded.value
-                                      ? content
-                                      : notification.last.content,
-                                  maxLines: 8,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Louis',
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            Obx(
+                              () => Text(
+                                isExpanded.value
+                                    ? content
+                                    : notification.last.content,
+                                maxLines: 8,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Louis',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
+                              ),
                             ),
                           ],
                         ),
@@ -128,7 +126,9 @@ class NotificatoinCard extends StatelessWidget {
                             child: Text(
                               '$count',
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 12),
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ),

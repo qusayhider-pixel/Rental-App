@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/FilterController.dart';
+import 'package:uni_project/Services/api_service.dart';
 import '../../Model/FavoriteModel.dart';
 import '../Screens/ApartmentDetailsScreen.dart';
 
@@ -52,16 +53,12 @@ class FavoriteApartmentCard extends StatelessWidget {
                       Image.network(
                         apt.imageUrls.first,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Container(
-                              height: 200,
-                              width: double.infinity,
-                              color: Color(0xa6f0e6ff).withOpacity(0.2),
-                              child: const Icon(
-                                Icons.error,
-                                color: Colors.white38,
-                              ),
-                            ),
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          height: 200,
+                          width: double.infinity,
+                          color: Color(0xa6f0e6ff).withOpacity(0.2),
+                          child: const Icon(Icons.error, color: Colors.white38),
+                        ),
                       ),
                     ],
                   ),
@@ -107,7 +104,7 @@ class FavoriteApartmentCard extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 25,
                       backgroundImage: NetworkImage(
-                        "http://10.0.2.2:8000/storage/${apt.ownerAvatar}",
+                        "$baseUrl/storage/${apt.ownerAvatar}",
                       ),
                       onBackgroundImageError: (_, _) =>
                           const Icon(Icons.person),

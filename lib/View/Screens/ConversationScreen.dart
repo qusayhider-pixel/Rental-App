@@ -2,34 +2,36 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/ConversationController.dart';
+import 'package:uni_project/Services/api_service.dart';
 import '../../Model/Chat_Model.dart';
 
 class ConversationScreen extends StatelessWidget {
-
   ConversationScreen({super.key});
 
   ConversationController controller = Get.find();
 
-  Color accent =  Color.fromARGB(255, 151, 85, 222) ;
-  LinearGradient gradient = Get.isDarkMode ?
-  LinearGradient(colors: [
-    Color(0xff7f3aa1).withOpacity(0.5),
-    Color(0xff5516b5).withOpacity(0.5),
-    Color(0xff150b56).withOpacity(0.5),
-    Color(0xff1d0c34).withOpacity(0.5),
-  ],
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
-  ):
-  LinearGradient(colors: [
-    Color(0xff6918e8).withOpacity(0.6),
-    Color(0xffae4fdc).withOpacity(0.6),
-    Color(0xffdc85b4).withOpacity(0.6),
-    // Color(0xfff6c9c5).withOpacity(0.5),
-  ],
-    end: Alignment.centerLeft,
-    begin: Alignment.centerRight,
-  );
+  Color accent = Color.fromARGB(255, 151, 85, 222);
+  LinearGradient gradient = Get.isDarkMode
+      ? LinearGradient(
+          colors: [
+            Color(0xff7f3aa1).withOpacity(0.5),
+            Color(0xff5516b5).withOpacity(0.5),
+            Color(0xff150b56).withOpacity(0.5),
+            Color(0xff1d0c34).withOpacity(0.5),
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        )
+      : LinearGradient(
+          colors: [
+            Color(0xff6918e8).withOpacity(0.6),
+            Color(0xffae4fdc).withOpacity(0.6),
+            Color(0xffdc85b4).withOpacity(0.6),
+            // Color(0xfff6c9c5).withOpacity(0.5),
+          ],
+          end: Alignment.centerLeft,
+          begin: Alignment.centerRight,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class ConversationScreen extends StatelessWidget {
         children: [
           //Background with image
           Positioned.fill(
-            child: Image.asset('assets/black abstract.jpg', fit: BoxFit.fill) ,
+            child: Image.asset('assets/black abstract.jpg', fit: BoxFit.fill),
           ),
           Positioned.fill(
             child: Container(
@@ -74,24 +76,25 @@ class ConversationScreen extends StatelessWidget {
             children: [
               _buildCustomHeader(context),
               Expanded(
-                child: Obx(() =>
-                    ListView.builder(
-                      controller: controller.scrollController,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 20,
-                      ),
-                      itemCount: controller.messages.length,
-                      itemBuilder: (context, index) {
-                        final msg = controller.messages[index];
-                        final isFirstInSequence = index == 0 ||
-                            controller.messages[index - 1].isMe != msg.isMe;
-                        return ChatBubble(
-                          message: msg,
-                          isFirstInSequence: isFirstInSequence,
-                        );
-                      },
+                child: Obx(
+                  () => ListView.builder(
+                    controller: controller.scrollController,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 20,
                     ),
+                    itemCount: controller.messages.length,
+                    itemBuilder: (context, index) {
+                      final msg = controller.messages[index];
+                      final isFirstInSequence =
+                          index == 0 ||
+                          controller.messages[index - 1].isMe != msg.isMe;
+                      return ChatBubble(
+                        message: msg,
+                        isFirstInSequence: isFirstInSequence,
+                      );
+                    },
+                  ),
                 ),
               ),
               Padding(
@@ -118,7 +121,7 @@ class ConversationScreen extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(24),
             ),
-            gradient: gradient ,
+            gradient: gradient,
             boxShadow: [
               BoxShadow(
                 color: Colors.white.withOpacity(0.2),
@@ -137,30 +140,25 @@ class ConversationScreen extends StatelessWidget {
                 child: Row(
                   spacing: 10,
                   children: [
-                    _buildIconButton(Icons.arrow_back_ios_new, () {Get.back();}),
-
+                    _buildIconButton(Icons.arrow_back_ios_new, () {
+                      Get.back();
+                    }),
 
                     ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Image.network(
-                        "http://10.0.2.2:8000/storage/${controller
-                            .myConversation.value!.receiverAvatar}",
+                        "$baseUrl/storage/${controller.myConversation.value!.receiverAvatar}",
                         width: 65,
                         height: 65,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Container(
-                              height: 65,
-                              width: 65,
-                              color: Color(0xa6f0e6ff).withOpacity(0.2),
-                              child: const Icon(
-                                Icons.error,
-                                color: Colors.white38,
-                              ),
-                            ),
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          height: 65,
+                          width: 65,
+                          color: Color(0xa6f0e6ff).withOpacity(0.2),
+                          child: const Icon(Icons.error, color: Colors.white38),
+                        ),
                       ),
                     ),
-
 
                     Expanded(
                       child: Column(
@@ -181,9 +179,7 @@ class ConversationScreen extends StatelessWidget {
                           const Text(
                             "Replies typically in 5 mins",
                             style: TextStyle(
-                              color: Color(
-                                0xB3FFFFFF,
-                              ),
+                              color: Color(0xB3FFFFFF),
                               fontSize: 11,
                             ),
                           ),
@@ -192,32 +188,31 @@ class ConversationScreen extends StatelessWidget {
                     ),
                     _buildIconButton(Icons.phone_outlined, () {
                       Get.dialog(
-                          AlertDialog(
-                            icon: Icon(
-                                Icons.person_pin_rounded, color: Colors.white,
-                                size: 50),
-                            title: Text(
-                              "${controller.myConversation.value!
-                                  .receiverName} 's Number ",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Louis",
-                                  fontSize: 18
-                              ),
+                        AlertDialog(
+                          icon: Icon(
+                            Icons.person_pin_rounded,
+                            color: Colors.white,
+                            size: 50,
+                          ),
+                          title: Text(
+                            "${controller.myConversation.value!.receiverName} 's Number ",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: "Louis",
+                              fontSize: 18,
                             ),
-                            content: SelectableText(
-                                "+ ${controller
-                                    .myConversation.value!
-                                    .receiverPhone}",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color(0xFF04BAFF),
-                                    fontFamily: "Louis",
-                                    fontSize: 18
-                                )),
-                            backgroundColor: accent.withOpacity(0.8),
-
-                          )
+                          ),
+                          content: SelectableText(
+                            "+ ${controller.myConversation.value!.receiverPhone}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF04BAFF),
+                              fontFamily: "Louis",
+                              fontSize: 18,
+                            ),
+                          ),
+                          backgroundColor: accent.withOpacity(0.8),
+                        ),
                       );
                     }),
                   ],
@@ -231,30 +226,23 @@ class ConversationScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(22),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
                 ),
                 child: Row(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Image.network(
-                        "http://10.0.2.2:8000/${controller.myConversation.value!
-                            .aptImage}",
+                        "$baseUrl/${controller.myConversation.value!.aptImage}",
                         width: 50,
                         height: 50,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Container(
-                              height: 50,
-                              width: 50,
-                              color: Color(0xa6f0e6ff).withOpacity(0.2),
-                              child: const Icon(
-                                Icons.error,
-                                color: Colors.white38,
-                              ),
-                            ),
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          height: 50,
+                          width: 50,
+                          color: Color(0xa6f0e6ff).withOpacity(0.2),
+                          child: const Icon(Icons.error, color: Colors.white38),
+                        ),
                       ),
                     ),
 
@@ -267,9 +255,7 @@ class ConversationScreen extends StatelessWidget {
                           const Text(
                             "Inquiry about:",
                             style: TextStyle(
-                              color: Color(
-                                0xB3FFFFFF,
-                              ),
+                              color: Color(0xB3FFFFFF),
                               fontSize: 12,
                             ),
                           ),
@@ -320,12 +306,8 @@ class ConversationScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(49),
-        gradient: gradient ,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withOpacity(0.1),
-          ),
-        ],
+        gradient: gradient,
+        boxShadow: [BoxShadow(color: Colors.white.withOpacity(0.1))],
       ),
       child: Row(
         children: [
@@ -360,9 +342,7 @@ class ConversationScreen extends StatelessWidget {
                     decoration: const InputDecoration(
                       hintText: "Type a message...",
                       border: InputBorder.none,
-                      hintStyle: TextStyle(color: Color(
-                        0xB3FFFFFF,
-                      )),
+                      hintStyle: TextStyle(color: Color(0xB3FFFFFF)),
                     ),
                   ),
                 ),
@@ -396,7 +376,7 @@ class ConversationScreen extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color:  Color.fromARGB(255, 221, 152, 255).withOpacity(0.8),
+              color: Color.fromARGB(255, 221, 152, 255).withOpacity(0.8),
               blurRadius: 10,
             ),
           ],
@@ -438,23 +418,22 @@ class ChatBubble extends StatelessWidget {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 2,sigmaY: 2),
+                  filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
-
-                      color: message.isMe ? Color(0xff8b49f1).withOpacity(0.3)
-                      : Color(0xff212021).withOpacity(0.6),
+                      color: message.isMe
+                          ? Color(0xff8b49f1).withOpacity(0.3)
+                          : Color(0xff212021).withOpacity(0.6),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.white.withOpacity(0.2),
                           offset: const Offset(0, 1),
                         ),
                       ],
-
                     ),
 
                     child: Text(

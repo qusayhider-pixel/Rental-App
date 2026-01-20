@@ -1,6 +1,7 @@
-import 'package:get/get.dart';
+import 'dart:convert';
 
-const String baseImageUrl = 'http://10.0.2.2:8000/';
+import 'package:get/get.dart';
+import 'package:uni_project/Services/api_service.dart';
 
 class Apartment {
   final int id;
@@ -51,7 +52,7 @@ class Apartment {
       title: json['title'],
       description: json['description'],
       imageUrls: (json['images'] as List)
-          .map((img) => '$baseImageUrl$img')
+          .map((img) => '$baseUrl/$img')
           .toList(),
       price: _toDouble(json['price per night']),
       province: json['governorate'],

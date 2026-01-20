@@ -43,22 +43,22 @@ class WelcomeScreen extends StatelessWidget {
                             fontFamily: 'Virust',
                             letterSpacing: 5,
                             fontWeight: FontWeight.bold,
-                            fontSize: 50,
+                            fontSize: 55,
                             foreground: Paint()
                               ..shader =
-                              LinearGradient(
-                                colors: <Color>[
-                                  Color(0xe28443fd),
-                                  Color(0xff9d05e8).withOpacity(0.9),
-                                  Color(0xfff9c37f).withOpacity(0.7),
-                                  Color(0xfffd6f80).withOpacity(0.5),
-                                  // Color(0xffdc85b4),
-                                ],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ).createShader(
-                                Rect.fromLTWH(0.0, 0.0, 300.0, 70.0),
-                              ),
+                                  LinearGradient(
+                                    colors: <Color>[
+                                      Color(0xe28443fd),
+                                      Color(0xff9d05e8).withOpacity(0.9),
+                                      Color(0xfff9c37f).withOpacity(0.7),
+                                      Color(0xfffd6f80).withOpacity(0.5),
+                                      // Color(0xffdc85b4),
+                                    ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ).createShader(
+                                    Rect.fromLTWH(0.0, 0.0, 300.0, 70.0),
+                                  ),
                           ),
                         ),
                         Text(
@@ -89,7 +89,8 @@ class WelcomeScreen extends StatelessWidget {
                             color: Colors.white.withOpacity(0.04),
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(
-                                color: Colors.white.withOpacity(0.1)),
+                              color: Colors.white.withOpacity(0.1),
+                            ),
                           ),
                           child: Column(
                             spacing: 10,
@@ -380,37 +381,64 @@ class WelcomeScreen extends StatelessWidget {
 //   }
 //
 // }
-  Widget _buildGoldButton({required String label, required VoidCallback onTap}) {
-    return Container(
-      width: double.infinity,
-      height: 55,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        gradient: LinearGradient(
-            colors: [
-              Color(0xffdc85b4).withOpacity(0.7),
-              Color(0xff9d05e8).withOpacity(0.7),
-              Color(0xff4805b0).withOpacity(0.7),
-              Color(0xff4805b0),
-            ],
-            begin: AlignmentGeometry.topLeft,
-            end: AlignmentGeometry.bottomRight
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFFA151E3).withOpacity(0.3),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
+Widget _buildGoldButton({required String label, required VoidCallback onTap}) {
+  return Container(
+    width: double.infinity,
+    height: 55,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+      gradient: LinearGradient(
+        colors: [
+          Color(0xffdc85b4).withOpacity(0.7),
+          Color(0xff9d05e8).withOpacity(0.7),
+          Color(0xff4805b0).withOpacity(0.7),
+          Color(0xff4805b0),
         ],
+        begin: AlignmentGeometry.topLeft,
+        end: AlignmentGeometry.bottomRight,
       ),
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      boxShadow: [
+        BoxShadow(
+          color: Color(0xFFA151E3).withOpacity(0.3),
+          blurRadius: 15,
+          offset: const Offset(0, 5),
         ),
+      ],
+    ),
+    child: ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontFamily: 'Multicolore',
+          fontWeight: FontWeight.bold,
+          letterSpacing: 2,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildGlassButton({required String label, required VoidCallback onTap}) {
+  return Container(
+    width: double.infinity,
+    height: 55,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+      color: Colors.white.withOpacity(0.1),
+      border: Border.all(color: Colors.white.withOpacity(0.3)),
+    ),
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Center(
         child: Text(
           label,
           style: const TextStyle(
@@ -422,33 +450,6 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildGlassButton({required String label, required VoidCallback onTap}) {
-    return Container(
-      width: double.infinity,
-      height: 55,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: Colors.white.withOpacity(0.1),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontFamily: 'Multicolore',
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+    ),
+  );
+}

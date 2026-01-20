@@ -9,7 +9,6 @@ import '../Components/CustomTextFeild.dart';
 import '../Components/ProfileImagePicker.dart';
 import 'WelcomeScreen.dart';
 
-
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
@@ -20,11 +19,11 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(155, 247, 244, 253),
         centerTitle: true,
         title: Text(
           'Welcome',
-          style: TextStyle(fontFamily: 'Multicolore', fontSize: 25),
+          style: TextStyle(fontFamily: 'Multicolore', fontSize: 30),
         ),
         leading: IconButton(
           onPressed: () {
@@ -37,234 +36,237 @@ class SignUpScreen extends StatelessWidget {
       body: Form(
         key: formState,
         child: Stack(
-            fit: StackFit.expand,
-            children: [
-              //Background
-              Image.asset(
-                'assets/Welcome.jpg',
-                height: double.infinity,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+          fit: StackFit.expand,
+          children: [
+            //Background
+            Image.asset(
+              'assets/Welcome.jpg',
+              height: double.infinity,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
 
-              //picture
-              Positioned(
-                top: -10,
-                // left: 100,
-                right: 40,
-                child: SizedBox(
-                  width: 170,
-                  height: 170,
-                  child: SvgPicture.asset('assets/signup.svg'),
-                ),
+            //picture
+            Positioned(
+              top: -10,
+              // left: 100,
+              right: 40,
+              child: SizedBox(
+                width: 170,
+                height: 170,
+                child: SvgPicture.asset('assets/signup.svg'),
               ),
+            ),
 
-              Positioned(
-                top: 40,
-                // left: 100,
-                left: 40,
-                child: SizedBox(
-                  width: 200,
-                  height: 150,
-                  child: Text(
-                    "Let's Create Your Acount",
-                    style: TextStyle(fontFamily: 'louis',
-                        fontSize: 25,
-                        color: Colors.black),
+            Positioned(
+              top: 40,
+              // left: 100,
+              left: 40,
+              child: SizedBox(
+                width: 200,
+                height: 150,
+                child: Text(
+                  "Let's Create Your Acount",
+                  style: TextStyle(
+                    fontFamily: 'louis',
+                    fontSize: 25,
+                    color: Colors.black,
                   ),
                 ),
               ),
+            ),
 
-              Padding(
-                padding: EdgeInsetsGeometry.only(top: 140, left: 20, right: 20),
-                child: SingleChildScrollView(
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
-                      child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.09),
-                              borderRadius: BorderRadius.circular(24),
-                              border: Border.all(
-                                  color: Colors.white.withOpacity(
-                                      0.1)),
+            Padding(
+              padding: EdgeInsetsGeometry.only(top: 140, left: 20, right: 20),
+              child: SingleChildScrollView(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.09),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.1),
+                        ),
+                      ),
+                      child: Column(
+                        spacing: 12,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                              right: 15,
+                              top: 12,
                             ),
-                            child: Column(
-                              spacing: 12,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            child: Row(
+                              spacing: 15,
                               children: [
-
-
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 15, top: 12),
-                                  child: Row(
-                                    spacing: 15,
+                                Flexible(
+                                  child: Column(
+                                    spacing: 8,
                                     children: [
-                                      Flexible(
-                                        child: Column(
-                                          spacing: 8,
-                                          children: [
-                                            CreateTextField(
-                                              title: "First Name",
-                                              icon: Icons.person,
-                                              color: Color(0xffa473ff),
-                                              controller: controller
-                                                  .firstNameController,
-                                            ),
-                                            CreateTextField(
-                                              title: "Last Name",
-                                              icon: Icons.person,
-                                              color: Color(0xcba474fe),
-                                              controller: controller
-                                                  .lastNameController,
-                                            ),
-                                          ],
-                                        ),
+                                      CreateTextField(
+                                        title: "First Name",
+                                        icon: Icons.person,
+                                        color: Color(0xffa473ff),
+                                        controller:
+                                            controller.firstNameController,
                                       ),
-                                      Flexible(
-                                          child: ProfileImagePicker()
+                                      CreateTextField(
+                                        title: "Last Name",
+                                        icon: Icons.person,
+                                        color: Color(0xcba474fe),
+                                        controller:
+                                            controller.lastNameController,
                                       ),
                                     ],
                                   ),
                                 ),
+                                Flexible(child: ProfileImagePicker()),
+                              ],
+                            ),
+                          ),
 
-                                //Birthday
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: BirthdayPicker(),
-                                ),
+                          //Birthday
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
+                            child: BirthdayPicker(),
+                          ),
 
-                                //Phone
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: CreateTextField(
-                                    title: "Your Phone Number",
-                                    icon: Icons.phone,
-                                    color: Color(0xffC9ACFE),
-                                    controller: controller.phoneController,
-                                  ),
-                                ),
+                          //Phone
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
+                            child: CreateTextField(
+                              title: "Your Phone Number",
+                              icon: Icons.phone,
+                              color: Color(0xffC9ACFE),
+                              controller: controller.phoneController,
+                            ),
+                          ),
 
-                                //password
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0), child: CreateTextField(
-                                    title: "Your Password",
-                                    icon: Icons.lock,
-                                    color: Color(0xffD6C0FF),
-                                    controller: controller.passwordController,
-                                    isPassword: true
+                          //password
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
+                            child: CreateTextField(
+                              title: "Your Password",
+                              icon: Icons.lock,
+                              color: Color(0xffD6C0FF),
+                              controller: controller.passwordController,
+                              isPassword: true,
+                            ),
+                          ),
 
-                                ),
-                                ),
-
-                                // id photo
-                                // GestureDetector(
-                                //   onTap: controller.creditIdImage,
-                                //   child: Obx(() {
-                                //     return Stack(
-                                //       alignment: Alignment.bottomRight,
-                                //       children: [
-                                //         Container(
-                                //           width: 345,
-                                //           height: 130,
-                                //           decoration: BoxDecoration(
-                                //             color: Colors.white.withOpacity(0.2),
-                                //             border: BoxBorder.all(color: Colors.white),
-                                //             borderRadius: BorderRadius.circular(26),
-                                //             image: controller.creditImage.value != null
-                                //                 ? DecorationImage(
-                                //               image: FileImage(
-                                //                   controller.creditImage.value!),
-                                //               fit: BoxFit.cover,
-                                //             )
-                                //                 : null,
-                                //           ),
-                                //           child: controller.creditImage.value == null
-                                //               ? const Center(
-                                //             child: Icon(
-                                //               Icons.credit_card,
-                                //               size: 50,
-                                //               color: Colors.white,
-                                //             ),
-                                //           )
-                                //               : null,
-                                //         ),
-                                //
-                                //         // add icon
-                                //         Container(
-                                //           margin: const EdgeInsets.all(8),
-                                //           width: 36,
-                                //           height: 36,
-                                //           decoration: const BoxDecoration(
-                                //             color: Color(0xcba474fe),
-                                //             shape: BoxShape.circle,
-                                //           ),
-                                //           child: const Icon(
-                                //             Icons.add_card,
-                                //             size: 18,
-                                //             color: Colors.white,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   }),
-                                // ),
-
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  child: GestureDetector(
-                                    onTap: controller.creditIdImage,
-                                    child: Obx(() {
-                                      return Container(
-                                        width: 345,
-                                        height: 130,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.2),
-                                          borderRadius: BorderRadius.circular(
-                                              26),
-                                          border: Border.all(
-                                              color: Colors.white.withOpacity(
-                                                  0.2),
-                                              style: BorderStyle.solid),
-                                          image: controller.creditImage.value !=
-                                              null
-                                              ? DecorationImage(
+                          // id photo
+                          // GestureDetector(
+                          //   onTap: controller.creditIdImage,
+                          //   child: Obx(() {
+                          //     return Stack(
+                          //       alignment: Alignment.bottomRight,
+                          //       children: [
+                          //         Container(
+                          //           width: 345,
+                          //           height: 130,
+                          //           decoration: BoxDecoration(
+                          //             color: Colors.white.withOpacity(0.2),
+                          //             border: BoxBorder.all(color: Colors.white),
+                          //             borderRadius: BorderRadius.circular(26),
+                          //             image: controller.creditImage.value != null
+                          //                 ? DecorationImage(
+                          //               image: FileImage(
+                          //                   controller.creditImage.value!),
+                          //               fit: BoxFit.cover,
+                          //             )
+                          //                 : null,
+                          //           ),
+                          //           child: controller.creditImage.value == null
+                          //               ? const Center(
+                          //             child: Icon(
+                          //               Icons.credit_card,
+                          //               size: 50,
+                          //               color: Colors.white,
+                          //             ),
+                          //           )
+                          //               : null,
+                          //         ),
+                          //
+                          //         // add icon
+                          //         Container(
+                          //           margin: const EdgeInsets.all(8),
+                          //           width: 36,
+                          //           height: 36,
+                          //           decoration: const BoxDecoration(
+                          //             color: Color(0xcba474fe),
+                          //             shape: BoxShape.circle,
+                          //           ),
+                          //           child: const Icon(
+                          //             Icons.add_card,
+                          //             size: 18,
+                          //             color: Colors.white,
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     );
+                          //   }),
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: GestureDetector(
+                              onTap: controller.creditIdImage,
+                              child: Obx(() {
+                                return Container(
+                                  width: 345,
+                                  height: 130,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(26),
+                                    border: Border.all(
+                                      color: Colors.white.withOpacity(0.2),
+                                      style: BorderStyle.solid,
+                                    ),
+                                    image: controller.creditImage.value != null
+                                        ? DecorationImage(
                                             image: FileImage(
-                                                controller.creditImage.value!),
+                                              controller.creditImage.value!,
+                                            ),
                                             fit: BoxFit.cover,
                                           )
-                                              : null,
-                                        ),
-                                        child: controller.creditImage.value ==
-                                            null
-                                            ? Column(
+                                        : null,
+                                  ),
+                                  child: controller.creditImage.value == null
+                                      ? Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                              MainAxisAlignment.center,
                                           children: [
                                             const Icon(
-                                                Icons.add_a_photo_outlined,
-                                                color: Color(0xFF712BB7),
-                                                size: 30),
+                                              Icons.add_a_photo_outlined,
+                                              color: Color(0xFF712BB7),
+                                              size: 30,
+                                            ),
                                             const SizedBox(height: 8),
                                             Text(
                                               "Upload ID Photo",
                                               style: TextStyle(
-                                                  color: Color(0xFF712BB7)
-                                                      .withOpacity(0.6),
-                                                  fontSize: 12),
+                                                color: Color(
+                                                  0xFF712BB7,
+                                                ).withOpacity(0.6),
+                                                fontSize: 12,
+                                              ),
                                             ),
                                           ],
                                         )
-                                            : Align(
+                                      : Align(
                                           alignment: Alignment.bottomRight,
                                           child: Container(
                                             margin: const EdgeInsets.all(8),
@@ -273,60 +275,62 @@ class SignUpScreen extends StatelessWidget {
                                               color: Color(0xFF8A1AD5),
                                               shape: BoxShape.circle,
                                             ),
-                                            child: const Icon(Icons.edit,
-                                                size: 16, color: Colors.white),
+                                            child: const Icon(
+                                              Icons.edit,
+                                              size: 16,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
-                                      );
-                                    }),
-                                  ),
-                                ),
+                                );
+                              }),
+                            ),
+                          ),
 
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            Color(0xffdc85b4).withOpacity(0.7),
-                                            Color(0xff9d05e8).withOpacity(0.7),
-                                            Color(0xff4805b0).withOpacity(0.7),
-                                            Color(0xff4805b0),
-                                          ],
-                                          begin: AlignmentGeometry.topLeft,
-                                          end: AlignmentGeometry.bottomRight
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0xFFFDBB79).withOpacity(
-                                              0.5),
-                                          blurRadius: 10,
-                                          spreadRadius: 1,
-                                          offset: const Offset(0, 5),
-                                        ),
-                                      ],
-                                    ),
-                                    child: InkWell(
-                                      onTap: controller.isLoading.value
-                                          ? null
-                                          : () {
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Container(
+                              width: double.infinity,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xffdc85b4).withOpacity(0.7),
+                                    Color(0xff9d05e8).withOpacity(0.7),
+                                    Color(0xff4805b0).withOpacity(0.7),
+                                    Color(0xff4805b0),
+                                  ],
+                                  begin: AlignmentGeometry.topLeft,
+                                  end: AlignmentGeometry.bottomRight,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color(0xFFFDBB79).withOpacity(0.5),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                    offset: const Offset(0, 5),
+                                  ),
+                                ],
+                              ),
+                              child: InkWell(
+                                onTap: controller.isLoading.value
+                                    ? null
+                                    : () {
                                         if (formState.currentState!
                                             .validate()) {
                                           controller.signUp();
                                         }
                                       },
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Center(
-                                          child: Obx(() =>
-                                          controller.isLoading.value
-                                              ? const CircularProgressIndicator(
-                                            color: Colors.white, strokeWidth: 3,
+                                borderRadius: BorderRadius.circular(12),
+                                child: Center(
+                                  child: Obx(
+                                    () => controller.isLoading.value
+                                        ? const CircularProgressIndicator(
+                                            color: Colors.white,
+                                            strokeWidth: 3,
                                           )
-                                              : Text(
+                                        : Text(
                                             'SIGN UP',
                                             style: const TextStyle(
                                               color: Colors.white,
@@ -336,92 +340,88 @@ class SignUpScreen extends StatelessWidget {
                                               letterSpacing: 2,
                                             ),
                                           ),
-                                          )
-                                      ),
-                                    ),
                                   ),
                                 ),
-                                // SizedBox(
-                                //   width: 350,
-                                //   height: 50,
-                                //   child: Obx(
-                                //         () =>
-                                //         ElevatedButton(
-                                //             onPressed: controller.isLoading.value
-                                //                 ? null
-                                //                 : () {
-                                //               if (formState.currentState!.validate()) {
-                                //                 controller.signUp();
-                                //               }
-                                //             },
-                                //             child: Obx(() =>
-                                //             controller.isLoading.value
-                                //                 ? const CircularProgressIndicator(
-                                //               color: Colors.white, strokeWidth: 3,
-                                //             )
-                                //                 : const Text(
-                                //               'SIGN UP',
-                                //               style: TextStyle(
-                                //                 fontSize: 20,
-                                //                 fontFamily: 'Multicolore',
-                                //                 fontWeight: FontWeight.w500,
-                                //                 letterSpacing: 2,
-                                //               ),
-                                //             ),)
-                                //         ),
-                                //   ),
-                                // ),
+                              ),
+                            ),
+                          ),
+                          // SizedBox(
+                          //   width: 350,
+                          //   height: 50,
+                          //   child: Obx(
+                          //         () =>
+                          //         ElevatedButton(
+                          //             onPressed: controller.isLoading.value
+                          //                 ? null
+                          //                 : () {
+                          //               if (formState.currentState!.validate()) {
+                          //                 controller.signUp();
+                          //               }
+                          //             },
+                          //             child: Obx(() =>
+                          //             controller.isLoading.value
+                          //                 ? const CircularProgressIndicator(
+                          //               color: Colors.white, strokeWidth: 3,
+                          //             )
+                          //                 : const Text(
+                          //               'SIGN UP',
+                          //               style: TextStyle(
+                          //                 fontSize: 20,
+                          //                 fontFamily: 'Multicolore',
+                          //                 fontWeight: FontWeight.w500,
+                          //                 letterSpacing: 2,
+                          //               ),
+                          //             ),)
+                          //         ),
+                          //   ),
+                          // ),
 
+                          //Having account
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Already Have An Account ?',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'louis',
+                                    color: Colors.grey.shade300,
+                                  ),
+                                ),
 
-                                //Having account
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Already Have An Account ?',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: 'louis',
-                                            color:
-
-                                            Colors.grey.shade300),
-                                      ),
-
-                                      TextButton(
-                                        onPressed: () {
-                                          Get.off(() => LoginScreen());
-                                        },
-                                        child: Text(
-                                          'Login',
-                                          style: TextStyle(
-                                            fontFamily: 'Louis',
-                                            fontSize: 20,
-                                            color: Color(0xFF712BB7),
-                                            decoration: TextDecoration
-                                                .underline,
-                                            decorationColor: Color(0xFF712BB7),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                TextButton(
+                                  onPressed: () {
+                                    Get.off(() => LoginScreen());
+                                  },
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontFamily: 'Louis',
+                                      fontSize: 20,
+                                      color: Color(0xFF712BB7),
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Color(0xFF712BB7),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                          )
-                      )
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              )
-            ]
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
 
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';

@@ -16,7 +16,7 @@ class LuxeBackground extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(
-            'assets/addApartment.jpg',
+            'assets/the-prototype-CJLP8Y3eOds-unsplash.jpg',
             fit: BoxFit.cover,
           ),
         ),

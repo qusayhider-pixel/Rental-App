@@ -105,6 +105,26 @@ flutter:
       fonts:
         - asset: assets/Multicolore Pro.otf
 
+    - family: Comig
+      fonts:
+        - asset: assets/comig.otf  
+
+    - family: Gebuk
+      fonts:
+        - asset: assets/gebuk-regular.otf  
+
+    - family: Tan
+      fonts:
+        - asset: assets/tan-pearl.otf  
+
+    - family: Moga
+      fonts:
+        - asset: assets/moga.otf 
+
+    - family: lavisha
+      fonts:
+        - asset: assets/lavisha.otf
+
           #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
