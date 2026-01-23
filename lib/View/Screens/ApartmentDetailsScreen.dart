@@ -5,6 +5,7 @@ import 'package:uni_project/Controller/BookingController.dart';
 import 'package:uni_project/Controller/FavoraiteController.dart';
 import 'package:uni_project/Controller/FilterController.dart';
 import 'package:uni_project/Model/Chat_Model.dart';
+import 'package:uni_project/Services/api_service.dart';
 import '../../Controller/ApartmentDetailsController.dart';
 import '../../Controller/ChatController.dart';
 import '../../Controller/ConversationController.dart';
@@ -266,7 +267,7 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   CircleAvatar(
                                     radius: 35,
                                     backgroundImage: NetworkImage(
-                                      "http://10.0.2.2:8000/storage/${apartment.ownerImageUrl}",
+                                      "$baseUrl/storage/${apartment.ownerImageUrl}",
                                     ),
                                     onBackgroundImageError: (_, _) =>
                                         const Icon(Icons.person),
@@ -309,11 +310,11 @@ class ApartmentDetailsScreen extends StatelessWidget {
                                   ),
                                   IconButton(
                                     onPressed: () async {
-                                      Get
-                                          .find<ConversationController>()
-                                          .fetchConversationInfo(await Get
-                                          .find<ChatsController>()
-                                          .getOrCreateConv(apartment.id));
+                                      Get.find<ConversationController>()
+                                          .fetchConversationInfo(
+                                            await Get.find<ChatsController>()
+                                                .getOrCreateConv(apartment.id),
+                                          );
                                     },
                                     icon: Container(
                                       padding: const EdgeInsets.all(8),
@@ -748,8 +749,10 @@ class ApartmentDetailsScreen extends StatelessWidget {
     Get.dialog(
       Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: SizedBox(height: 420,
-            child: ApartmentBookingCalendar(controller: bookingController)),
+        child: SizedBox(
+          height: 420,
+          child: ApartmentBookingCalendar(controller: bookingController),
+        ),
       ),
     );
   }

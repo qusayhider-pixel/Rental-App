@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/ChatController.dart';
 import 'package:uni_project/Controller/ConversationController.dart';
+import 'package:uni_project/Services/api_service.dart';
 import 'package:uni_project/View/Screens/ConversationScreen.dart';
 import '../../Model/Chat_Model.dart';
 
@@ -33,7 +34,9 @@ class ChatCard extends StatelessWidget {
               end: Alignment.centerLeft,
               begin: Alignment.centerRight,
             ),
-            border: BoxBorder.fromLTRB(bottom :BorderSide(color: Color(0x3fd7d4e5) , width: 3) ),
+            border: BoxBorder.fromLTRB(
+              bottom: BorderSide(color: Color(0x3fd7d4e5), width: 3),
+            ),
             borderRadius: BorderRadius.circular(33),
             boxShadow: [
               BoxShadow(
@@ -41,12 +44,11 @@ class ChatCard extends StatelessWidget {
                 spreadRadius: 1,
                 blurRadius: 15,
                 offset: const Offset(5, 15),
-              )
+              ),
             ],
           ),
           child:
-
-          ///chat info
+              ///chat info
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Row(
@@ -56,20 +58,16 @@ class ChatCard extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Image.network(
-                        "http://10.0.2.2:8000/storage/${chat.receiverAvatar}",
+                        "$baseUrl/storage/${chat.receiverAvatar}",
                         width: 65,
                         height: 65,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Container(
-                              height: 65,
-                              width: 65,
-                              color: Color(0xa6f0e6ff).withOpacity(0.2),
-                              child: const Icon(
-                                Icons.error,
-                                color: Colors.white38,
-                              ),
-                            ),
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          height: 65,
+                          width: 65,
+                          color: Color(0xa6f0e6ff).withOpacity(0.2),
+                          child: const Icon(Icons.error, color: Colors.white38),
+                        ),
                       ),
                     ),
 
@@ -79,7 +77,6 @@ class ChatCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           Text(
                             chat.receiverName,
                             style: TextStyle(
@@ -92,13 +89,14 @@ class ChatCard extends StatelessWidget {
                           const SizedBox(height: 4),
 
                           Row(
-
                             // alignment: WrapAlignment.center,
                             children: [
-                              if(chat.lastMessageContents != null)
-
-                                Icon(Icons.done_rounded,
-                                  color: Color(0xDB53EF13), size: 16,),
+                              if (chat.lastMessageContents != null)
+                                Icon(
+                                  Icons.done_rounded,
+                                  color: Color(0xDB53EF13),
+                                  size: 16,
+                                ),
 
                               Flexible(
                                 child: Text(
@@ -119,14 +117,17 @@ class ChatCard extends StatelessWidget {
                       ),
                     ),
 
-                    Text(chat.lastMessageDate ?? '',
-                        style: TextStyle(color: Colors.white,
-                            fontSize: 13,
-                            fontFamily: 'Louis')),
+                    Text(
+                      chat.lastMessageDate ?? '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontFamily: 'Louis',
+                      ),
+                    ),
                   ],
                 ),
               ),
-
         ),
       ),
     );

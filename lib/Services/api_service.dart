@@ -10,11 +10,15 @@ import '../Model/Reservation_model.dart';
 import '../Model/apartment_model.dart';
 import '../Model/province_model.dart';
 
+// String baseUrl = "http://10.0.2.2:8000";
+// String baseUrl = "http://127.0.0.1:8000";
+String baseUrl = "http://192.168.1.5:8000";
+
 class ApiService {
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: "http://10.0.2.2:8000/api", //emulator
-      // baseUrl: "http://10.214.255.87:8000/api", //physical mobile
+      // baseUrl: "http://10.0.2.2:8000/api", //emulator
+      baseUrl: "http://192.168.1.5:8000/api", //physical mobile
       // baseUrl: "http://127.0.0.1:8000/api", //chrome
       headers: {"Accept": "application/json"},
     ),
@@ -249,8 +253,10 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> updateReservationRequestStatus(String status,
-      int requestID) async {
+  Future<void> updateReservationRequestStatus(
+    String status,
+    int requestID,
+  ) async {
     try {
       final response = await dio.put(
         '/owner/updateRequestStatus/$requestID',
@@ -293,8 +299,11 @@ class ApiService {
   }
 
   //----------------------------------------------------------------------------
-  Future<void> editingBookingDates(String startDate, String endDate,
-      int id) async {
+  Future<void> editingBookingDates(
+    String startDate,
+    String endDate,
+    int id,
+  ) async {
     try {
       await dio.put(
         '/editBooking/$id',
@@ -529,7 +538,7 @@ class ApiService {
     try {
       await dio.post(
         '/messages/send',
-        data: { "conversation_id": chatID, "contents": msg},
+        data: {"conversation_id": chatID, "contents": msg},
         options: Options(
           headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
         ),
@@ -545,13 +554,14 @@ class ApiService {
   //----------------------------------------------------------------------------
   Future<ProfileModel> getProfile() async {
     try {
-      final response = await dio.get('/get/user/profile',
-          options: Options(headers: {
-            'Authorization': 'Bearer ${GetStorage().read('token')}'
-          }));
+      final response = await dio.get(
+        '/get/user/profile',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
       return ProfileModel.fromJson(response.data['data']);
-    }
-    catch (e) {
+    } catch (e) {
       e.toString();
       print("the bath is  ${dio.options.baseUrl}/get/user/profile");
       print('❌ Error fetching my profile : $e');
@@ -562,13 +572,14 @@ class ApiService {
   //----------------------------------------------------------------------------
   Future<int> getUnSeenNotifications() async {
     try {
-      final response = await dio.get('/notify/countUnseen',
-          options: Options(headers: {
-            'Authorization': 'Bearer ${GetStorage().read('token')}'
-          }));
+      final response = await dio.get(
+        '/notify/countUnseen',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${GetStorage().read('token')}'},
+        ),
+      );
       return response.data['count'];
-    }
-    catch (e) {
+    } catch (e) {
       e.toString();
       print("the bath is  ${dio.options.baseUrl}/notify/countUnseen");
       print('❌ Error fetching my UnSeen notifications : $e');

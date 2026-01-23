@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:uni_project/Controller/AuthController.dart';
 import 'package:uni_project/Controller/FilterController.dart';
+import 'package:uni_project/Services/api_service.dart';
 import 'package:uni_project/View/Screens/ConversationScreen.dart';
 import 'package:uni_project/View/Screens/FavouriteScreen.dart';
 import 'package:uni_project/View/Screens/MyReservation.dart';
@@ -18,7 +19,6 @@ import '../Screens/ChatScreen.dart';
 class CustomDrawer extends StatelessWidget {
   final auth = Get.find<AuthController>();
   final filter = Get.find<FilterController>();
-
 
   CustomDrawer({super.key});
 
@@ -85,9 +85,7 @@ class CustomDrawer extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 70,
                         backgroundImage: user?.avatar != null
-                            ? NetworkImage(
-                                "http://10.0.2.2:8000/storage/${user!.avatar}",
-                              )
+                            ? NetworkImage("$baseUrl/storage/${user!.avatar}")
                             : null,
                         child: user?.avatar == null
                             ? const Icon(Icons.person)
@@ -124,9 +122,12 @@ class CustomDrawer extends StatelessWidget {
               Get.to(() => ChatsScreen());
             }),
             _buildDrawerItem(
-                Icons.notifications_active_outlined, "Notifications", () {
-              Get.to(() => NotificationScreen());
-            }),
+              Icons.notifications_active_outlined,
+              "Notifications",
+              () {
+                Get.to(() => NotificationScreen());
+              },
+            ),
             const Divider(thickness: 1, indent: 30, endIndent: 30),
             _buildDrawerItem(Icons.add_home_outlined, "Add Apartment", () {
               Get.to(() => AddApartmentScreen());
@@ -135,13 +136,19 @@ class CustomDrawer extends StatelessWidget {
               Get.to(() => FavouriteScreen());
             }),
             _buildDrawerItem(
-                Icons.bookmark_outline_rounded, "My Reservations", () {
-              Get.to(() => MyReservationsScreen());
-            }),
+              Icons.bookmark_outline_rounded,
+              "My Reservations",
+              () {
+                Get.to(() => MyReservationsScreen());
+              },
+            ),
             _buildDrawerItem(
-                Icons.manage_accounts_outlined, "Reservation Management", () {
-              Get.to(() => ReservationManagementScreen());
-            }),
+              Icons.manage_accounts_outlined,
+              "Reservation Management",
+              () {
+                Get.to(() => ReservationManagementScreen());
+              },
+            ),
             const Divider(thickness: 1, indent: 30, endIndent: 30),
             _buildDrawerItem(Icons.logout, "Logout", () {
               auth.logout();
@@ -155,13 +162,12 @@ class CustomDrawer extends StatelessWidget {
 
   Widget _buildDrawerItem(
     IconData icon,
-      String title, VoidCallback onTap, {
+    String title,
+    VoidCallback onTap, {
     bool isDestructive = false,
-
-      }) {
+  }) {
     return ListTile(
-
-        leading: Icon(
+      leading: Icon(
         icon,
         color: isDestructive
             ? Colors.red
@@ -180,12 +186,13 @@ class CustomDrawer extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
       ),
-        trailing: title == "Notifications"
-            ? filter.unSeen.value > 0 ? CircleAvatar(
-          child: Obx(() => Text("${filter.unSeen.value}")),)
-            : null : null,
+      trailing: title == "Notifications"
+          ? filter.unSeen.value > 0
+                ? CircleAvatar(child: Obx(() => Text("${filter.unSeen.value}")))
+                : null
+          : null,
 
-        onTap: onTap
+      onTap: onTap,
     );
   }
 }

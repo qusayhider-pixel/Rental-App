@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_project/Controller/ProfileController.dart';
+import 'package:uni_project/Services/api_service.dart';
 
 class Profilescreen extends StatelessWidget {
   Profilescreen({super.key});
@@ -44,166 +45,175 @@ class Profilescreen extends StatelessWidget {
                 end: Alignment.topRight,
                 colors: Get.isDarkMode
                     ? [
-                  const Color(0xff7f3aa1),
-                  const Color(0xff5716b5),
-                  const Color(0xff150b52),
-                  const Color(0xff190019),
-                ]
+                        const Color(0xff7f3aa1),
+                        const Color(0xff5716b5),
+                        const Color(0xff150b52),
+                        const Color(0xff190019),
+                      ]
                     : [
-                  const Color(0xffdfb6b2),
-                  const Color(0xff9d5e80),
-                  const Color(0xff7f3aa1),
-                  const Color(0xff5416b5),
-                ],
+                        const Color(0xffdfb6b2),
+                        const Color(0xff9d5e80),
+                        const Color(0xff7f3aa1),
+                        const Color(0xff5416b5),
+                      ],
               ),
             ),
           ),
 
           Center(
             child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 24, vertical: 80),
-                child: Obx(() =>
-                controller.isLoading.value ? CircularProgressIndicator(
-                  color: Color(0xffdc9efc),) : Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 30),
-                decoration: BoxDecoration(
-                  color: const Color(0x25ffffff),
-                  border: Border.all(
-                      color: Colors.white.withOpacity(0.4), width: 1.5),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 2,
-                      blurRadius: 30,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                          child: CircleAvatar(
-                            radius: 70,
-                            backgroundImage: controller.profile.value?.avatar !=
-                                null
-                                ? NetworkImage(
-                              "http://10.0.2.2:8000/storage/${controller.profile
-                                  .value!.avatar}",
-                            )
-                                : null,
-                            child: controller.profile.value?.avatar == null
-                                ? const Icon(Icons.person)
-                                : null,
-                          ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
+              child: Obx(
+                () => controller.isLoading.value
+                    ? CircularProgressIndicator(color: Color(0xffdc9efc))
+                    : Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 30,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            print('show');
-                            _showAvatar();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.camera_alt_outlined,
-                              size: 20,
-                              color: Color(0xff5716b5),
-                            ),
+                        decoration: BoxDecoration(
+                          color: const Color(0x25ffffff),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.4),
+                            width: 1.5,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 30,
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // --- 2. Name Section ---
-                    Text(
-                      controller.profile.value!.name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontFamily: 'Louis',
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: IntrinsicHeight(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            _buildStatItem(
-                              label: "Owned Apartments",
-                              value: "${controller.profile.value!
-                                  .numberOfProperties}",
+                            Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 70,
+                                    backgroundImage:
+                                        controller.profile.value?.avatar != null
+                                        ? NetworkImage(
+                                            "$baseUrl/storage/${controller.profile.value!.avatar}",
+                                          )
+                                        : null,
+                                    child:
+                                        controller.profile.value?.avatar == null
+                                        ? const Icon(Icons.person)
+                                        : null,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    print('show');
+                                    _showAvatar();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.camera_alt_outlined,
+                                      size: 20,
+                                      color: Color(0xff5716b5),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
 
-                            VerticalDivider(
-                              color: Colors.white.withOpacity(0.3),
-                              thickness: 1,
-                              width: 30,
+                            const SizedBox(height: 16),
+
+                            // --- 2. Name Section ---
+                            Text(
+                              controller.profile.value!.name,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontFamily: 'Louis',
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                              ),
                             ),
 
-                            _buildStatItem(
-                              label: "Rented Apartments",
-                              value: "${controller.profile.value!
-                                  .numberOfReservations}",
+                            const SizedBox(height: 24),
+
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    _buildStatItem(
+                                      label: "Owned Apartments",
+                                      value:
+                                          "${controller.profile.value!.numberOfProperties}",
+                                    ),
+
+                                    VerticalDivider(
+                                      color: Colors.white.withOpacity(0.3),
+                                      thickness: 1,
+                                      width: 30,
+                                    ),
+
+                                    _buildStatItem(
+                                      label: "Rented Apartments",
+                                      value:
+                                          "${controller.profile.value!.numberOfReservations}",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 24),
+                            const Divider(color: Colors.white24),
+                            const SizedBox(height: 16),
+
+                            // --- 4. Personal Info List ---
+                            _buildInfoRow(
+                              icon: Icons.calendar_month_rounded,
+                              label: "Date of Birth",
+                              value: controller.profile.value!.dateOfBirth,
+                            ),
+
+                            const SizedBox(height: 12),
+
+                            _buildInfoRow(
+                              icon: Icons.phone_android_rounded,
+                              label: "Phone Number",
+                              value: controller.profile.value!.phone != null
+                                  ? "+${controller.profile.value!.phone}"
+                                  : "",
                             ),
                           ],
                         ),
                       ),
-                    ),
-
-                    const SizedBox(height: 24),
-                    const Divider(color: Colors.white24),
-                    const SizedBox(height: 16),
-
-                    // --- 4. Personal Info List ---
-                    _buildInfoRow(
-                      icon: Icons.calendar_month_rounded,
-                      label: "Date of Birth",
-                      value: controller.profile.value!
-                          .dateOfBirth,
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    _buildInfoRow(
-                        icon: Icons.phone_android_rounded,
-                        label: "Phone Number",
-                        value: controller.profile.value!.phone != null
-                            ? "+${controller.profile.value!.phone}"
-                            : ""
-                    ),
-                  ],
-                ),
-                ),)
+              ),
             ),
           ),
         ],
@@ -236,8 +246,11 @@ class Profilescreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(
-      {required IconData icon, required String label, required String value}) {
+  Widget _buildInfoRow({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -285,64 +298,59 @@ class Profilescreen extends StatelessWidget {
   Future<dynamic> _showAvatar() {
     return Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(500),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(500)),
         child: Container(
           height: 300,
           width: 300,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(500),
-              boxShadow: [
-                BoxShadow(color: Colors.white.withOpacity(0.2),
-                    spreadRadius: 20,
-                    blurRadius: 30)
-              ]
-
+            borderRadius: BorderRadius.circular(500),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.2),
+                spreadRadius: 15,
+                blurRadius: 15,
+              ),
+            ],
           ),
           child: Expanded(
             child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5)
-                , child: CircleAvatar(
-              radius: 70,
-              backgroundImage: controller.profile.value
-                  ?.avatar !=
-                  null
-                  ? NetworkImage(
-                "http://10.0.2.2:8000/storage/${controller
-                    .profile
-                    .value!.avatar}",
-              )
-                  : null,
-              child: controller.profile.value?.avatar == null
-                  ? const Icon(Icons.person)
-                  : null,
-            )),
+              filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
+              child: CircleAvatar(
+                radius: 70,
+                backgroundImage: controller.profile.value?.avatar != null
+                    ? NetworkImage(
+                        "$baseUrl/storage/${controller.profile.value!.avatar}",
+                      )
+                    : null,
+                child: controller.profile.value?.avatar == null
+                    ? const Icon(Icons.person)
+                    : null,
+              ),
+            ),
           ),
         ),
-
       ),
     );
   }
-// return BackdropFilter(
-//     filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5)
-//     , child: CircleAvatar(
-//   radius: 70,
-//   backgroundImage: controller.profile.value
-//       ?.avatar !=
-//       null
-//       ? NetworkImage(
-//     "http://10.0.2.2:8000/storage/${controller
-//         .profile
-//         .value!.avatar}",
-//   )
-//       : null,
-//   child: controller.profile.value?.avatar == null
-//       ? const Icon(Icons.person)
-//       : null,
-// ));
-}
 
+  // return BackdropFilter(
+  //     filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5)
+  //     , child: CircleAvatar(
+  //   radius: 70,
+  //   backgroundImage: controller.profile.value
+  //       ?.avatar !=
+  //       null
+  //       ? NetworkImage(
+  //     "http://10.0.2.2:8000/storage/${controller
+  //         .profile
+  //         .value!.avatar}",
+  //   )
+  //       : null,
+  //   child: controller.profile.value?.avatar == null
+  //       ? const Icon(Icons.person)
+  //       : null,
+  // ));
+}
 
 // import '../../Controller/AuthController.dart';
 //

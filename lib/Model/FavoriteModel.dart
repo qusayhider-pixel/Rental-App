@@ -1,3 +1,5 @@
+import 'package:uni_project/Services/api_service.dart';
+
 class MyFavoriteModel {
   final int id;
   final String governorate;
@@ -47,7 +49,7 @@ class MyFavoriteModel {
       ownerPhone: json['property']['owner information']['phone number'],
       ownerAvatar: json['property']['owner information']['avatar'],
       imageUrls: (json['property']['images'] as List)
-          .map((img) => 'http://10.0.2.2:8000/$img')
+          .map((img) => '$baseUrl/$img')
           .toList(),
     );
   }

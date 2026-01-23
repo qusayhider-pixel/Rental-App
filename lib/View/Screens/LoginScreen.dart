@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(155, 247, 244, 253),
         leading: IconButton(
           onPressed: () {
             Get.offAll(() => WelcomeScreen());
@@ -50,6 +50,7 @@ class LoginScreen extends StatelessWidget {
                       Text(
                         'Welcome Back!',
                         style: TextStyle(
+                          color: Colors.black,
                           fontFamily: 'Multicolore',
                           fontWeight: FontWeight.w500,
                           fontSize: 30,
@@ -81,11 +82,11 @@ class LoginScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30.0),
                         child: CreateTextField(
-                            title: "Your password",
-                            icon: Icons.lock,
-                            color: Color(0x3ae8b6ff),
-                            controller: controller.passwordController,
-                            isPassword: true
+                          title: "Your password",
+                          icon: Icons.lock,
+                          color: Color(0x3ae8b6ff),
+                          controller: controller.passwordController,
+                          isPassword: true,
                         ),
                       ),
 
@@ -98,19 +99,18 @@ class LoginScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
                             gradient: LinearGradient(
-                                colors: [
-                                  Color(0xffdc85b4).withOpacity(0.7),
-                                  Color(0xff9d05e8).withOpacity(0.7),
-                                  Color(0xff4805b0).withOpacity(0.7),
-                                  Color(0xff4805b0),
-                                ],
-                                begin: AlignmentGeometry.topLeft,
-                                end: AlignmentGeometry.bottomRight
+                              colors: [
+                                Color(0xffdc85b4).withOpacity(0.7),
+                                Color(0xff9d05e8).withOpacity(0.7),
+                                Color(0xff4805b0).withOpacity(0.7),
+                                Color(0xff4805b0),
+                              ],
+                              begin: AlignmentGeometry.topLeft,
+                              end: AlignmentGeometry.bottomRight,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Color(0xFFFDBB79).withOpacity(
-                                    0.5),
+                                color: Color(0xFFFDBB79).withOpacity(0.5),
                                 blurRadius: 10,
                                 spreadRadius: 1,
                                 offset: const Offset(0, 5),
@@ -118,39 +118,41 @@ class LoginScreen extends StatelessWidget {
                             ],
                           ),
                           child: ElevatedButton(
-                              onPressed: controller.isLoading.value
-                                  ? null
-                                  : () {
-                                if (formState.currentState!.validate()) {
-                                  controller.login();
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : () {
+                                    if (formState.currentState!.validate()) {
+                                      controller.login();
+                                    }
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Obx(() {
-                                return controller.isLoading.value
-                                    ? const CircularProgressIndicator(
-                                  strokeWidth: 3, color: Colors.white,
-                                )
-                                    : Text(
-                                  "Login",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontFamily: 'Multicolore',
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 2,
-                                  ),
-                                );
-                              }
-                              )
+                            ),
+                            child: Obx(() {
+                              return controller.isLoading.value
+                                  ? const CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                      color: Colors.white,
+                                    )
+                                  : Text(
+                                      "Login",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: 'Multicolore',
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 2,
+                                      ),
+                                    );
+                            }),
                           ),
                         ),
                       ),
+
                       // Padding(
                       //   padding: const EdgeInsets.symmetric(vertical: 10),
                       //   child: SizedBox(
@@ -182,15 +184,16 @@ class LoginScreen extends StatelessWidget {
                       //     ),
                       //   ),
                       // ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Don't Have An Account ?",
-                            style: TextStyle(fontSize: 16,
-                                fontFamily: 'louis',
-                                color: Color(0xff6e35a4)),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'louis',
+                              color: Color(0xff6e35a4),
+                            ),
                           ),
 
                           TextButton(
@@ -221,7 +224,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
 
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
