@@ -188,7 +188,10 @@ class CustomDrawer extends StatelessWidget {
       ),
       trailing: title == "Notifications"
           ? filter.unSeen.value > 0
-                ? CircleAvatar(child: Obx(() => Text("${filter.unSeen.value}")))
+                ? CircleAvatar(
+                    child: Obx(() => Text("${filter.unSeen.value}")),
+                    radius: 12,
+                  )
                 : null
           : null,
 
