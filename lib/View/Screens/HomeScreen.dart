@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
               fontFamily: 'Virust',
               letterSpacing: 4,
               fontWeight: FontWeight.bold,
-              fontSize: 50,
+              fontSize: 40,
               foreground: Paint()
                 ..shader = LinearGradient(
                   colors: <Color>[
