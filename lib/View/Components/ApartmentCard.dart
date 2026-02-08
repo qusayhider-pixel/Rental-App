@@ -15,9 +15,9 @@ class ApartmentCard extends StatelessWidget {
     final FilterController filterController = Get.find();
     return GestureDetector(
       onTap: () async {
-        Apartment apt = await filterController.fetchOneApt(apartment.id);
-
-        Get.to(() => ApartmentDetailsScreen(apartment: apt));
+        // Apartment apt = await filterController.fetchOneApt(apartment.id);
+        // Get.to(() => ApartmentDetailsScreen(apartment: apt));
+        Get.to(() => ApartmentDetailsScreen(apartment: apartment));
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 30),
